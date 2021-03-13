@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Ui_MainWindow1(object):
+class Ui_MainWindow(object):
     def setup(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(713, 554)
@@ -72,10 +72,10 @@ class Ui_MainWindow1(object):
         self.actionD_connexion.setText(_translate("MainWindow", "Déconnexion"))
         self.actionQuitter.setText(_translate("MainWindow", "Quitter"))
 
-class Ui_MainWindow(object):
+class Ui_Login(object):
     def MainUi(self):
         self.window=QtWidgets.QMainWindow()
-        self.ui=Ui_MainWindow1()
+        self.ui=Ui_MainWindow()
         self.ui.setup(self.window)
         self.window.show()
         MainWindow.hide()
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
+    ui = Ui_Login()
     ui.LoginUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())

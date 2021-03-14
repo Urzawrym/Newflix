@@ -1,0 +1,2 @@
+{"first": "Gilberto", "last": "Robles", "username": "girobles1", "password": "1234", "location": "San Diego", "interests": [["eat", "sleep", "code", "repeat"]]}
+{"first": "Gilberto", "last": "Robles", "username": "girobles2", "password": "12345", "location": "San Diego", "interests": [["eat", "sleep", "code"]]}

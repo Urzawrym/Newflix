@@ -107,6 +107,7 @@ class Ui_Login(object):
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setObjectName("pushButton")
         self.pushButton.clicked.connect(self.testconnex)
+        self.pushButton.setAutoDefault(True)
         self.gridLayout.addWidget(self.pushButton, 2, 0, 1, 2)
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)

@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-#class Personne
+#class Personne:
 
 
 
@@ -14,7 +14,6 @@ class Ui_MainWindow(object):
         self.pushButton_1 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_1.setGeometry(QtCore.QRect(580, 40, 75, 23))
         self.pushButton_1.setObjectName("pushButton_1")
-
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(580, 70, 75, 23))
         self.pushButton_2.setObjectName("pushButton_2")
@@ -52,12 +51,19 @@ class Ui_MainWindow(object):
         self.menuMenu = QtWidgets.QMenu(self.menubar)
         self.menuMenu.setObjectName("menuMenu")
         MainWindow.setMenuBar(self.menubar)
+        self.actionGestion = QtWidgets.QAction(MainWindow)
+        self.actionGestion.setObjectName("actionGestion")
+        self.actionGestion.triggered.connect(self.CloseUi)
         self.actionD_connexion = QtWidgets.QAction(MainWindow)
         self.actionD_connexion.setObjectName("actionD_connexion")
+        self.actionD_connexion.triggered.connect(self.LogoutUi)
         self.actionQuitter = QtWidgets.QAction(MainWindow)
         self.actionQuitter.setObjectName("actionQuitter")
+        self.actionQuitter.triggered.connect(self.CloseUi)
         self.menuMenu.addSeparator()
         self.menuMenu.addSeparator()
+        self.menuMenu.addSeparator()
+        self.menuMenu.addAction(self.actionGestion)
         self.menuMenu.addAction(self.actionD_connexion)
         self.menuMenu.addAction(self.actionQuitter)
         self.menubar.addAction(self.menuMenu.menuAction())
@@ -66,7 +72,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi2(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Newflix"))
         self.pushButton_1.setText(_translate("MainWindow", "Ajouter"))
         self.pushButton_2.setText(_translate("MainWindow", "Modifier"))
         self.pushButton_3.setText(_translate("MainWindow", "Supprimer"))
@@ -76,11 +82,13 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "Liste des clients"))
         self.label_2.setText(_translate("MainWindow", "Liste des films"))
         self.menuMenu.setTitle(_translate("MainWindow", "Menu"))
+        self.actionGestion.setText(_translate("MainWindow", "Gestion Employés"))
         self.actionD_connexion.setText(_translate("MainWindow", "Déconnexion"))
         self.actionQuitter.setText(_translate("MainWindow", "Quitter"))
 
-    def LoginUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
+
+    def LoginUi(self, Connexion):
+        MainWindow.setObjectName("Connexion")
         MainWindow.resize(229, 177)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -113,12 +121,22 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("Connexion", "Connexion"))
         #self.label.setText(_translate("MainWindow", "Usager :"))
         self.login.setPlaceholderText(_translate("MainWindow", "Usager"))
         #self.label_2.setText(_translate("MainWindow", "Mot de passe :"))
         self.password.setPlaceholderText(_translate("MainWindow", "Mot de passe"))
         self.pushButton.setText(_translate("MainWindow", "Connexion"))
+
+    def CloseUi(self):
+        app.closeAllWindows()
+
+    def LogoutUi(self):
+        app.closeAllWindows()
+        MainWindow.show()
+
+
+
 
     def MainUi(self):
         self.window = QtWidgets.QMainWindow()
@@ -146,8 +164,6 @@ class Ui_MainWindow(object):
             self.MainUi()
         elif (self.login.text() == "mathieu" and self.password.text() == "royer"):
             self.ViewUi()
-
-
         else:
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
@@ -156,3 +172,12 @@ class Ui_MainWindow(object):
             msg.setWindowTitle("Erreur")
             msg.exec_()
 
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.LoginUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

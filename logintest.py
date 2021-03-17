@@ -11,9 +11,10 @@ class Ui_MainWindow(object):
         MainWindow.resize(713, 554)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(580, 40, 75, 23))
-        self.pushButton.setObjectName("pushButton")
+        self.pushButton_1 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_1.setGeometry(QtCore.QRect(580, 40, 75, 23))
+        self.pushButton_1.setObjectName("pushButton_1")
+
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(580, 70, 75, 23))
         self.pushButton_2.setObjectName("pushButton_2")
@@ -60,12 +61,13 @@ class Ui_MainWindow(object):
         self.menuMenu.addAction(self.actionD_connexion)
         self.menuMenu.addAction(self.actionQuitter)
         self.menubar.addAction(self.menuMenu.menuAction())
-        self.retranslateUi(MainWindow)
+        self.retranslateUi2(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-    def retranslateUi(self, MainWindow):
+
+    def retranslateUi2(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.pushButton.setText(_translate("MainWindow", "Ajouter"))
+        self.pushButton_1.setText(_translate("MainWindow", "Ajouter"))
         self.pushButton_2.setText(_translate("MainWindow", "Modifier"))
         self.pushButton_3.setText(_translate("MainWindow", "Supprimer"))
         self.pushButton_4.setText(_translate("MainWindow", "Modifier"))
@@ -77,13 +79,6 @@ class Ui_MainWindow(object):
         self.actionD_connexion.setText(_translate("MainWindow", "Déconnexion"))
         self.actionQuitter.setText(_translate("MainWindow", "Quitter"))
 
-class Ui_Login(object):
-    def MainUi(self):
-        self.window=QtWidgets.QMainWindow()
-        self.ui=Ui_MainWindow()
-        self.ui.setup(self.window)
-        self.window.show()
-        MainWindow.hide()
     def LoginUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(229, 177)
@@ -113,7 +108,6 @@ class Ui_Login(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -126,22 +120,39 @@ class Ui_Login(object):
         self.password.setPlaceholderText(_translate("MainWindow", "Mot de passe"))
         self.pushButton.setText(_translate("MainWindow", "Connexion"))
 
+    def MainUi(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_MainWindow()
+        self.ui.setup(self.window)
+        self.window.show()
+        MainWindow.hide()
+
+    def ViewUi(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_MainWindow()
+        self.ui.setup(self.window)
+        self.window.show()
+        self.ui.pushButton_1.hide()
+        self.ui.pushButton_2.hide()
+        self.ui.pushButton_3.hide()
+        self.ui.pushButton_4.hide()
+        self.ui.pushButton_5.hide()
+        self.ui.pushButton_6.hide()
+        MainWindow.hide()
+
+
     def testconnex(self):
         if (self.login.text() == "claude" and self.password.text() == "1234") :
             self.MainUi()
+        elif (self.login.text() == "mathieu" and self.password.text() == "royer"):
+            self.ViewUi()
+
+
         else:
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
-            msg.setText("Erreur")
-            msg.setInformativeText('Identifiants erronés')
+            msg.setText("Identifiants erronés")
+            msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_Login()
-    ui.LoginUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())

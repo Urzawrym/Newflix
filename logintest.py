@@ -2,7 +2,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 #class Personne:
 
-
+ModifList = {"Claude":"1234","Mathieu":"Royer"}
+Viewlist = {"Meo":"5678"}
 
 
 class Ui_MainWindow(object):
@@ -160,9 +161,9 @@ class Ui_MainWindow(object):
 
 
     def testconnex(self):
-        if (self.login.text() == "claude" and self.password.text() == "1234") :
+        if ModifList.get(self.login.text()) == self.password.text():
             self.MainUi()
-        elif (self.login.text() == "mathieu" and self.password.text() == "royer"):
+        elif Viewlist.get(self.login.text()) == self.password.text():
             self.ViewUi()
         else:
             msg = QtWidgets.QMessageBox()
@@ -171,6 +172,7 @@ class Ui_MainWindow(object):
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
+
 
 
 if __name__ == "__main__":

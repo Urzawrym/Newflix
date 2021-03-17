@@ -95,15 +95,9 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
-        #self.label = QtWidgets.QLabel(self.centralwidget)
-        #self.label.setObjectName("label")
-        #self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
         self.login = QtWidgets.QLineEdit(self.centralwidget)
         self.login.setObjectName("login")
         self.gridLayout.addWidget(self.login, 0, 1, 1, 1)
-        #self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        #self.label_2.setObjectName("label_2")
-        #self.gridLayout.addWidget(self.label_2, 1, 0, 1, 1)
         self.password = QtWidgets.QLineEdit(self.centralwidget)
         self.password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.password.setObjectName("password")
@@ -123,9 +117,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("Connexion", "Connexion"))
-        #self.label.setText(_translate("MainWindow", "Usager :"))
         self.login.setPlaceholderText(_translate("MainWindow", "Usager"))
-        #self.label_2.setText(_translate("MainWindow", "Mot de passe :"))
         self.password.setPlaceholderText(_translate("MainWindow", "Mot de passe"))
         self.pushButton.setText(_translate("MainWindow", "Connexion"))
 

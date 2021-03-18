@@ -1,7 +1,44 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from cryptography.fernet import Fernet
 
-#class Personne:
+key = Fernet.generate_key()
+file = open('key.key','wb')
+file.write(key)
+file.close()
+
+file = open('key.key','rb')
+key = file.read()
+file.close()
+
+class Personne:
+    def __init__(self, prenom, nom):
+        self._nom = nom
+        self._prenom = prenom
+        self._carte = []
+
+    def getPrenom(self):
+        return self._prenom
+
+    def setPrenom(self, prenom):
+        if type(prenom) == str:
+            self._prenom = prenom
+
+    def getNom(self):
+        return self._nom
+
+    def setNom(self, nom):
+        if type(nom) == str:
+            self._nom = nom
+
+    def setCredit(self, credit):
+        self._carte.append(credit)
+
+    def getListeCredit(self):
+        return self._carte
+
+    def getNbCredit(self):
+        return len(self._carte)
+
 
 ModifList = {"claude":"1234","mathieu":"royer"}
 Viewlist = {"meo":"5678"}
@@ -55,7 +92,7 @@ class Ui_MainWindow(object):
         MainWindow.setMenuBar(self.menubar)
         self.actionGestion = QtWidgets.QAction(MainWindow)
         self.actionGestion.setObjectName("actionGestion")
-        self.actionGestion.triggered.connect(self.CloseUi)
+        self.actionGestion.triggered.connect(self.GestUi)
         self.actionD_connexion = QtWidgets.QAction(MainWindow)
         self.actionD_connexion.setObjectName("actionD_connexion")
         self.actionD_connexion.triggered.connect(self.LogoutUi)
@@ -87,6 +124,36 @@ class Ui_MainWindow(object):
         self.actionGestion.setText(_translate("MainWindow", "Gestion Employés"))
         self.actionD_connexion.setText(_translate("MainWindow", "Déconnexion"))
         self.actionQuitter.setText(_translate("MainWindow", "Quitter"))
+
+    def GestionUi(self):
+        MainWindow.setObjectName("MainWindow1")
+        MainWindow.resize(713, 554)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.pushButton_7 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_7.setGeometry(QtCore.QRect(580, 40, 75, 23))
+        self.pushButton_7.setObjectName("pushButton_1")
+        self.pushButton_8 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_8.setGeometry(QtCore.QRect(580, 70, 75, 23))
+        self.pushButton_8.setObjectName("pushButton_2")
+        self.pushButton_9 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_9.setGeometry(QtCore.QRect(580, 100, 75, 23))
+        self.pushButton_9.setObjectName("pushButton_3")
+        self.retranslateUi3(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi3(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "Newflix"))
+        self.pushButton_7.setText(_translate("MainWindow", "Ajouter"))
+        self.pushButton_8.setText(_translate("MainWindow", "Modifier"))
+        self.pushButton_9.setText(_translate("MainWindow", "Supprimer"))
+
+    def GestUi(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_MainWindow()
+        self.ui.GestionUi()
+        self.window.show()
 
 
     def LoginUi(self, Connexion):

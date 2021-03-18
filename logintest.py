@@ -1,9 +1,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from cryptography.fernet import Fernet
 
 #class Personne:
 
-ModifList = {"Claude":"1234","Mathieu":"Royer"}
-Viewlist = {"Meo":"5678"}
+ModifList = {"claude":"1234","mathieu":"royer"}
+Viewlist = {"meo":"5678"}
 
 
 class Ui_MainWindow(object):
@@ -97,10 +98,12 @@ class Ui_MainWindow(object):
         self.gridLayout.setObjectName("gridLayout")
         self.login = QtWidgets.QLineEdit(self.centralwidget)
         self.login.setObjectName("login")
+        self.login.returnPressed.connect(self.testconnex)
         self.gridLayout.addWidget(self.login, 0, 1, 1, 1)
         self.password = QtWidgets.QLineEdit(self.centralwidget)
         self.password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.password.setObjectName("password")
+        self.password.returnPressed.connect(self.testconnex)
         self.gridLayout.addWidget(self.password, 1, 1, 1, 1)
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setObjectName("pushButton")
@@ -155,8 +158,14 @@ class Ui_MainWindow(object):
     def testconnex(self):
         if ModifList.get(self.login.text()) == self.password.text():
             self.MainUi()
+            self.login.clear()
+            self.password.clear()
+            self.login.setFocus()
         elif Viewlist.get(self.login.text()) == self.password.text():
             self.ViewUi()
+            self.login.clear()
+            self.password.clear()
+            self.login.setFocus()
         else:
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)

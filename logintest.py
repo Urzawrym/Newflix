@@ -35,6 +35,57 @@ class Personne:
         if type(sexe) == str:
             self._sexe = sexe
 
+class Employe(Personne):
+    def __init__(self, prenom, nom, sexe, dateembauche, codeutilisateur, password, acces):
+        super().__init__(prenom, nom, sexe)
+        self._dateembauche = dateembauche
+        self._codeutilisateur = codeutilisateur
+        self._password = password
+        self._acces = acces
+
+class Client(Personne):
+    def __init__(self, prenom, nom, sexe, dateinscription, courriel, motdepasse, cartes):
+        super().__init__(prenom,nom,sexe)
+        self._dateinscription = dateinscription
+        self._courriel = courriel
+        self._motdepasse = motdepasse
+        self._cartes = []
+
+    def setCredit(self,credit):
+        self._cartes.append(credit)
+    def getListeCredit(self):
+        return self._cartes
+    def getNbCredit(self):
+        return len(self._cartes)
+
+class CarteCredit:
+    "Carte de crédit"
+    def __init__(self, noCarte, Expiration, codesecret):
+            self._noCarte = noCarte
+            self._expiration = Expiration
+            self._codesecret = codesecret
+
+class Acteur(Personne):
+    def __init__(self, prenom, nom, sexe, film, nompersonnage, debutemploi, finemploi, cachet):
+        super().__init__(prenom, nom, sexe)
+        self._film = film
+        self._nompersonnage = nompersonnage
+        self._debutemploi = debutemploi
+        self._finemploi = finemploi
+        self._cachet = cachet
+
+class Film:
+    def __init__(self, nom, duree, descriptionfilm, categorie):
+        self._nom = nom
+        self._duree = duree
+        self._description = descriptionfilm
+        self._categorie = []
+
+class Categoriefilm:
+    def __init__(self, nom, descriptioncat):
+        self._nom = nom
+        self._description = descriptioncat
+
 
 AdminUser = {"admin":"admin123"}
 ModifList = {"claude":"1234","mathieu":"royer"}

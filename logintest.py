@@ -10,7 +10,6 @@ file = open('key.key','rb')
 key = file.read()
 file.close()"""
 
-AdminUser = {"admin":"admin123"}
 
 class Personne:
     def __init__(self, prenom, nom, sexe):
@@ -37,8 +36,7 @@ class Personne:
             self._sexe = sexe
 
 
-
-
+AdminUser = {"admin":"admin123"}
 ModifList = {"claude":"1234","mathieu":"royer"}
 Viewlist = {"meo":"5678"}
 
@@ -91,7 +89,7 @@ class Ui_MainWindow(object):
         MainWindow.setMenuBar(self.menubar)
         self.actionGestion = QtWidgets.QAction(MainWindow)
         self.actionGestion.setObjectName("actionGestion")
-        self.actionGestion.triggered.connect(self.CloseUi)
+        self.actionGestion.triggered.connect(self.GestUi)
         self.actionD_connexion = QtWidgets.QAction(MainWindow)
         self.actionD_connexion.setObjectName("actionD_connexion")
         self.actionD_connexion.triggered.connect(self.LogoutUi)
@@ -124,35 +122,41 @@ class Ui_MainWindow(object):
         self.actionD_connexion.setText(_translate("MainWindow", "Déconnexion"))
         self.actionQuitter.setText(_translate("MainWindow", "Quitter"))
 
-    def GestionUi(self):
-        MainWindow.setObjectName("MainWindow1")
-        MainWindow.resize(713, 554)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
-        self.pushButton_7 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_7.setGeometry(QtCore.QRect(580, 40, 75, 23))
-        self.pushButton_7.setObjectName("pushButton_1")
-        self.pushButton_8 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_8.setGeometry(QtCore.QRect(580, 70, 75, 23))
-        self.pushButton_8.setObjectName("pushButton_2")
-        self.pushButton_9 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_9.setGeometry(QtCore.QRect(580, 100, 75, 23))
-        self.pushButton_9.setObjectName("pushButton_3")
-        self.retranslateUi3(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+    def GestionUi(self, Form):
+        Form.setObjectName("Form")
+        Form.resize(685, 156)
+        self.listWidget_1 = QtWidgets.QListWidget(Form)
+        self.listWidget_1.setGeometry(QtCore.QRect(10, 30, 571, 111))
+        self.listWidget_1.setObjectName("listWidget")
+        self.pushButton_7 = QtWidgets.QPushButton(Form)
+        self.pushButton_7.setGeometry(QtCore.QRect(590, 30, 75, 23))
+        self.pushButton_7.setObjectName("pushButton_7")
+        self.pushButton_8 = QtWidgets.QPushButton(Form)
+        self.pushButton_8.setGeometry(QtCore.QRect(590, 70, 75, 23))
+        self.pushButton_8.setObjectName("pushButton_8")
+        self.pushButton_9 = QtWidgets.QPushButton(Form)
+        self.pushButton_9.setGeometry(QtCore.QRect(590, 110, 75, 23))
+        self.pushButton_9.setObjectName("pushButton_9")
+        self.label_3 = QtWidgets.QLabel(Form)
+        self.label_3.setGeometry(QtCore.QRect(10, 10, 281, 16))
+        self.label_3.setObjectName("label_3")
+        self.retranslateUi3(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
 
-    def retranslateUi3(self, MainWindow):
+    def retranslateUi3(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Newflix"))
-        self.pushButton_7.setText(_translate("MainWindow", "Ajouter"))
-        self.pushButton_8.setText(_translate("MainWindow", "Modifier"))
-        self.pushButton_9.setText(_translate("MainWindow", "Supprimer"))
+        Form.setWindowTitle(_translate("Form", "Form"))
+        self.pushButton_7.setText(_translate("Form", "Ajouter"))
+        self.pushButton_8.setText(_translate("Form", "Modifier"))
+        self.pushButton_9.setText(_translate("Form", "Supprimer"))
+        self.label_3.setText(_translate("Form", "Liste des employés"))
 
-    """def GestUi(self):
+    def GestUi(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_MainWindow()
-        self.ui.GestionUi()
-        self.window.show()"""
+        self.ui.GestionUi(self.window)
+        self.window.show()
+        MainWindow.hide()
 
 
     def LoginUi(self, Connexion):

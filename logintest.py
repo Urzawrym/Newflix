@@ -1,20 +1,22 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from cryptography.fernet import Fernet
 
-key = Fernet.generate_key()
+"""key = Fernet.generate_key()
 file = open('key.key','wb')
 file.write(key)
 file.close()
 
 file = open('key.key','rb')
 key = file.read()
-file.close()
+file.close()"""
+
+AdminUser = {"admin":"admin123"}
 
 class Personne:
-    def __init__(self, prenom, nom):
+    def __init__(self, prenom, nom, sexe):
         self._nom = nom
         self._prenom = prenom
-        self._carte = []
+        self._sexe = sexe
 
     def getPrenom(self):
         return self._prenom
@@ -30,14 +32,11 @@ class Personne:
         if type(nom) == str:
             self._nom = nom
 
-    def setCredit(self, credit):
-        self._carte.append(credit)
+    def setSexe(self, sexe):
+        if type(sexe) == str:
+            self._sexe = sexe
 
-    def getListeCredit(self):
-        return self._carte
 
-    def getNbCredit(self):
-        return len(self._carte)
 
 
 ModifList = {"claude":"1234","mathieu":"royer"}
@@ -92,7 +91,7 @@ class Ui_MainWindow(object):
         MainWindow.setMenuBar(self.menubar)
         self.actionGestion = QtWidgets.QAction(MainWindow)
         self.actionGestion.setObjectName("actionGestion")
-        self.actionGestion.triggered.connect(self.GestUi)
+        self.actionGestion.triggered.connect(self.CloseUi)
         self.actionD_connexion = QtWidgets.QAction(MainWindow)
         self.actionD_connexion.setObjectName("actionD_connexion")
         self.actionD_connexion.triggered.connect(self.LogoutUi)
@@ -149,11 +148,11 @@ class Ui_MainWindow(object):
         self.pushButton_8.setText(_translate("MainWindow", "Modifier"))
         self.pushButton_9.setText(_translate("MainWindow", "Supprimer"))
 
-    def GestUi(self):
+    """def GestUi(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.GestionUi()
-        self.window.show()
+        self.window.show()"""
 
 
     def LoginUi(self, Connexion):
@@ -198,14 +197,19 @@ class Ui_MainWindow(object):
         app.closeAllWindows()
         MainWindow.show()
 
-
-
+    def AdminUi(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_MainWindow()
+        self.ui.setup(self.window)
+        self.window.show()
+        MainWindow.hide()
 
     def MainUi(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setup(self.window)
         self.window.show()
+        self.ui.actionGestion.setVisible(False)
         MainWindow.hide()
 
     def ViewUi(self):
@@ -219,11 +223,17 @@ class Ui_MainWindow(object):
         self.ui.pushButton_4.hide()
         self.ui.pushButton_5.hide()
         self.ui.pushButton_6.hide()
+        self.ui.actionGestion.setVisible(False)
         MainWindow.hide()
 
 
     def testconnex(self):
-        if ModifList.get(self.login.text()) == self.password.text():
+        if AdminUser.get(self.login.text()) == self.password.text():
+            self.AdminUi()
+            self.login.clear()
+            self.password.clear()
+            self.login.setFocus()
+        elif ModifList.get(self.login.text()) == self.password.text():
             self.MainUi()
             self.login.clear()
             self.password.clear()

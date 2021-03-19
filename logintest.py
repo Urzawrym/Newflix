@@ -84,7 +84,7 @@ class Film:
 class Categoriefilm:
     def __init__(self, nom, descriptioncat):
         self.nom = nom
-        self.description = descriptioncat
+        self.descriptioncat = descriptioncat
 
 
 AdminUser = {"admin":"admin123"}

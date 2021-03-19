@@ -13,78 +13,78 @@ file.close()"""
 
 class Personne:
     def __init__(self, prenom, nom, sexe):
-        self._nom = nom
-        self._prenom = prenom
-        self._sexe = sexe
+        self.nom = nom
+        self.prenom = prenom
+        self.sexe = sexe
 
     def getPrenom(self):
-        return self._prenom
+        return self.prenom
 
     def setPrenom(self, prenom):
         if type(prenom) == str:
-            self._prenom = prenom
+            self.prenom = prenom
 
     def getNom(self):
-        return self._nom
+        return self.nom
 
     def setNom(self, nom):
         if type(nom) == str:
-            self._nom = nom
+            self.nom = nom
 
     def setSexe(self, sexe):
         if type(sexe) == str:
-            self._sexe = sexe
+            self.sexe = sexe
 
 class Employe(Personne):
     def __init__(self, prenom, nom, sexe, dateembauche, codeutilisateur, password, acces):
         super().__init__(prenom, nom, sexe)
-        self._dateembauche = dateembauche
-        self._codeutilisateur = codeutilisateur
-        self._password = password
-        self._acces = acces
+        self.dateembauche = dateembauche
+        self.codeutilisateur = codeutilisateur
+        self.password = password
+        self.acces = acces
 
 class Client(Personne):
     def __init__(self, prenom, nom, sexe, dateinscription, courriel, motdepasse, cartes):
         super().__init__(prenom,nom,sexe)
-        self._dateinscription = dateinscription
-        self._courriel = courriel
-        self._motdepasse = motdepasse
-        self._cartes = []
+        self.dateinscription = dateinscription
+        self.courriel = courriel
+        self.motdepasse = motdepasse
+        self.cartes = []
 
     def setCredit(self,credit):
-        self._cartes.append(credit)
+        self.cartes.append(credit)
     def getListeCredit(self):
-        return self._cartes
+        return self.cartes
     def getNbCredit(self):
-        return len(self._cartes)
+        return len(self.cartes)
 
 class CarteCredit:
     "Carte de crédit"
-    def __init__(self, noCarte, Expiration, codesecret):
-            self._noCarte = noCarte
-            self._expiration = Expiration
-            self._codesecret = codesecret
+    def __init__(self, noCarte, Expiration, codecarte):
+            self.noCarte = noCarte
+            self.expiration = Expiration
+            self.codecarte = codecarte
 
 class Acteur(Personne):
     def __init__(self, prenom, nom, sexe, film, nompersonnage, debutemploi, finemploi, cachet):
         super().__init__(prenom, nom, sexe)
-        self._film = film
-        self._nompersonnage = nompersonnage
-        self._debutemploi = debutemploi
-        self._finemploi = finemploi
-        self._cachet = cachet
+        self.film = film
+        self.nompersonnage = nompersonnage
+        self.debutemploi = debutemploi
+        self.finemploi = finemploi
+        self.cachet = cachet
 
 class Film:
     def __init__(self, nom, duree, descriptionfilm, categorie):
-        self._nom = nom
-        self._duree = duree
-        self._description = descriptionfilm
-        self._categorie = []
+        self.nom = nom
+        self.duree = duree
+        self.description = descriptionfilm
+        self.categorie = []
 
 class Categoriefilm:
     def __init__(self, nom, descriptioncat):
-        self._nom = nom
-        self._description = descriptioncat
+        self.nom = nom
+        self.description = descriptioncat
 
 
 AdminUser = {"admin":"admin123"}

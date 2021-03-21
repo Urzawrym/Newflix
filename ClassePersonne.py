@@ -49,3 +49,4 @@ if __name__ == "__main__":
     client1 = Client("Martin", "Coutu", "12/6", "aa@aa.ca")
     print(client1)
     print(vars(client1))
+

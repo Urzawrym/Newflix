@@ -8,26 +8,26 @@ class TableWidget(QWidget):
     def __init__(self):
         super().__init__()
 
-        spisok = [{'some': 'any 1',  'some2': 'any 2',  'some3': 'any 3'},
-                  {'some': 'any 1a', 'some2': 'any 2a', 'some3': 'any 3a'},
-                  {'some': 'any 1b', 'some2': 'any 2b', 'some3': 'any 3b'}
+        users = [{'Prenom': 'Claude',  'Nom': 'Belanger',  'Ville': 'Levis'},
+                  {'Prenom': 'Francis', 'Nom': 'Gariepy', 'Ville': 'Quebec'},
+                  {'Prenom': 'Nicolas', 'Nom': 'Mercier', 'Ville': 'Levis'}
                  ]
 
         table = QTableWidget()
 
         vbox = QVBoxLayout(self)
         vbox.addWidget(table)
-        row_count = (len(spisok))
-        column_count = (len(spisok[0]))
+        row_count = (len(users))
+        column_count = (len(users[0]))
 
         table.setColumnCount(column_count)
         table.setRowCount(row_count)
-        table.setHorizontalHeaderLabels((list(spisok[0].keys())))
+        table.setHorizontalHeaderLabels((list(users[0].keys())))
 
 
         for row in range(row_count):  # add items from array to QTableWidget
             for column in range(column_count):
-                item = (list(spisok[row].values())[column])
+                item = (list(users[row].values())[column])
                 table.setItem(row, column, QTableWidgetItem(item))
 
 

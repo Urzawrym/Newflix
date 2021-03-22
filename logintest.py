@@ -308,8 +308,18 @@ class Ui_MainWindow(object):
 
         with open("testuser.json", "r+") as f:
             dic = json.load(f)
-            dic.update(dictemployee)
-            json.dump(dictemployee,f)
+            print(dic)
+            """if "codeutilisateur" in dic:
+                msg = QtWidgets.QMessageBox()
+                msg.setIcon(QtWidgets.QMessageBox.Warning)
+                msg.setText("Code utilisateur déjà utilisé")
+                msg.setInformativeText('')
+                msg.setWindowTitle("Erreur")
+                msg.exec_()
+            else:"""
+            dic.append(dictemployee)
+            print(dic)
+            #json.dump(dictemployee,f)
 
     def userUi(self):
         self.window = QtWidgets.QMainWindow()

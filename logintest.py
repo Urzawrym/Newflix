@@ -1,7 +1,7 @@
-import params
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 import json
-from params import *
+
 #from cryptography.fernet import Fernet
 
 """key = Fernet.generate_key()
@@ -296,9 +296,8 @@ class Ui_MainWindow(object):
         self.pushButton_11.setText(_translate("Form", "Annuler"))
 
     def saveuser(self):
-        self.user=Employe(params)
-        with open('testuser.json', 'w') as json_file:
-            json.dump(self.user, json_file)
+        employee=Employe(self.lineEdit.text(),self.lineEdit_2.text(),self.radioButton.text(),self.dateEdit.text(),self.lineEdit_3.text(),self.lineEdit_5.text(),self.radioButton_4.text())
+        print(employee)
 
     def userUi(self):
         self.window = QtWidgets.QMainWindow()

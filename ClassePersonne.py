@@ -10,18 +10,17 @@ class Personne:
         if type(prenom) == str:
             self.prenom = prenom
     def getNom(self):
-        return self._nom
+        return self.nom
     def setNom(self,nom):
         if type(nom) == str:
-            self._nom = nom
+            self.nom = nom
     def setCredit(self,credit):
         self.carte.append(credit)
     def getListeCredit(self):
         return self.carte
     def getNbCredit(self):
         return len(self.carte)
-    #def __str__(self):
-        #return "Le nom est {}, le prenom est {}".format(self._nom, self._prenom)
+
 
 class CarteCredit:
     "Carte de crédit"

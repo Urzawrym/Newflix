@@ -34,6 +34,9 @@ class Personne:
         if type(nom) == str:
             self.nom = nom
 
+    def getSexe(self):
+        return self.sexe
+
     def setSexe(self, sexe):
         if type(sexe) == str:
             self.sexe = sexe
@@ -45,6 +48,11 @@ class Employe(Personne):
         self.codeutilisateur = codeutilisateur
         self.password = password
         self.acces = acces
+
+    def __str__(self):
+        return "Nom {}, Prénom {}, Sexe {}, Date d'embauche {}, " \
+               "Code d'employé {}, Mot de passe {}, Accès {}".format(self.nom, self.prenom, self.sexe, self.dateembauche,
+                                                                  self.codeutilisateur, self.password, self.acces)
 
 class Client(Personne):
     def __init__(self, prenom, nom, sexe, dateinscription, courriel, motdepasse, cartes):
@@ -229,50 +237,46 @@ class Ui_MainWindow(object):
         self.lineEdit_2.setGeometry(QtCore.QRect(10, 80, 113, 20))
         self.lineEdit_2.setObjectName("EditEmployePrenom")
         self.label_6 = QtWidgets.QLabel(Form)
-        self.label_6.setGeometry(QtCore.QRect(10, 110, 113, 13))
+        self.label_6.setGeometry(QtCore.QRect(10, 110, 113, 20))
         self.label_6.setObjectName("LabelSexe")
-        self.radioButton = QtWidgets.QRadioButton(Form)
-        self.radioButton.setGeometry(QtCore.QRect(10, 130, 113, 17))
-        self.radioButton.setObjectName("InputMasculin")
-        self.radioButton_2 = QtWidgets.QRadioButton(Form)
-        self.radioButton_2.setGeometry(QtCore.QRect(10, 150, 113, 17))
-        self.radioButton_2.setObjectName("InputFeminin")
-        self.radioButton_3 = QtWidgets.QRadioButton(Form)
-        self.radioButton_3.setGeometry(QtCore.QRect(10, 170, 113, 17))
-        self.radioButton_3.setObjectName("InputNonDefini")
+        self.comboBox = QtWidgets.QComboBox(Form)
+        self.comboBox.setGeometry(QtCore.QRect(10, 130, 113, 20))
+        self.comboBox.setObjectName("comboBox")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
         self.label_7 = QtWidgets.QLabel(Form)
-        self.label_7.setGeometry(QtCore.QRect(140, 10, 113, 16))
+        self.label_7.setGeometry(QtCore.QRect(140, 10, 113, 20))
         self.label_7.setObjectName("LabelDate")
         self.dateEdit = QtWidgets.QDateEdit(Form)
-        self.dateEdit.setGeometry(QtCore.QRect(140, 30, 113, 22))
+        self.dateEdit.setGeometry(QtCore.QRect(140, 30, 113, 20))
         self.dateEdit.setObjectName("InputDate")
         self.label_8 = QtWidgets.QLabel(Form)
-        self.label_8.setGeometry(QtCore.QRect(270, 10, 113, 16))
+        self.label_8.setGeometry(QtCore.QRect(270, 10, 113, 20))
         self.label_8.setObjectName("label_8")
         self.lineEdit_3 = QtWidgets.QLineEdit(Form)
         self.lineEdit_3.setGeometry(QtCore.QRect(270, 30, 113, 20))
         self.lineEdit_3.setObjectName("lineEdit_3")
         self.label_9 = QtWidgets.QLabel(Form)
-        self.label_9.setGeometry(QtCore.QRect(270, 60, 113, 16))
+        self.label_9.setGeometry(QtCore.QRect(270, 60, 113, 20))
         self.label_9.setObjectName("label_9")
         self.lineEdit_5 = QtWidgets.QLineEdit(Form)
         self.lineEdit_5.setGeometry(QtCore.QRect(270, 80, 113, 20))
         self.lineEdit_5.setObjectName("lineEdit_5")
-        self.radioButton_4 = QtWidgets.QRadioButton(Form)
-        self.radioButton_4.setGeometry(QtCore.QRect(140, 80, 113, 17))
-        self.radioButton_4.setObjectName("radioButton_4")
-        self.radioButton_5 = QtWidgets.QRadioButton(Form)
-        self.radioButton_5.setGeometry(QtCore.QRect(140, 100, 113, 17))
-        self.radioButton_5.setObjectName("radioButton_5")
+        self.comboBox_2 = QtWidgets.QComboBox(Form)
+        self.comboBox_2.setGeometry(QtCore.QRect(140, 80, 113, 20))
+        self.comboBox_2.setObjectName("comboBox")
+        self.comboBox_2.addItem("")
+        self.comboBox_2.addItem("")
         self.label_10 = QtWidgets.QLabel(Form)
-        self.label_10.setGeometry(QtCore.QRect(140, 60, 113, 16))
+        self.label_10.setGeometry(QtCore.QRect(140, 60, 113, 20))
         self.label_10.setObjectName("label_10")
         self.pushButton_10 = QtWidgets.QPushButton(Form)
-        self.pushButton_10.setGeometry(QtCore.QRect(110, 140, 131, 34))
+        self.pushButton_10.setGeometry(QtCore.QRect(140, 165, 113, 30))
         self.pushButton_10.setObjectName("pushButton")
         self.pushButton_10.clicked.connect(self.saveuser)
         self.pushButton_11 = QtWidgets.QPushButton(Form)
-        self.pushButton_11.setGeometry(QtCore.QRect(260, 140, 131, 34))
+        self.pushButton_11.setGeometry(QtCore.QRect(270, 165, 113, 30))
         self.pushButton_11.setObjectName("pushButton_2")
         self.retranslateUi4(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -283,21 +287,29 @@ class Ui_MainWindow(object):
         self.label_4.setText(_translate("Form", "Nom :"))
         self.label_5.setText(_translate("Form", "Prénom :"))
         self.label_6.setText(_translate("Form", "Sexe :"))
-        self.radioButton.setText(_translate("Form", "Masculin"))
-        self.radioButton_2.setText(_translate("Form", "Féminin"))
-        self.radioButton_3.setText(_translate("Form", "Non défini"))
+        self.comboBox.setItemText(0, _translate("Form", "Masculin"))
+        self.comboBox.setItemText(1, _translate("Form", "Féminin"))
+        self.comboBox.setItemText(2, _translate("Form", "Non défini"))
         self.label_7.setText(_translate("Form", "Date embauche :"))
         self.label_8.setText(_translate("Form", "Code utilisateur :"))
         self.label_9.setText(_translate("Form", "Mot de passe :"))
-        self.radioButton_4.setText(_translate("Form", "Total"))
-        self.radioButton_5.setText(_translate("Form", "Lecture"))
+        self.comboBox_2.setItemText(0, _translate("Form", "Lecture"))
+        self.comboBox_2.setItemText(1, _translate("Form", "Modification"))
         self.label_10.setText(_translate("Form", "Type accès :"))
         self.pushButton_10.setText(_translate("Form", "Sauvegarder"))
         self.pushButton_11.setText(_translate("Form", "Annuler"))
 
     def saveuser(self):
-        employee=Employe(self.lineEdit.text(),self.lineEdit_2.text(),self.radioButton.text(),self.dateEdit.text(),self.lineEdit_3.text(),self.lineEdit_5.text(),self.radioButton_4.text())
-        print(employee)
+        employee=Employe(self.lineEdit.text(),self.lineEdit_2.text(),self.comboBox.currentText(),
+                         self.dateEdit.text(),self.lineEdit_3.text(),self.lineEdit_5.text(),
+                         self.comboBox_2.currentText())
+
+        dictemployee=vars(employee)
+
+        with open("testuser.json", "r+") as f:
+            dic = json.load(f)
+            dic.update(dictemployee)
+            json.dump(dictemployee,f)
 
     def userUi(self):
         self.window = QtWidgets.QMainWindow()

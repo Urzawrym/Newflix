@@ -411,6 +411,8 @@ class Ui_MainWindow(object):
 
 
     def testconnex(self):
+        with open("testuser.json", "r") as f:
+            dic = json.load(f)
         if AdminUser.get(self.login.text()) == self.password.text():
             self.AdminUi()
             self.login.clear()

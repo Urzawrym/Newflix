@@ -1,67 +1,33 @@
-"""database={'name': '1234', 'name2': '5678', 'name3': '9012'}
+"""from collections import namedtuple
 
-def log():
-    name = input('Enter username: ')
-    ask = input('Enter pin: ')
-    if name in database:
-        if ask == database[name]: # changed this to an 'equals' rather than 'in'
-            print ('Welcome', name)
-        else:
-            print ('Pin wrong!')
-    else:
-        print ('Username does not exist.')
-
-log()"""
+listionary = [{u'city': u'paris', u'id': u'1', u'name': u'paul'},
+              {u'city': u'madrid', u'id': u'2', u'name': u'paul'},
+              {u'city': u'berlin', u'id': u'3', u'name': u'tom'},
+              {u'city': u'madrid', u'id': u'4', u'name': u'tom'}]
 
 
-import json
+Profile = namedtuple('Profile', ['city', 'id', 'name'])
+listionary = [Profile(*d) for d in listionary]
 
-filename = "users.json"
-with open(filename, "r+", encoding='utf8') as file:
-    '''opens json file and separates it by line by storing each line into an 
-    array'''
-    lines = file.readlines()
+if listionary.city == "paul" and ele.city = "madrid"
+    print ("yes")"""
 
-login_info = {}
-'''array that will store usernames and passwords for each user(each line in 
-the file is a user)'''
+"""people = [
+{'name': "Tom", 'age': 10},
+{'name': "Mark", 'age': 5},
+{'name': "Pam", 'age': 7}
+]
 
+userdict = list(filter(lambda person: person['name'] == 'Pam', people))
 
+print (userdict)"""
 
-for line in lines:
-    '''simply prints each element of the lines array displaying the 
-    information of each user'''
-    info = json.loads(line)
-    print("USER: " + str(info))
-    print("username: " + info["username"])
-    print("password: " + info["password"] + "\n")
-    login_info[info["username"]] = info["password"]
-    '''creates a new pair of username and password for each user(each line is 
-    a user)'''
-    print(login_info)
+import operator, functools
+
+l=[{'value': 'apple', 'blah': 2},
+ {'value': 'banana', 'blah': 3} ,
+ {'value': 'cars', 'blah': 4}]
 
 
-print(lines)
-print(login_info)
+print(list(map(operator.itemgetter('value'), l)))
 
-'''prompts user for their username and password'''
-prompt_username = input("Please enter username: ")
-prompt_password = input("Please input password: ")
-login(prompt_username, prompt_password)
-
-def login(username, password):
-    '''if username exists and the inputed strings match one of the key-value
-    pairs, login is successful returns (Username Correct, Password Correct)'''
-
-    if username in login_info:
-        if password == login_info[username]:
-            print("LOGIN SUCCESSFUL")
-            return (True, True)
-        else:
-            print("Sorry, password does not exist.")
-            return (True, False)
-    else:
-        print("Sorry this username does not exist.")
-        return (False, False)
-
-login(prompt_username, prompt_password)

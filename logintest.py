@@ -298,10 +298,6 @@ class Ui_MainWindow(object):
         self.label_10.setText(_translate("Form", "Type accès :"))
         self.pushButton_10.setText(_translate("Form", "Sauvegarder"))
         self.pushButton_11.setText(_translate("Form", "Annuler"))
-        self.lineEdit.setPlaceholderText(_translate("MainWindow", "Nom"))
-        self.lineEdit_2.setPlaceholderText(_translate("MainWindow", "Prenom"))
-        self.lineEdit_3.setPlaceholderText(_translate("MainWindow", "Code utilisateur"))
-        self.lineEdit_5.setPlaceholderText(_translate("MainWindow", "Mot de passe"))
 
     def saveuser(self):
         employee=Employe(self.lineEdit.text(),self.lineEdit_2.text(),self.comboBox.currentText(),
@@ -312,15 +308,23 @@ class Ui_MainWindow(object):
 
         with open("testuser.json", "r") as f:
             dic = json.load(f)
-            print(dic)
-            if any(d["codeutilisateur"] == self.lineEdit_3.text() for d in dic):
+
+            if self.lineEdit.text() == "" or self.lineEdit_2.text() == "" or self.lineEdit_3.text() == ""\
+                    or self.lineEdit_5.text() == "":
+               msg = QtWidgets.QMessageBox()
+               msg.setIcon(QtWidgets.QMessageBox.Warning)
+               msg.setText("Veuillez compléter les informations manquantes")
+               msg.setInformativeText('')
+               msg.setWindowTitle("Erreur")
+               msg.exec_()
+
+            elif any(d["codeutilisateur"] == self.lineEdit_3.text() for d in dic):
                 msg = QtWidgets.QMessageBox()
                 msg.setIcon(QtWidgets.QMessageBox.Warning)
                 msg.setText("Code utilisateur déjà utilisé")
                 msg.setInformativeText('')
                 msg.setWindowTitle("Erreur")
                 msg.exec_()
-                print("Deja pris")
             else:
                 with open("testuser.json", "w") as outfile:
                     dic.append(dictemployee)

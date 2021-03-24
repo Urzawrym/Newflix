@@ -386,14 +386,6 @@ class Ui_MainWindow(object):
 
 
 
-
-
-
-
-
-
-
-
     def AdminUi(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_MainWindow()

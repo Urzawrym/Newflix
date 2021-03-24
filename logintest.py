@@ -411,55 +411,38 @@ class Ui_MainWindow(object):
 
 
     def testconnex(self):
-
         with open("testuser.json", "r") as f:
             dicto = json.load(f)
-
-            found_username = False
+            logged_in = False
+        while not logged_in:
             for a in (dicto):
-                if a['codeutilisateur'] == login and a['password'] == password and a["acces"] == "Admin":
-                    print("yes admin")
-                    found_username = True
-
-                elif a['codeutilisateur'] == login and a['password'] == password and a["acces"] == "Modification":
-                    print("yes modif")
-                    found_username = True
-                elif a['codeutilisateur'] == login and a['password'] == password and a["acces"] == "Lecture":
-                    print("yes view")
-                    found_username = True
-
-            if not found_username:
-                print("usagé non trouvé")
-
-
-            """if AdminUser.get(self.login.text()) == self.password.text():
-                #self.AdminUi()
-                #self.login.clear()
-                #self.password.clear()
-                #self.login.setFocus()
-                print("admin")
-            elif 
-                for a in (dicto):
-                    if a['codeutilisateur'] == self.login.text() and a['password'] == self.password.text() and a["acces"] == "Modification":
-                        #self.MainUi()
-                        #self.login.clear()
-                        #self.password.clear()
-                        #self.login.setFocus()
-                        print("modif reussi")
-            elif a['codeutilisateur'] == self.login.text() and a['password'] == self.password.text() and a["acces"] == "Lecture":
-                #self.ViewUi()
-                #self.login.clear()
-                #self.password.clear()
-                #self.login.setFocus()
-                print("lecture reussi")
-            else:
+                if a['codeutilisateur'] == self.login.text() and a['password'] == self.password.text() and a["acces"] == "Admin":
+                    self.AdminUi()
+                    self.login.clear()
+                    self.password.clear()
+                    self.login.setFocus()
+                    logged_in = True
+                elif a['codeutilisateur'] == self.login.text() and a['password'] == self.password.text() and a["acces"] == "Modification":
+                    self.MainUi()
+                    self.login.clear()
+                    self.password.clear()
+                    self.login.setFocus()
+                    logged_in = True
+                elif a['codeutilisateur'] == self.login.text() and a['password'] == self.password.text() and a["acces"] == "Lecture":
+                    self.ViewUi()
+                    self.login.clear()
+                    self.password.clear()
+                    self.login.setFocus()
+                    logged_in = True
+            if logged_in is not True:
                 msg = QtWidgets.QMessageBox()
                 msg.setIcon(QtWidgets.QMessageBox.Warning)
                 msg.setText("Identifiants erronés")
                 msg.setInformativeText('')
                 msg.setWindowTitle("Erreur")
                 msg.exec_()
-                print("user marche pas")"""
+                break
+
 
 
 

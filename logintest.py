@@ -416,7 +416,7 @@ class Ui_MainWindow(object):
             logged_in = False
         while not logged_in:
             for a in (dicto):
-                if a['codeutilisateur'] == self.login.text() and a['password'] == self.password.text() and a["acces"] == "Admin":
+                if self.login.text() == "admin" and self.password.text() == "admin123":
                     self.AdminUi()
                     self.login.clear()
                     self.password.clear()

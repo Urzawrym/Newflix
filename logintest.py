@@ -1,6 +1,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import json
+import sys
+
 
 #from cryptography.fernet import Fernet
 
@@ -98,13 +100,10 @@ class Categoriefilm:
         self.descriptioncat = descriptioncat
 
 
-AdminUser = {"admin":"admin123"}
-ModifList = {"claude":"1234","mathieu":"royer"}
-Viewlist = {"meo":"5678"}
-
-
 class Ui_MainWindow(object):
-    def setup(self, MainWindow):
+    def __init__(self):
+        super().__init__()
+    def PrinciUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(713, 554)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -214,76 +213,73 @@ class Ui_MainWindow(object):
         self.pushButton_9.setText(_translate("Form", "Supprimer"))
         self.label_3.setText(_translate("Form", "Liste des employés"))
 
-    def GestUi(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.GestionUi(self.window)
-        self.window.show()
-        MainWindow.hide()
-
-    def popuserUi(self, Form):
-        Form.setObjectName("Form")
-        Form.resize(408, 207)
-        self.label_4 = QtWidgets.QLabel(Form)
+    def PopuserUi(self, Popup):
+        def __init__(self):
+            super().__init__()
+        Popup.setObjectName("Form")
+        Popup.resize(408, 207)
+        self.label_4 = QtWidgets.QLabel(Popup)
         self.label_4.setGeometry(QtCore.QRect(10, 10, 113, 20))
         self.label_4.setObjectName("LabelEmployeNom")
-        self.lineEdit = QtWidgets.QLineEdit(Form)
+        self.lineEdit = QtWidgets.QLineEdit(Popup)
         self.lineEdit.setGeometry(QtCore.QRect(10, 30, 113, 20))
         self.lineEdit.setObjectName("EditEmployeNom")
-        self.label_5 = QtWidgets.QLabel(Form)
+        self.label_5 = QtWidgets.QLabel(Popup)
         self.label_5.setGeometry(QtCore.QRect(10, 60, 113, 20))
         self.label_5.setObjectName("LabelEmployePrenom")
-        self.lineEdit_2 = QtWidgets.QLineEdit(Form)
+        self.lineEdit_2 = QtWidgets.QLineEdit(Popup)
         self.lineEdit_2.setGeometry(QtCore.QRect(10, 80, 113, 20))
         self.lineEdit_2.setObjectName("EditEmployePrenom")
-        self.label_6 = QtWidgets.QLabel(Form)
+        self.label_6 = QtWidgets.QLabel(Popup)
         self.label_6.setGeometry(QtCore.QRect(10, 110, 113, 20))
         self.label_6.setObjectName("LabelSexe")
-        self.comboBox = QtWidgets.QComboBox(Form)
+        self.comboBox = QtWidgets.QComboBox(Popup)
         self.comboBox.setGeometry(QtCore.QRect(10, 130, 113, 20))
         self.comboBox.setObjectName("comboBox")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
-        self.label_7 = QtWidgets.QLabel(Form)
+        self.label_7 = QtWidgets.QLabel(Popup)
         self.label_7.setGeometry(QtCore.QRect(140, 10, 113, 20))
         self.label_7.setObjectName("LabelDate")
-        self.dateEdit = QtWidgets.QDateEdit(Form)
+        self.dateEdit = QtWidgets.QDateEdit(Popup)
         self.dateEdit.setGeometry(QtCore.QRect(140, 30, 113, 20))
         self.dateEdit.setObjectName("InputDate")
-        self.label_8 = QtWidgets.QLabel(Form)
+        self.label_8 = QtWidgets.QLabel(Popup)
         self.label_8.setGeometry(QtCore.QRect(270, 10, 113, 20))
         self.label_8.setObjectName("label_8")
-        self.lineEdit_3 = QtWidgets.QLineEdit(Form)
+        self.lineEdit_3 = QtWidgets.QLineEdit(Popup)
         self.lineEdit_3.setGeometry(QtCore.QRect(270, 30, 113, 20))
         self.lineEdit_3.setObjectName("lineEdit_3")
-        self.label_9 = QtWidgets.QLabel(Form)
+        self.label_9 = QtWidgets.QLabel(Popup)
         self.label_9.setGeometry(QtCore.QRect(270, 60, 113, 20))
         self.label_9.setObjectName("label_9")
-        self.lineEdit_5 = QtWidgets.QLineEdit(Form)
+        self.lineEdit_5 = QtWidgets.QLineEdit(Popup)
         self.lineEdit_5.setGeometry(QtCore.QRect(270, 80, 113, 20))
         self.lineEdit_5.setObjectName("lineEdit_5")
-        self.comboBox_2 = QtWidgets.QComboBox(Form)
+        self.comboBox_2 = QtWidgets.QComboBox(Popup)
         self.comboBox_2.setGeometry(QtCore.QRect(140, 80, 113, 20))
         self.comboBox_2.setObjectName("comboBox")
         self.comboBox_2.addItem("")
         self.comboBox_2.addItem("")
-        self.label_10 = QtWidgets.QLabel(Form)
+        self.label_10 = QtWidgets.QLabel(Popup)
         self.label_10.setGeometry(QtCore.QRect(140, 60, 113, 20))
         self.label_10.setObjectName("label_10")
-        self.pushButton_10 = QtWidgets.QPushButton(Form)
+        self.pushButton_10 = QtWidgets.QPushButton(Popup)
         self.pushButton_10.setGeometry(QtCore.QRect(140, 165, 113, 30))
         self.pushButton_10.setObjectName("pushButton")
-        self.pushButton_10.clicked.connect(self.saveuser)
-        self.pushButton_11 = QtWidgets.QPushButton(Form)
+        self.pushButton_10.clicked.connect(self.Saveuser)
+        self.pushButton_11 = QtWidgets.QPushButton(Popup)
         self.pushButton_11.setGeometry(QtCore.QRect(270, 165, 113, 30))
         self.pushButton_11.setObjectName("pushButton_2")
-        self.retranslateUi4(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+        self.pushButton_11.clicked.connect(self.CloseuserUi)
+        self.retranslateUi4(Popup)
+        QtCore.QMetaObject.connectSlotsByName(Popup)
 
-    def retranslateUi4(self, Form):
+
+    def retranslateUi4(self, Popup):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Formulaire employé"))
+        Popup.setWindowTitle(_translate("Form", "Formulaire employé"))
         self.label_4.setText(_translate("Form", "Nom :"))
         self.label_5.setText(_translate("Form", "Prénom :"))
         self.label_6.setText(_translate("Form", "Sexe :"))
@@ -298,45 +294,6 @@ class Ui_MainWindow(object):
         self.label_10.setText(_translate("Form", "Type accès :"))
         self.pushButton_10.setText(_translate("Form", "Sauvegarder"))
         self.pushButton_11.setText(_translate("Form", "Annuler"))
-
-    def saveuser(self):
-        employee=Employe(self.lineEdit.text(),self.lineEdit_2.text(),self.comboBox.currentText(),
-                         self.dateEdit.text(),self.lineEdit_3.text(),self.lineEdit_5.text(),
-                         self.comboBox_2.currentText())
-
-        dictemployee=vars(employee)
-
-        with open("testuser.json", "r") as f:
-            dic = json.load(f)
-
-            if self.lineEdit.text() == "" or self.lineEdit_2.text() == "" or self.lineEdit_3.text() == ""\
-                    or self.lineEdit_5.text() == "":
-               msg = QtWidgets.QMessageBox()
-               msg.setIcon(QtWidgets.QMessageBox.Warning)
-               msg.setText("Veuillez compléter les informations manquantes")
-               msg.setInformativeText('')
-               msg.setWindowTitle("Erreur")
-               msg.exec_()
-
-            elif any(d["codeutilisateur"] == self.lineEdit_3.text() for d in dic):
-                msg = QtWidgets.QMessageBox()
-                msg.setIcon(QtWidgets.QMessageBox.Warning)
-                msg.setText("Code utilisateur déjà utilisé")
-                msg.setInformativeText('')
-                msg.setWindowTitle("Erreur")
-                msg.exec_()
-            else:
-                with open("testuser.json", "w") as outfile:
-                    dic.append(dictemployee)
-                    print(dic)
-                    json.dump(dic,outfile)
-
-    def userUi(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.popuserUi(self.window)
-        self.window.show()
-
 
     def LoginUi(self, Connexion):
         MainWindow.setObjectName("Connexion")
@@ -373,6 +330,49 @@ class Ui_MainWindow(object):
         self.password.setPlaceholderText(_translate("MainWindow", "Mot de passe"))
         self.pushButton.setText(_translate("MainWindow", "Connexion"))
 
+    def Saveuser(self):
+        employee=Employe(self.lineEdit.text(),self.lineEdit_2.text(),self.comboBox.currentText(),
+                         self.dateEdit.text(),self.lineEdit_3.text(),self.lineEdit_5.text(),
+                         self.comboBox_2.currentText())
+        dictemployee=vars(employee)
+        with open("testuser.json", "r") as f:
+            dic = json.load(f)
+            if self.lineEdit.text() == "" or self.lineEdit_2.text() == "" or self.lineEdit_3.text() == ""\
+                    or self.lineEdit_5.text() == "":
+               msg = QtWidgets.QMessageBox()
+               msg.setIcon(QtWidgets.QMessageBox.Warning)
+               msg.setText("Veuillez compléter les informations manquantes")
+               msg.setInformativeText('')
+               msg.setWindowTitle("Erreur")
+               msg.exec_()
+            elif any(d["codeutilisateur"] == self.lineEdit_3.text() for d in dic):
+                msg = QtWidgets.QMessageBox()
+                msg.setIcon(QtWidgets.QMessageBox.Warning)
+                msg.setText("Code utilisateur déjà utilisé")
+                msg.setInformativeText('')
+                msg.setWindowTitle("Erreur")
+                msg.exec_()
+            else:
+                with open("testuser.json", "w") as outfile:
+                    dic.append(dictemployee)
+                    print(dic)
+                    json.dump(dic,outfile)
+
+    def GestUi(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_MainWindow()
+        self.ui.GestionUi(self.window)
+        self.window.show()
+
+
+    def userUi(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_MainWindow()
+        self.ui.PopuserUi(self.window)
+        self.window.show()
+        MainWindow.hide()
+
+
     def CloseUi(self):
         app.closeAllWindows()
 
@@ -380,17 +380,32 @@ class Ui_MainWindow(object):
         app.closeAllWindows()
         MainWindow.show()
 
+    #def CloseuserUi(self):
+
+
+
+
+
+
+
+
+
+
+
+
+
     def AdminUi(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_MainWindow()
-        self.ui.setup(self.window)
+        self.ui.PrinciUi(self.window)
         self.window.show()
         MainWindow.hide()
+
 
     def MainUi(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_MainWindow()
-        self.ui.setup(self.window)
+        self.ui.PrinciUi(self.window)
         self.window.show()
         self.ui.actionGestion.setVisible(False)
         MainWindow.hide()
@@ -398,7 +413,7 @@ class Ui_MainWindow(object):
     def ViewUi(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_MainWindow()
-        self.ui.setup(self.window)
+        self.ui.PrinciUi(self.window)
         self.window.show()
         self.ui.pushButton_1.hide()
         self.ui.pushButton_2.hide()
@@ -408,7 +423,6 @@ class Ui_MainWindow(object):
         self.ui.pushButton_6.hide()
         self.ui.actionGestion.setVisible(False)
         MainWindow.hide()
-
 
     def testconnex(self):
         with open("testuser.json", "r") as f:
@@ -447,7 +461,6 @@ class Ui_MainWindow(object):
 
 
 if __name__ == "__main__":
-    import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()

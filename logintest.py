@@ -1,7 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import json
 import sys
-
+from login import *
+from mainwindow import *
 
 #from cryptography.fernet import Fernet
 
@@ -99,9 +100,10 @@ class Categoriefilm:
         self.descriptioncat = descriptioncat
 
 
-class Ui_MainWindow(object):
+
+"""class Ui_MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
-        super(Ui_MainWindow).__init__()
+        super().__init__()
     def PrinciUi(self, MonApp):
         MonApp.setObjectName("MainWindow")
         MonApp.resize(713, 554)
@@ -180,7 +182,7 @@ class Ui_MainWindow(object):
         self.menuMenu.setTitle(_translate("MainWindow", "Menu"))
         self.actionGestion.setText(_translate("MainWindow", "Gestion Employés"))
         self.actionD_connexion.setText(_translate("MainWindow", "Déconnexion"))
-        self.actionQuitter.setText(_translate("MainWindow", "Quitter"))
+        self.actionQuitter.setText(_translate("MainWindow", "Quitter"))"""
 
     def GestionUi(self, Form):
         Form.setObjectName("Form")
@@ -294,7 +296,7 @@ class Ui_MainWindow(object):
         self.pushButton_10.setText(_translate("Form", "Sauvegarder"))
         self.pushButton_11.setText(_translate("Form", "Annuler"))
 
-    def LoginUi(self, Connexion):
+    """def LoginUi(self, Connexion):
         Connexion.setObjectName("Connexion")
         Connexion.resize(229, 177)
         self.centralwidget = QtWidgets.QWidget(Connexion)
@@ -327,7 +329,7 @@ class Ui_MainWindow(object):
         Connexion.setWindowTitle(_translate("Connexion", "Connexion"))
         self.login.setPlaceholderText(_translate("MainWindow", "Usager"))
         self.password.setPlaceholderText(_translate("MainWindow", "Mot de passe"))
-        self.pushButton.setText(_translate("MainWindow", "Connexion"))
+        self.pushButton.setText(_translate("MainWindow", "Connexion"))"""
 
     def Saveuser(self):
         employee=Employe(self.lineEdit.text(),self.lineEdit_2.text(),self.comboBox.currentText(),
@@ -461,8 +463,6 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    mainWindow = QtWidgets.QMainWindow()
-    myapp = Ui_MainWindow()
-    myapp.LoginUi(mainWindow)
-    mainWindow.show()
-    sys.exit(app.exec_())
+    w = Ui_Connexion()
+    w.show()
+    app.exec_()

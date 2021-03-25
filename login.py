@@ -9,38 +9,48 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import sys
 
+class Ui_Connexion(QtWidgets.QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setObjectName("Connexion")
+        self.resize(229, 177)
+        self.centralwidget = QtWidgets.QWidget()
+        self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
+        self.login = QtWidgets.QLineEdit(self.centralwidget)
+        self.login.setObjectName("login")
+        #self.login.returnPressed.connect(self.testconnex)
+        self.gridLayout.addWidget(self.login, 0, 1, 1, 1)
+        self.password = QtWidgets.QLineEdit(self.centralwidget)
+        self.password.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.password.setObjectName("password")
+        #self.password.returnPressed.connect(self.testconnex)
+        self.gridLayout.addWidget(self.password, 1, 1, 1, 1)
+        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton.setObjectName("pushButton")
+        #self.pushButton.clicked.connect(self.testconnex)
+        self.pushButton.setAutoDefault(True)
+        self.gridLayout.addWidget(self.pushButton, 2, 0, 1, 2)
+        self.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar()
+        self.statusbar.setObjectName("statusbar")
+        self.setStatusBar(self.statusbar)
+        self.retranslateUi()
+        QtCore.QMetaObject.connectSlotsByName(self)
 
-class Ui_Connexion(object):
-    def setupUi(self, Connexion):
-        Connexion.setObjectName("Connexion")
-        Connexion.resize(270, 122)
-        self.buttonBox = QtWidgets.QDialogButtonBox(Connexion)
-        self.buttonBox.setGeometry(QtCore.QRect(90, 80, 161, 32))
-        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName("buttonBox")
-        self.lineEdit_3 = QtWidgets.QLineEdit(Connexion)
-        self.lineEdit_3.setGeometry(QtCore.QRect(100, 20, 161, 20))
-        self.lineEdit_3.setObjectName("lineEdit_3")
-        self.lineEdit_4 = QtWidgets.QLineEdit(Connexion)
-        self.lineEdit_4.setGeometry(QtCore.QRect(100, 50, 161, 20))
-        self.lineEdit_4.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.lineEdit_4.setObjectName("lineEdit_4")
-        self.label = QtWidgets.QLabel(Connexion)
-        self.label.setGeometry(QtCore.QRect(10, 20, 91, 20))
-        self.label.setObjectName("label")
-        self.label_2 = QtWidgets.QLabel(Connexion)
-        self.label_2.setGeometry(QtCore.QRect(10, 50, 111, 20))
-        self.label_2.setObjectName("label_2")
-
-        self.retranslateUi(Connexion)
-        self.buttonBox.accepted.connect(Connexion.accept)
-        self.buttonBox.rejected.connect(Connexion.reject)
-        QtCore.QMetaObject.connectSlotsByName(Connexion)
-
-    def retranslateUi(self, Connexion):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        Connexion.setWindowTitle(_translate("Connexion", "Connexion"))
-        self.label.setText(_translate("Connexion", "Code employé :"))
-        self.label_2.setText(_translate("Connexion", " Mot de passe :"))
+        self.setWindowTitle(_translate("Connexion", "Connexion"))
+        self.login.setPlaceholderText(_translate("MainWindow", "Usager"))
+        self.password.setPlaceholderText(_translate("MainWindow", "Mot de passe"))
+        self.pushButton.setText(_translate("MainWindow", "Connexion"))
+
+
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+    w = Ui_Connexion()
+    w.show()
+    app.exec_()

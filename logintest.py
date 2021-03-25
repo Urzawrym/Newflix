@@ -1,4 +1,3 @@
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 import json
 import sys
@@ -102,11 +101,11 @@ class Categoriefilm:
 
 class Ui_MainWindow(object):
     def __init__(self):
-        super().__init__()
-    def PrinciUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(713, 554)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        super(Ui_MainWindow).__init__()
+    def PrinciUi(self, MonApp):
+        MonApp.setObjectName("MainWindow")
+        MonApp.resize(713, 554)
+        self.centralwidget = QtWidgets.QWidget(MonApp)
         self.centralwidget.setObjectName("centralwidget")
         self.pushButton_1 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_1.setGeometry(QtCore.QRect(580, 40, 75, 23))
@@ -138,23 +137,23 @@ class Ui_MainWindow(object):
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(20, 260, 181, 16))
         self.label_2.setObjectName("label_2")
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        MonApp.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(MonApp)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        MonApp.setStatusBar(self.statusbar)
+        self.menubar = QtWidgets.QMenuBar(MonApp)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 713, 21))
         self.menubar.setObjectName("menubar")
         self.menuMenu = QtWidgets.QMenu(self.menubar)
         self.menuMenu.setObjectName("menuMenu")
-        MainWindow.setMenuBar(self.menubar)
-        self.actionGestion = QtWidgets.QAction(MainWindow)
+        MonApp.setMenuBar(self.menubar)
+        self.actionGestion = QtWidgets.QAction(MonApp)
         self.actionGestion.setObjectName("actionGestion")
         self.actionGestion.triggered.connect(self.GestUi)
-        self.actionD_connexion = QtWidgets.QAction(MainWindow)
+        self.actionD_connexion = QtWidgets.QAction(MonApp)
         self.actionD_connexion.setObjectName("actionD_connexion")
         self.actionD_connexion.triggered.connect(self.LogoutUi)
-        self.actionQuitter = QtWidgets.QAction(MainWindow)
+        self.actionQuitter = QtWidgets.QAction(MonApp)
         self.actionQuitter.setObjectName("actionQuitter")
         self.actionQuitter.triggered.connect(self.CloseUi)
         self.menuMenu.addSeparator()
@@ -164,12 +163,12 @@ class Ui_MainWindow(object):
         self.menuMenu.addAction(self.actionD_connexion)
         self.menuMenu.addAction(self.actionQuitter)
         self.menubar.addAction(self.menuMenu.menuAction())
-        self.retranslateUi2(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi2(MonApp)
+        QtCore.QMetaObject.connectSlotsByName(MonApp)
 
-    def retranslateUi2(self, MainWindow):
+    def retranslateUi2(self, MonApp):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Newflix"))
+        MonApp.setWindowTitle(_translate("MainWindow", "Newflix"))
         self.pushButton_1.setText(_translate("MainWindow", "Ajouter"))
         self.pushButton_2.setText(_translate("MainWindow", "Modifier"))
         self.pushButton_3.setText(_translate("MainWindow", "Supprimer"))
@@ -272,7 +271,7 @@ class Ui_MainWindow(object):
         self.pushButton_11 = QtWidgets.QPushButton(Popup)
         self.pushButton_11.setGeometry(QtCore.QRect(270, 165, 113, 30))
         self.pushButton_11.setObjectName("pushButton_2")
-        self.pushButton_11.clicked.connect(self.CloseuserUi)
+        #self.pushButton_11.clicked.connect(self.CloseuserUi)
         self.retranslateUi4(Popup)
         QtCore.QMetaObject.connectSlotsByName(Popup)
 
@@ -296,9 +295,9 @@ class Ui_MainWindow(object):
         self.pushButton_11.setText(_translate("Form", "Annuler"))
 
     def LoginUi(self, Connexion):
-        MainWindow.setObjectName("Connexion")
-        MainWindow.resize(229, 177)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        Connexion.setObjectName("Connexion")
+        Connexion.resize(229, 177)
+        self.centralwidget = QtWidgets.QWidget(Connexion)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
@@ -316,16 +315,16 @@ class Ui_MainWindow(object):
         self.pushButton.clicked.connect(self.testconnex)
         self.pushButton.setAutoDefault(True)
         self.gridLayout.addWidget(self.pushButton, 2, 0, 1, 2)
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        Connexion.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(Connexion)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        Connexion.setStatusBar(self.statusbar)
+        self.retranslateUi(Connexion)
+        QtCore.QMetaObject.connectSlotsByName(Connexion)
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, Connexion):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("Connexion", "Connexion"))
+        Connexion.setWindowTitle(_translate("Connexion", "Connexion"))
         self.login.setPlaceholderText(_translate("MainWindow", "Usager"))
         self.password.setPlaceholderText(_translate("MainWindow", "Mot de passe"))
         self.pushButton.setText(_translate("MainWindow", "Connexion"))
@@ -360,17 +359,21 @@ class Ui_MainWindow(object):
 
     def GestUi(self):
         self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.GestionUi(self.window)
+        mygest = Ui_MainWindow()
+        mygest.GestionUi(self.window)
         self.window.show()
+
+
+
 
 
     def userUi(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.PopuserUi(self.window)
-        self.window.show()
-        MainWindow.hide()
+        userwindow = QtWidgets.QMainWindow()
+        myapp = Ui_MainWindow()
+        myapp.PopuserUi(userwindow)
+        userwindow.show()
+        mainWindow.hide()
+
 
 
     def CloseUi(self):
@@ -378,9 +381,11 @@ class Ui_MainWindow(object):
 
     def LogoutUi(self):
         app.closeAllWindows()
-        MainWindow.show()
+        mainWindow.show()
 
-    #def CloseuserUi(self):
+    def CloseuserUi(self):
+        mainWindow.hide()
+
 
 
 
@@ -391,7 +396,7 @@ class Ui_MainWindow(object):
         self.ui = Ui_MainWindow()
         self.ui.PrinciUi(self.window)
         self.window.show()
-        MainWindow.hide()
+        mainWindow.close()
 
 
     def MainUi(self):
@@ -400,7 +405,7 @@ class Ui_MainWindow(object):
         self.ui.PrinciUi(self.window)
         self.window.show()
         self.ui.actionGestion.setVisible(False)
-        MainWindow.hide()
+        mainWindow.close()
 
     def ViewUi(self):
         self.window = QtWidgets.QMainWindow()
@@ -414,7 +419,7 @@ class Ui_MainWindow(object):
         self.ui.pushButton_5.hide()
         self.ui.pushButton_6.hide()
         self.ui.actionGestion.setVisible(False)
-        MainWindow.hide()
+        mainWindow.close()
 
     def testconnex(self):
         with open("testuser.json", "r") as f:
@@ -428,13 +433,15 @@ class Ui_MainWindow(object):
                     self.password.clear()
                     self.login.setFocus()
                     logged_in = True
-                elif a['codeutilisateur'] == self.login.text() and a['password'] == self.password.text() and a["acces"] == "Modification":
+                elif a['codeutilisateur'] == self.login.text() and a['password'] == self.password.text() \
+                        and a["acces"] == "Modification":
                     self.MainUi()
                     self.login.clear()
                     self.password.clear()
                     self.login.setFocus()
                     logged_in = True
-                elif a['codeutilisateur'] == self.login.text() and a['password'] == self.password.text() and a["acces"] == "Lecture":
+                elif a['codeutilisateur'] == self.login.text() and a['password'] == self.password.text() \
+                        and a["acces"] == "Lecture":
                     self.ViewUi()
                     self.login.clear()
                     self.password.clear()
@@ -454,8 +461,8 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.LoginUi(MainWindow)
-    MainWindow.show()
+    mainWindow = QtWidgets.QMainWindow()
+    myapp = Ui_MainWindow()
+    myapp.LoginUi(mainWindow)
+    mainWindow.show()
     sys.exit(app.exec_())

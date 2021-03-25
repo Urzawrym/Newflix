@@ -7,11 +7,11 @@ from PyQt5.QtWidgets import (
     QMainWindow,
     QPushButton,
     QVBoxLayout,
-    QWidget,
+    QWidget,QDialog
 )
+from logindialog import *
 
-
-class AnotherWindow(QWidget):
+class AnotherWindow(QDialog):
     """
     This "window" is a QWidget. If it has no parent,
     it will appear as a free-floating window.
@@ -28,7 +28,7 @@ class AnotherWindow(QWidget):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.window1 = AnotherWindow()
+        self.window1 = Ui_Connexion()
         self.window2 = AnotherWindow()
 
         l = QVBoxLayout()

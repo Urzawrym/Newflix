@@ -11,6 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 
+
 class Ui_Connexion(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
@@ -47,6 +48,12 @@ class Ui_Connexion(QtWidgets.QMainWindow):
         self.login.setPlaceholderText(_translate("MainWindow", "Usager"))
         self.password.setPlaceholderText(_translate("MainWindow", "Mot de passe"))
         self.pushButton.setText(_translate("MainWindow", "Connexion"))
+
+    def open_login_dialog(self):
+        Dialog = QtWidgets.QDialog()
+        ui = Ui_Connexion
+        ui.setupUi(Dialog)
+        Dialog.exec_()
 
 
 if __name__ == "__main__":

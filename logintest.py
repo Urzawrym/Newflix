@@ -1,8 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import json
 import sys
-from login import *
-from mainwindow import *
+
 
 #from cryptography.fernet import Fernet
 
@@ -51,10 +50,10 @@ class Employe(Personne):
         self.password = password
         self.acces = acces
 
-    def __str__(self):
+    """def __str__(self):
         return "Nom {}, Prénom {}, Sexe {}, Date d'embauche {}, " \
                "Code d'employé {}, Mot de passe {}, Accès {}".format(self.nom, self.prenom, self.sexe, self.dateembauche,
-                                                                  self.codeutilisateur, self.password, self.acces)
+                                                                  self.codeutilisateur, self.password, self.acces)"""
 
 class Client(Personne):
     def __init__(self, prenom, nom, sexe, dateinscription, courriel, motdepasse, cartes):
@@ -101,37 +100,39 @@ class Categoriefilm:
 
 
 
-"""class Ui_MainWindow(QtWidgets.QMainWindow):
+class Ui_MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-    def PrinciUi(self, MonApp):
-        MonApp.setObjectName("MainWindow")
-        MonApp.resize(713, 554)
-        self.centralwidget = QtWidgets.QWidget(MonApp)
+
+        self.gestuser = Ui_GestUser()
+
+        self.setObjectName("MainWindow")
+        self.resize(713, 554)
+        self.centralwidget = QtWidgets.QWidget()
         self.centralwidget.setObjectName("centralwidget")
-        self.pushButton_1 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_1.setGeometry(QtCore.QRect(580, 40, 75, 23))
-        self.pushButton_1.setObjectName("pushButton_1")
+        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton.setGeometry(QtCore.QRect(580, 40, 80, 30))
+        self.pushButton.setObjectName("pushButton")
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(580, 70, 75, 23))
+        self.pushButton_2.setGeometry(QtCore.QRect(580, 80, 80, 30))
         self.pushButton_2.setObjectName("pushButton_2")
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(580, 100, 75, 23))
+        self.pushButton_3.setGeometry(QtCore.QRect(580, 120, 80, 30))
         self.pushButton_3.setObjectName("pushButton_3")
         self.ListeClient = QtWidgets.QListWidget(self.centralwidget)
         self.ListeClient.setGeometry(QtCore.QRect(20, 40, 551, 192))
         self.ListeClient.setObjectName("ListeClient")
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_4.setGeometry(QtCore.QRect(580, 310, 75, 23))
+        self.pushButton_4.setGeometry(QtCore.QRect(580, 320, 80, 30))
         self.pushButton_4.setObjectName("pushButton_4")
         self.pushButton_5 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_5.setGeometry(QtCore.QRect(580, 340, 75, 23))
+        self.pushButton_5.setGeometry(QtCore.QRect(580, 360, 80, 30))
         self.pushButton_5.setObjectName("pushButton_5")
         self.ListeClient_2 = QtWidgets.QListWidget(self.centralwidget)
         self.ListeClient_2.setGeometry(QtCore.QRect(20, 280, 551, 192))
         self.ListeClient_2.setObjectName("ListeClient_2")
         self.pushButton_6 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_6.setGeometry(QtCore.QRect(580, 280, 75, 23))
+        self.pushButton_6.setGeometry(QtCore.QRect(580, 280, 80, 30))
         self.pushButton_6.setObjectName("pushButton_6")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(20, 20, 131, 16))
@@ -139,39 +140,38 @@ class Categoriefilm:
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(20, 260, 181, 16))
         self.label_2.setObjectName("label_2")
-        MonApp.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(MonApp)
+        self.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar()
         self.statusbar.setObjectName("statusbar")
-        MonApp.setStatusBar(self.statusbar)
-        self.menubar = QtWidgets.QMenuBar(MonApp)
+        self.setStatusBar(self.statusbar)
+        self.menubar = QtWidgets.QMenuBar()
         self.menubar.setGeometry(QtCore.QRect(0, 0, 713, 21))
         self.menubar.setObjectName("menubar")
         self.menuMenu = QtWidgets.QMenu(self.menubar)
         self.menuMenu.setObjectName("menuMenu")
-        MonApp.setMenuBar(self.menubar)
-        self.actionGestion = QtWidgets.QAction(MonApp)
+        self.setMenuBar(self.menubar)
+        self.actionGestion = QtWidgets.QAction()
         self.actionGestion.setObjectName("actionGestion")
-        self.actionGestion.triggered.connect(self.GestUi)
-        self.actionD_connexion = QtWidgets.QAction(MonApp)
-        self.actionD_connexion.setObjectName("actionD_connexion")
-        self.actionD_connexion.triggered.connect(self.LogoutUi)
-        self.actionQuitter = QtWidgets.QAction(MonApp)
+        self.actionDeconnexion = QtWidgets.QAction()
+        self.actionDeconnexion.setObjectName("actionDeconnexion")
+        self.actionQuitter = QtWidgets.QAction()
         self.actionQuitter.setObjectName("actionQuitter")
-        self.actionQuitter.triggered.connect(self.CloseUi)
         self.menuMenu.addSeparator()
         self.menuMenu.addSeparator()
         self.menuMenu.addSeparator()
         self.menuMenu.addAction(self.actionGestion)
-        self.menuMenu.addAction(self.actionD_connexion)
+        self.menuMenu.addAction(self.actionDeconnexion)
         self.menuMenu.addAction(self.actionQuitter)
         self.menubar.addAction(self.menuMenu.menuAction())
-        self.retranslateUi2(MonApp)
-        QtCore.QMetaObject.connectSlotsByName(MonApp)
+        self.retranslateUi()
+        QtCore.QMetaObject.connectSlotsByName(self)
 
-    def retranslateUi2(self, MonApp):
+        self.actionGestion.triggered.connect(self.GestUi)
+
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        MonApp.setWindowTitle(_translate("MainWindow", "Newflix"))
-        self.pushButton_1.setText(_translate("MainWindow", "Ajouter"))
+        self.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.pushButton.setText(_translate("MainWindow", "Ajouter"))
         self.pushButton_2.setText(_translate("MainWindow", "Modifier"))
         self.pushButton_3.setText(_translate("MainWindow", "Supprimer"))
         self.pushButton_4.setText(_translate("MainWindow", "Modifier"))
@@ -181,155 +181,210 @@ class Categoriefilm:
         self.label_2.setText(_translate("MainWindow", "Liste des films"))
         self.menuMenu.setTitle(_translate("MainWindow", "Menu"))
         self.actionGestion.setText(_translate("MainWindow", "Gestion Employés"))
-        self.actionD_connexion.setText(_translate("MainWindow", "Déconnexion"))
-        self.actionQuitter.setText(_translate("MainWindow", "Quitter"))"""
+        self.actionDeconnexion.setText(_translate("MainWindow", "Déconnexion"))
+        self.actionQuitter.setText(_translate("MainWindow", "Quitter"))
 
-    def GestionUi(self, Form):
-        Form.setObjectName("Form")
-        Form.resize(685, 156)
-        self.listWidget_1 = QtWidgets.QListWidget(Form)
-        self.listWidget_1.setGeometry(QtCore.QRect(10, 30, 571, 111))
-        self.listWidget_1.setObjectName("listWidget")
-        self.pushButton_7 = QtWidgets.QPushButton(Form)
-        self.pushButton_7.setGeometry(QtCore.QRect(590, 30, 75, 23))
-        self.pushButton_7.setObjectName("pushButton_7")
-        self.pushButton_7.clicked.connect(self.userUi)
-        self.pushButton_8 = QtWidgets.QPushButton(Form)
-        self.pushButton_8.setGeometry(QtCore.QRect(590, 70, 75, 23))
-        self.pushButton_8.setObjectName("pushButton_8")
-        self.pushButton_9 = QtWidgets.QPushButton(Form)
-        self.pushButton_9.setGeometry(QtCore.QRect(590, 110, 75, 23))
-        self.pushButton_9.setObjectName("pushButton_9")
-        self.label_3 = QtWidgets.QLabel(Form)
-        self.label_3.setGeometry(QtCore.QRect(10, 10, 281, 16))
-        self.label_3.setObjectName("label_3")
-        self.retranslateUi3(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+    def GestUi(self):
+        if self.gestuser.isVisible():
+            self.gestuser.hide()
+        else:
+            self.gestuser.show()
 
-    def retranslateUi3(self, Form):
+class Ui_GestUser(QtWidgets.QDialog):
+    def __init__(self):
+        super().__init__()
+        self.userui = Ui_FormUser()
+
+        self.setObjectName("Form")
+        self.resize(685, 156)
+        self.listWidget = QtWidgets.QListWidget(self)
+        self.listWidget.setGeometry(QtCore.QRect(10, 30, 571, 111))
+        self.listWidget.setObjectName("listWidget")
+        self.pushButton = QtWidgets.QPushButton(self)
+        self.pushButton.setGeometry(QtCore.QRect(590, 30, 75, 23))
+        self.pushButton.setObjectName("pushButton")
+        self.pushButton_2 = QtWidgets.QPushButton(self)
+        self.pushButton_2.setGeometry(QtCore.QRect(590, 70, 75, 23))
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.pushButton_3 = QtWidgets.QPushButton(self)
+        self.pushButton_3.setGeometry(QtCore.QRect(590, 110, 75, 23))
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.label = QtWidgets.QLabel(self)
+        self.label.setGeometry(QtCore.QRect(10, 10, 281, 16))
+        self.label.setObjectName("label")
+        self.retranslateUi()
+        QtCore.QMetaObject.connectSlotsByName(self)
+
+        self.pushButton.clicked.connect(self.userui)
+
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Liste employés"))
-        self.pushButton_7.setText(_translate("Form", "Ajouter"))
-        self.pushButton_8.setText(_translate("Form", "Modifier"))
-        self.pushButton_9.setText(_translate("Form", "Supprimer"))
-        self.label_3.setText(_translate("Form", "Liste des employés"))
+        self.setWindowTitle(_translate("Form", "Form"))
+        self.pushButton.setText(_translate("Form", "Ajouter"))
+        self.pushButton_2.setText(_translate("Form", "Modifier"))
+        self.pushButton_3.setText(_translate("Form", "Supprimer"))
+        self.label.setText(_translate("Form", "Liste des employés"))
 
-    def PopuserUi(self, Popup):
-        def __init__(self):
-            super().__init__()
-        Popup.setObjectName("Form")
-        Popup.resize(408, 207)
-        self.label_4 = QtWidgets.QLabel(Popup)
-        self.label_4.setGeometry(QtCore.QRect(10, 10, 113, 20))
-        self.label_4.setObjectName("LabelEmployeNom")
-        self.lineEdit = QtWidgets.QLineEdit(Popup)
+    def userui(self):
+        if self.userui.isVisible():
+            self.userui.hide()
+        else:
+            self.userui.show()
+
+class Ui_FormUser(QtWidgets.QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setObjectName("Form")
+        self.resize(408, 207)
+        self.label_4 = QtWidgets.QLabel(self)
+        self.label_4.setGeometry(QtCore.QRect(10, 10, 47, 13))
+        self.label_4.setObjectName("label_4")
+        self.lineEdit = QtWidgets.QLineEdit(self)
         self.lineEdit.setGeometry(QtCore.QRect(10, 30, 113, 20))
-        self.lineEdit.setObjectName("EditEmployeNom")
-        self.label_5 = QtWidgets.QLabel(Popup)
-        self.label_5.setGeometry(QtCore.QRect(10, 60, 113, 20))
-        self.label_5.setObjectName("LabelEmployePrenom")
-        self.lineEdit_2 = QtWidgets.QLineEdit(Popup)
+        self.lineEdit.setObjectName("lineEdit_3")
+        self.label_5 = QtWidgets.QLabel(self)
+        self.label_5.setGeometry(QtCore.QRect(10, 60, 47, 13))
+        self.label_5.setObjectName("label_5")
+        self.lineEdit_2 = QtWidgets.QLineEdit(self)
         self.lineEdit_2.setGeometry(QtCore.QRect(10, 80, 113, 20))
-        self.lineEdit_2.setObjectName("EditEmployePrenom")
-        self.label_6 = QtWidgets.QLabel(Popup)
-        self.label_6.setGeometry(QtCore.QRect(10, 110, 113, 20))
-        self.label_6.setObjectName("LabelSexe")
-        self.comboBox = QtWidgets.QComboBox(Popup)
-        self.comboBox.setGeometry(QtCore.QRect(10, 130, 113, 20))
-        self.comboBox.setObjectName("comboBox")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.label_7 = QtWidgets.QLabel(Popup)
-        self.label_7.setGeometry(QtCore.QRect(140, 10, 113, 20))
-        self.label_7.setObjectName("LabelDate")
-        self.dateEdit = QtWidgets.QDateEdit(Popup)
-        self.dateEdit.setGeometry(QtCore.QRect(140, 30, 113, 20))
-        self.dateEdit.setObjectName("InputDate")
-        self.label_8 = QtWidgets.QLabel(Popup)
-        self.label_8.setGeometry(QtCore.QRect(270, 10, 113, 20))
+        self.lineEdit_2.setObjectName("lineEdit_4")
+        self.label_6 = QtWidgets.QLabel(self)
+        self.label_6.setGeometry(QtCore.QRect(10, 110, 47, 13))
+        self.label_6.setObjectName("label_6")
+        self.radioButton = QtWidgets.QRadioButton(self)
+        self.radioButton.setGeometry(QtCore.QRect(10, 130, 82, 17))
+        self.radioButton.setObjectName("radioButton")
+        self.radioButton_2 = QtWidgets.QRadioButton(self)
+        self.radioButton_2.setGeometry(QtCore.QRect(10, 150, 82, 17))
+        self.radioButton_2.setObjectName("radioButton_2")
+        self.radioButton_3 = QtWidgets.QRadioButton(self)
+        self.radioButton_3.setGeometry(QtCore.QRect(10, 170, 82, 17))
+        self.radioButton_3.setObjectName("radioButton_3")
+        self.label_7 = QtWidgets.QLabel(self)
+        self.label_7.setGeometry(QtCore.QRect(140, 10, 91, 16))
+        self.label_7.setObjectName("label_7")
+        self.dateEdit = QtWidgets.QDateEdit(self)
+        self.dateEdit.setGeometry(QtCore.QRect(140, 30, 110, 22))
+        self.dateEdit.setObjectName("dateEdit")
+        self.label_8 = QtWidgets.QLabel(self)
+        self.label_8.setGeometry(QtCore.QRect(270, 10, 111, 16))
         self.label_8.setObjectName("label_8")
-        self.lineEdit_3 = QtWidgets.QLineEdit(Popup)
+        self.lineEdit_3 = QtWidgets.QLineEdit(self)
         self.lineEdit_3.setGeometry(QtCore.QRect(270, 30, 113, 20))
         self.lineEdit_3.setObjectName("lineEdit_3")
-        self.label_9 = QtWidgets.QLabel(Popup)
-        self.label_9.setGeometry(QtCore.QRect(270, 60, 113, 20))
+        self.label_9 = QtWidgets.QLabel(self)
+        self.label_9.setGeometry(QtCore.QRect(270, 60, 111, 16))
         self.label_9.setObjectName("label_9")
-        self.lineEdit_5 = QtWidgets.QLineEdit(Popup)
+        self.lineEdit_5 = QtWidgets.QLineEdit(self)
         self.lineEdit_5.setGeometry(QtCore.QRect(270, 80, 113, 20))
         self.lineEdit_5.setObjectName("lineEdit_5")
-        self.comboBox_2 = QtWidgets.QComboBox(Popup)
-        self.comboBox_2.setGeometry(QtCore.QRect(140, 80, 113, 20))
-        self.comboBox_2.setObjectName("comboBox")
-        self.comboBox_2.addItem("")
-        self.comboBox_2.addItem("")
-        self.label_10 = QtWidgets.QLabel(Popup)
-        self.label_10.setGeometry(QtCore.QRect(140, 60, 113, 20))
+        self.radioButton_4 = QtWidgets.QRadioButton(self)
+        self.radioButton_4.setGeometry(QtCore.QRect(140, 80, 82, 17))
+        self.radioButton_4.setObjectName("radioButton_4")
+        self.radioButton_5 = QtWidgets.QRadioButton(self)
+        self.radioButton_5.setGeometry(QtCore.QRect(140, 100, 82, 17))
+        self.radioButton_5.setObjectName("radioButton_5")
+        self.label_10 = QtWidgets.QLabel(self)
+        self.label_10.setGeometry(QtCore.QRect(140, 60, 71, 16))
         self.label_10.setObjectName("label_10")
-        self.pushButton_10 = QtWidgets.QPushButton(Popup)
-        self.pushButton_10.setGeometry(QtCore.QRect(140, 165, 113, 30))
+        self.pushButton_10 = QtWidgets.QPushButton(self)
+        self.pushButton_10.setGeometry(QtCore.QRect(110, 140, 131, 41))
         self.pushButton_10.setObjectName("pushButton")
-        self.pushButton_10.clicked.connect(self.Saveuser)
-        self.pushButton_11 = QtWidgets.QPushButton(Popup)
-        self.pushButton_11.setGeometry(QtCore.QRect(270, 165, 113, 30))
+        self.pushButton_11 = QtWidgets.QPushButton(self)
+        self.pushButton_11.setGeometry(QtCore.QRect(260, 140, 131, 41))
         self.pushButton_11.setObjectName("pushButton_2")
-        #self.pushButton_11.clicked.connect(self.CloseuserUi)
-        self.retranslateUi4(Popup)
-        QtCore.QMetaObject.connectSlotsByName(Popup)
+        self.retranslateUi4()
+        QtCore.QMetaObject.connectSlotsByName(self)
 
-
-    def retranslateUi4(self, Popup):
+    def retranslateUi4(self):
         _translate = QtCore.QCoreApplication.translate
-        Popup.setWindowTitle(_translate("Form", "Formulaire employé"))
+        self.setWindowTitle(_translate("Form", "Form"))
         self.label_4.setText(_translate("Form", "Nom :"))
         self.label_5.setText(_translate("Form", "Prénom :"))
         self.label_6.setText(_translate("Form", "Sexe :"))
-        self.comboBox.setItemText(0, _translate("Form", "Masculin"))
-        self.comboBox.setItemText(1, _translate("Form", "Féminin"))
-        self.comboBox.setItemText(2, _translate("Form", "Non défini"))
+        self.radioButton.setText(_translate("Form", "Masculin"))
+        self.radioButton_2.setText(_translate("Form", "Féminin"))
+        self.radioButton_3.setText(_translate("Form", "Non défini"))
         self.label_7.setText(_translate("Form", "Date embauche :"))
         self.label_8.setText(_translate("Form", "Code utilisateur :"))
         self.label_9.setText(_translate("Form", "Mot de passe :"))
-        self.comboBox_2.setItemText(0, _translate("Form", "Lecture"))
-        self.comboBox_2.setItemText(1, _translate("Form", "Modification"))
+        self.radioButton_4.setText(_translate("Form", "Total"))
+        self.radioButton_5.setText(_translate("Form", "Lecture"))
         self.label_10.setText(_translate("Form", "Type accès :"))
         self.pushButton_10.setText(_translate("Form", "Sauvegarder"))
         self.pushButton_11.setText(_translate("Form", "Annuler"))
 
-    """def LoginUi(self, Connexion):
-        Connexion.setObjectName("Connexion")
-        Connexion.resize(229, 177)
-        self.centralwidget = QtWidgets.QWidget(Connexion)
-        self.centralwidget.setObjectName("centralwidget")
-        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
-        self.gridLayout.setObjectName("gridLayout")
-        self.login = QtWidgets.QLineEdit(self.centralwidget)
-        self.login.setObjectName("login")
-        self.login.returnPressed.connect(self.testconnex)
-        self.gridLayout.addWidget(self.login, 0, 1, 1, 1)
-        self.password = QtWidgets.QLineEdit(self.centralwidget)
+class Ui_Connexion(QtWidgets.QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setObjectName("Connexion")
+        self.resize(270, 122)
+        self.buttonBox = QtWidgets.QDialogButtonBox(self)
+        self.buttonBox.setGeometry(QtCore.QRect(100, 80, 161, 32))
+        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName("buttonBox")
+        self.login = QtWidgets.QLineEdit(self)
+        self.login.setGeometry(QtCore.QRect(100, 20, 161, 20))
+        self.login.setObjectName("lineEdit_3")
+        self.password = QtWidgets.QLineEdit(self)
+        self.password.setGeometry(QtCore.QRect(100, 50, 161, 20))
         self.password.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.password.setObjectName("password")
-        self.password.returnPressed.connect(self.testconnex)
-        self.gridLayout.addWidget(self.password, 1, 1, 1, 1)
-        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setObjectName("pushButton")
-        self.pushButton.clicked.connect(self.testconnex)
-        self.pushButton.setAutoDefault(True)
-        self.gridLayout.addWidget(self.pushButton, 2, 0, 1, 2)
-        Connexion.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(Connexion)
-        self.statusbar.setObjectName("statusbar")
-        Connexion.setStatusBar(self.statusbar)
-        self.retranslateUi(Connexion)
-        QtCore.QMetaObject.connectSlotsByName(Connexion)
+        self.password.setObjectName("lineEdit_4")
+        self.label = QtWidgets.QLabel(self)
+        self.label.setGeometry(QtCore.QRect(10, 20, 91, 20))
+        self.label.setObjectName("label")
+        self.label_2 = QtWidgets.QLabel(self)
+        self.label_2.setGeometry(QtCore.QRect(10, 50, 111, 20))
+        self.label_2.setObjectName("label_2")
+        self.retranslateUi()
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+        QtCore.QMetaObject.connectSlotsByName(self)
 
-    def retranslateUi(self, Connexion):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        Connexion.setWindowTitle(_translate("Connexion", "Connexion"))
-        self.login.setPlaceholderText(_translate("MainWindow", "Usager"))
-        self.password.setPlaceholderText(_translate("MainWindow", "Mot de passe"))
-        self.pushButton.setText(_translate("MainWindow", "Connexion"))"""
+        self.setWindowTitle(_translate("Connexion", "Connexion"))
+        self.label.setText(_translate("Connexion", "Code employé :"))
+        self.label_2.setText(_translate("Connexion", " Mot de passe :"))
+
+    def testconnex(self):
+        dlg = Ui_Connexion()
+        result = dlg.exec_()
+        if result:
+            with open("testuser.json", "r") as f:
+                dicto = json.load(f)
+                logged_in = False
+            while not logged_in:
+                for a in (dicto):
+                    if self.login.text() == "admin" and self.password.text() == "admin123":
+                        self.AdminUi()
+                        self.login.clear()
+                        self.password.clear()
+                        self.login.setFocus()
+                        logged_in = True
+                    elif a['codeutilisateur'] == self.login.text() and a['password'] == self.password.text() \
+                            and a["acces"] == "Modification":
+                        self.MainUi()
+                        self.login.clear()
+                        self.password.clear()
+                        self.login.setFocus()
+                        logged_in = True
+                    elif a['codeutilisateur'] == self.login.text() and a['password'] == self.password.text() \
+                            and a["acces"] == "Lecture":
+                        self.ViewUi()
+                        self.login.clear()
+                        self.password.clear()
+                        self.login.setFocus()
+                        logged_in = True
+                if logged_in is not True:
+                    msg = QtWidgets.QMessageBox()
+                    msg.setIcon(QtWidgets.QMessageBox.Warning)
+                    msg.setText("Identifiants erronés")
+                    msg.setInformativeText('')
+                    msg.setWindowTitle("Erreur")
+                    msg.exec_()
+                    break
 
     def Saveuser(self):
         employee=Employe(self.lineEdit.text(),self.lineEdit_2.text(),self.comboBox.currentText(),
@@ -359,22 +414,14 @@ class Categoriefilm:
                     print(dic)
                     json.dump(dic,outfile)
 
-    def GestUi(self):
-        self.window = QtWidgets.QMainWindow()
-        mygest = Ui_MainWindow()
-        mygest.GestionUi(self.window)
-        self.window.show()
 
 
 
 
 
-    def userUi(self):
-        userwindow = QtWidgets.QMainWindow()
-        myapp = Ui_MainWindow()
-        myapp.PopuserUi(userwindow)
-        userwindow.show()
-        mainWindow.hide()
+
+
+
 
 
 
@@ -383,10 +430,8 @@ class Categoriefilm:
 
     def LogoutUi(self):
         app.closeAllWindows()
-        mainWindow.show()
 
-    def CloseuserUi(self):
-        mainWindow.hide()
+
 
 
 
@@ -398,7 +443,7 @@ class Categoriefilm:
         self.ui = Ui_MainWindow()
         self.ui.PrinciUi(self.window)
         self.window.show()
-        mainWindow.close()
+
 
 
     def MainUi(self):
@@ -407,7 +452,7 @@ class Categoriefilm:
         self.ui.PrinciUi(self.window)
         self.window.show()
         self.ui.actionGestion.setVisible(False)
-        mainWindow.close()
+
 
     def ViewUi(self):
         self.window = QtWidgets.QMainWindow()
@@ -421,7 +466,7 @@ class Categoriefilm:
         self.ui.pushButton_5.hide()
         self.ui.pushButton_6.hide()
         self.ui.actionGestion.setVisible(False)
-        mainWindow.close()
+
 
     def testconnex(self):
         with open("testuser.json", "r") as f:

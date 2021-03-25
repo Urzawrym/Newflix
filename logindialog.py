@@ -10,24 +10,28 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
+import json
+
 
 class Ui_Connexion(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
+
+
         self.setObjectName("Connexion")
         self.resize(270, 122)
         self.buttonBox = QtWidgets.QDialogButtonBox(self)
-        self.buttonBox.setGeometry(QtCore.QRect(90, 80, 161, 32))
+        self.buttonBox.setGeometry(QtCore.QRect(100, 80, 161, 32))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
-        self.lineEdit_3 = QtWidgets.QLineEdit(self)
-        self.lineEdit_3.setGeometry(QtCore.QRect(100, 20, 161, 20))
-        self.lineEdit_3.setObjectName("lineEdit_3")
-        self.lineEdit_4 = QtWidgets.QLineEdit(self)
-        self.lineEdit_4.setGeometry(QtCore.QRect(100, 50, 161, 20))
-        self.lineEdit_4.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.lineEdit_4.setObjectName("lineEdit_4")
+        self.login = QtWidgets.QLineEdit(self)
+        self.login.setGeometry(QtCore.QRect(100, 20, 161, 20))
+        self.login.setObjectName("lineEdit_3")
+        self.password = QtWidgets.QLineEdit(self)
+        self.password.setGeometry(QtCore.QRect(100, 50, 161, 20))
+        self.password.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.password.setObjectName("lineEdit_4")
         self.label = QtWidgets.QLabel(self)
         self.label.setGeometry(QtCore.QRect(10, 20, 91, 20))
         self.label.setObjectName("label")
@@ -44,6 +48,43 @@ class Ui_Connexion(QtWidgets.QDialog):
         self.setWindowTitle(_translate("Connexion", "Connexion"))
         self.label.setText(_translate("Connexion", "Code employé :"))
         self.label_2.setText(_translate("Connexion", " Mot de passe :"))
+
+    def testconnex(self):
+        dlg = Ui_Connexion()
+        if dlg.exec_():
+            with open("testuser.json", "r") as f:
+                dicto = json.load(f)
+                logged_in = False
+            while not logged_in:
+                for a in (dicto):
+                    if self.login.text() == "admin" and self.password.text() == "admin123":
+                        self.AdminUi()
+                        self.login.clear()
+                        self.password.clear()
+                        self.login.setFocus()
+                        logged_in = True
+                    elif a['codeutilisateur'] == self.login.text() and a['password'] == self.password.text() \
+                            and a["acces"] == "Modification":
+                        self.MainUi()
+                        self.login.clear()
+                        self.password.clear()
+                        self.login.setFocus()
+                        logged_in = True
+                    elif a['codeutilisateur'] == self.login.text() and a['password'] == self.password.text() \
+                            and a["acces"] == "Lecture":
+                        self.ViewUi()
+                        self.login.clear()
+                        self.password.clear()
+                        self.login.setFocus()
+                        logged_in = True
+                if logged_in is not True:
+                    msg = QtWidgets.QMessageBox()
+                    msg.setIcon(QtWidgets.QMessageBox.Warning)
+                    msg.setText("Identifiants erronés")
+                    msg.setInformativeText('')
+                    msg.setWindowTitle("Erreur")
+                    msg.exec_()
+                    break
 
 
 if __name__ == "__main__":

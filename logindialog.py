@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'login.ui'
+# Form implementation generated from reading ui file 'finallogin.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.2
 #
@@ -12,35 +12,26 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_Connexion(object):
-    def setupUi(self, Connexion):
-        Connexion.setObjectName("Connexion")
-        Connexion.resize(270, 122)
-        self.buttonBox = QtWidgets.QDialogButtonBox(Connexion)
-        self.buttonBox.setGeometry(QtCore.QRect(90, 80, 161, 32))
-        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName("buttonBox")
-        self.lineEdit_3 = QtWidgets.QLineEdit(Connexion)
-        self.lineEdit_3.setGeometry(QtCore.QRect(100, 20, 161, 20))
-        self.lineEdit_3.setObjectName("lineEdit_3")
-        self.lineEdit_4 = QtWidgets.QLineEdit(Connexion)
-        self.lineEdit_4.setGeometry(QtCore.QRect(100, 50, 161, 20))
-        self.lineEdit_4.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.lineEdit_4.setObjectName("lineEdit_4")
-        self.label = QtWidgets.QLabel(Connexion)
-        self.label.setGeometry(QtCore.QRect(10, 20, 91, 20))
-        self.label.setObjectName("label")
-        self.label_2 = QtWidgets.QLabel(Connexion)
-        self.label_2.setGeometry(QtCore.QRect(10, 50, 111, 20))
-        self.label_2.setObjectName("label_2")
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Dialog")
+        Dialog.resize(270, 146)
+        self.lineEdit = QtWidgets.QLineEdit(Dialog)
+        self.lineEdit.setGeometry(QtCore.QRect(10, 20, 251, 20))
+        self.lineEdit.setObjectName("lineEdit")
+        self.lineEdit_2 = QtWidgets.QLineEdit(Dialog)
+        self.lineEdit_2.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.lineEdit_2.setGeometry(QtCore.QRect(10, 60, 251, 20))
+        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.pushButton = QtWidgets.QPushButton(Dialog)
+        self.pushButton.setGeometry(QtCore.QRect(10, 110, 251, 23))
+        self.pushButton.setObjectName("pushButton")
 
-        self.retranslateUi(Connexion)
-        self.buttonBox.accepted.connect(Connexion.accept)
-        self.buttonBox.rejected.connect(Connexion.reject)
-        QtCore.QMetaObject.connectSlotsByName(Connexion)
+        self.retranslateUi(Dialog)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-    def retranslateUi(self, Connexion):
+    def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Connexion.setWindowTitle(_translate("Connexion", "Connexion"))
-        self.label.setText(_translate("Connexion", "Code employé :"))
-        self.label_2.setText(_translate("Connexion", " Mot de passe :"))
+        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        self.lineEdit.setPlaceholderText(_translate("Dialog", "Usager"))
+        self.lineEdit_2.setPlaceholderText(_translate("Dialog", "Mot de passe"))
+        self.pushButton.setText(_translate("Dialog", "Connexion"))

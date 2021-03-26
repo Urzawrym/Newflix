@@ -11,7 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Connexion(object):
+class Ui_Test(object):
     def setupUi(self, Connexion):
         Connexion.setObjectName("Connexion")
         Connexion.resize(270, 122)

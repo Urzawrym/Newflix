@@ -31,6 +31,7 @@ class MainWindow(QMainWindow):
         self.window1 = Ui_Connexion()
         self.window2 = AnotherWindow()
 
+
         l = QVBoxLayout()
         button1 = QPushButton("Push for Window 1")
         button1.clicked.connect(self.toggle_window1)

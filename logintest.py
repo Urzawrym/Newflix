@@ -26,10 +26,13 @@ class AdminWindow(QtWidgets.QMainWindow): #Ouvre la fenêtre principale du logic
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-
     def ShowUi(self):
-        self.modifwindow = AdminWindow()
-        self.modifwindow.actionGestion.setVisible(False)
+        self.modifui = AdminWindow(self.ui)
+        self.ui.actionGestion.setVisible(False)
+
+
+
+
 
 
 
@@ -82,6 +85,7 @@ class Connexion(QtWidgets.QDialog): #Ouvre la petite fenêtre de démarrage
         self.adminwindow = AdminWindow()
         self.adminwindow.ShowUi()
         self.modifwindow = AdminWindow()
+
         self.ui = Ui_Connexion()
         self.ui.setupUi(self)
         self.ui.pushButton.clicked.connect(self.testconnex) #Trigger le test login avec le bouton OK
@@ -90,9 +94,9 @@ class Connexion(QtWidgets.QDialog): #Ouvre la petite fenêtre de démarrage
     def testconnex(self):
         with open("testuser.json", "r") as f:
             dicto = json.load(f)
-            logged_in = 0
+            logged_in = False
 
-        while logged_in == 0:
+        while not logged_in:
             for a in (dicto):
                 if self.ui.lineEdit.text() == "admin" and self.ui.lineEdit_2.text() == "admin123":
                     self.adminwindow.show()
@@ -100,7 +104,8 @@ class Connexion(QtWidgets.QDialog): #Ouvre la petite fenêtre de démarrage
                     self.ui.lineEdit_2.clear()
                     self.ui.lineEdit.setFocus()
                     self.hide()
-                    return 1
+                    logged_in = True
+
 
                 elif a['codeutilisateur'] == self.ui.lineEdit.text() and a['password'] == self.ui.lineEdit_2.text() \
                         and a["acces"] == "Modification":
@@ -109,7 +114,7 @@ class Connexion(QtWidgets.QDialog): #Ouvre la petite fenêtre de démarrage
                     self.ui.lineEdit_2.clear()
                     self.ui.lineEdit.setFocus()
                     self.hide()
-                    return 2
+                    logged_in = True
 
                 elif a['codeutilisateur'] == self.ui.lineEdit.text() and a['password'] == self.ui.lineEdit_2.text() \
                         and a["acces"] == "Lecture":
@@ -118,9 +123,9 @@ class Connexion(QtWidgets.QDialog): #Ouvre la petite fenêtre de démarrage
                     self.ui.lineEdit_2.clear()
                     self.ui.lineEdit.setFocus()
                     self.hide()
-                    return 3
+                    logged_in = True
 
-            if logged_in ==0 :
+            if logged_in is not True :
                 msg = QtWidgets.QMessageBox()
                 msg.setIcon(QtWidgets.QMessageBox.Warning)
                 msg.setText("Identifiants erronés")

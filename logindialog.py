@@ -35,3 +35,12 @@ class Ui_Connexion(object):
         self.lineEdit.setPlaceholderText(_translate("Dialog", "Usager"))
         self.lineEdit_2.setPlaceholderText(_translate("Dialog", "Mot de passe"))
         self.pushButton.setText(_translate("Dialog", "Connexion"))
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_Connexion()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

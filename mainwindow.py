@@ -90,53 +90,11 @@ class Ui_MainWindow(object):
         self.actionDeconnexion.setText(_translate("MainWindow", "Déconnexion"))
         self.actionQuitter.setText(_translate("MainWindow", "Quitter"))
 
-
-
-
-    """def AdminUi(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.PrinciUi(self.window)
-        self.window.show()
-
-
-
-    def MainUi(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.PrinciUi(self.window)
-        self.window.show()
-        self.ui.actionGestion.setVisible(False)
-
-
-    def ViewUi(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.PrinciUi(self.window)
-        self.window.show()
-        self.ui.pushButton_1.hide()
-        self.ui.pushButton_2.hide()
-        self.ui.pushButton_3.hide()
-        self.ui.pushButton_4.hide()
-        self.ui.pushButton_5.hide()
-        self.ui.pushButton_6.hide()
-        self.ui.actionGestion.setVisible(False)
-
-
-
-
-    def openlogin(self):
-        if self.gestui.isVisible():
-            self.gestui.hide()
-
-        else:
-            self.gestui.show()"""
-
-
-
-
 if __name__ == "__main__":
+    import sys
     app = QtWidgets.QApplication(sys.argv)
-    w = Ui_MainWindow()
-    w.show()
-    app.exec_()
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

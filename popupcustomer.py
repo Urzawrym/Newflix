@@ -88,3 +88,12 @@ class Ui_Form(object):
         self.pushButton.setText(_translate("Form", "Sauvegarder"))
         self.pushButton_2.setText(_translate("Form", "Annuler"))
         self.label.setText(_translate("Form", "Liste carte de crédit :"))
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_Form()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

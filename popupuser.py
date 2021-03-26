@@ -93,3 +93,12 @@ class Ui_FormUser(object):
         self.label_8.setText(_translate("Form", "Type accès :"))
         self.pushButton.setText(_translate("Form", "Sauvegarder"))
         self.pushButton_2.setText(_translate("Form", "Annuler"))
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_FormUser()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

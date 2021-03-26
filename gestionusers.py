@@ -43,7 +43,10 @@ class Ui_GestiUser(object):
         self.label.setText(_translate("Form", "Liste des employés"))
 
 if __name__ == "__main__":
+    import sys
     app = QtWidgets.QApplication(sys.argv)
-    w = Ui_Form()
-    w.show()
-    app.exec_()
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_GestiUser()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

@@ -25,10 +25,12 @@ class AdminWindow(QtWidgets.QMainWindow): #Ouvre la fenêtre principale du logic
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-
-    def ShowUi(self):
-        self.modifui = AdminWindow(self.ui)
         self.ui.actionGestion.setVisible(False)
+
+
+
+
+
 
 
 
@@ -82,9 +84,8 @@ class FormUser(QtWidgets.QDialog): #Ouvre le formulaire pour créer ou modifier 
 class Connexion(QtWidgets.QDialog): #Ouvre la petite fenêtre de démarrage
     def __init__(self):
         super().__init__()
-        self.adminwindow = AdminWindow()
-        self.adminwindow.ShowUi()
-        self.modifwindow = AdminWindow()
+        self.mainwindow = AdminWindow()
+
 
         self.ui = Ui_Connexion()
         self.ui.setupUi(self)
@@ -99,7 +100,8 @@ class Connexion(QtWidgets.QDialog): #Ouvre la petite fenêtre de démarrage
         while not logged_in:
             for a in (dicto):
                 if self.ui.lineEdit.text() == "admin" and self.ui.lineEdit_2.text() == "admin123":
-                    self.adminwindow.show()
+                    self.mainwindow.show()
+                    #self.mainwindow.actionGestion.setVisible(True)
                     self.ui.lineEdit.clear()
                     self.ui.lineEdit_2.clear()
                     self.ui.lineEdit.setFocus()

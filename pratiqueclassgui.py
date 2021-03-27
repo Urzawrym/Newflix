@@ -1,66 +1,90 @@
+from PyQt5.QtWidgets import (QMainWindow, QDialog, QApplication,
+        QLineEdit, QPushButton, QFormLayout, QMessageBox, QWidget)
+#from PyQt5.QtWidgets import (QMainWindow, QDialog, QApplication,
+#        QLineEdit, QPushButton, QFormLayout, QMessageBox, QWidget)
+
+from PyQt5.QtCore import pyqtSignal
+
 import sys
-from random import randint
 
-from PyQt5.QtWidgets import (
-    QApplication,
-    QLabel,
-    QMainWindow,
-    QPushButton,
-    QVBoxLayout,
-    QWidget,QDialog
-)
-from logindialog import *
+class LoginDialog(QDialog):
 
-class AnotherWindow(QDialog):
-    """
-    This "window" is a QWidget. If it has no parent,
-    it will appear as a free-floating window.
-    """
+    loginSignal = pyqtSignal(str, str) #Create a custom signal, which you can use
+                                       #to send two string arguments to a connected function.
+
+    def __init__(self, mainWindow):
+        super(LoginDialog, self).__init__()
+
+        self.setGeometry(200,200,500,300)
+        self.setWindowTitle('Login')
+
+        self.usernameInput = QLineEdit()
+        self.passwordInput = QLineEdit()
+        self.loginButton = QPushButton('Login')
+        self.resetButton = QPushButton('Reset')
+
+        #*****> CONNECT BUTTON TO A FUNCTION THAT EMITS CUSTOM SIGNAL <*****
+        self.loginButton.clicked.connect(self.emitLoginSignal)
+        self.resetButton.clicked.connect(self.onclickReset)
+
+        loginLayout = QFormLayout()
+        loginLayout.addRow("Username", self.usernameInput)
+        loginLayout.addRow("Password", self.passwordInput)
+        loginLayout.addRow(self.loginButton, self.resetButton)
+        self.setLayout(loginLayout)
+
+    def emitLoginSignal(self):
+        #***> EMIT CUSTOM SIGNAL <****
+        self.loginSignal.emit(
+            self.usernameInput.text(),
+            self.passwordInput.text()
+        )
+
+
+    def onclickReset(self):
+        pass
+
+
+class MyAdminWindow(QWidget):
 
     def __init__(self):
-        super().__init__()
-        layout = QVBoxLayout()
-        self.label = QLabel("Another Window % d" % randint(0, 100))
-        layout.addWidget(self.label)
-        self.setLayout(layout)
+        super(MyAdminWindow, self).__init__()
+
+        self.setGeometry(200,200,500,300)
+        self.setWindowTitle("MainWindow")
+
+        self.searchbar = QLineEdit()
+        self.searchbtn = QPushButton('Search')
+        self.logoutbtn = QPushButton('Logout')
+
+        self.searchbtn.clicked.connect(self.onsearch)
+        self.logoutbtn.clicked.connect(self.onlogout)
+
+        formLayout = QFormLayout()
+        formLayout.addRow(self.searchbar, self.searchbtn)
+        formLayout.addRow(self.logoutbtn)
+        self.setLayout(formLayout)
+
+        self.loginDialog = LoginDialog(self)
+        #*****> CONNECT TO CUSTOM SIGNAL HERE: <*******
+        self.loginDialog.loginSignal.connect(self.validateUser)
+        self.loginDialog.exec_()
+
+    def onsearch(self):
+        pass
+    def onlogout(self):
+        pass
 
 
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.window1 = Ui_Connexion()
-        self.window2 = AnotherWindow()
-
-
-        l = QVBoxLayout()
-        button1 = QPushButton("Push for Window 1")
-        button1.clicked.connect(self.toggle_window1)
-        l.addWidget(button1)
-
-        button2 = QPushButton("Push for Window 2")
-        button2.clicked.connect(self.toggle_window2)
-        l.addWidget(button2)
-
-        w = QWidget()
-        w.setLayout(l)
-        self.setCentralWidget(w)
-
-    def toggle_window1(self, checked):
-        if self.window1.isVisible():
-            self.window1.hide()
-
+    def validateUser(self, username, password):
+        if  username == 'admin' and password == 'someone':
+            self.loginDialog.close()
+            self.show()  #Now show the window.
         else:
-            self.window1.show()
-
-    def toggle_window2(self, checked):
-        if self.window2.isVisible():
-            self.window2.hide()
-
-        else:
-            self.window2.show()
+            QMessageBox.warning(self, 'Error', 'incorrect cred')
 
 
-app = QApplication(sys.argv)
-w = MainWindow()
-w.show()
-app.exec_()
+app = QApplication([])
+window = MyAdminWindow()
+#Don't show() the window
+sys.exit(app.exec_())

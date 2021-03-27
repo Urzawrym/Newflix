@@ -9,38 +9,91 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from mainwindow import *
+from logindialog import *
+
+class AdminWindow(QtWidgets.QMainWindow): #Ouvre la fenêtre principale du logiciel
+    def __init__(self):
+        super().__init__()
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
+        self.testhide()
+    def testhide(self):
+        self.ui.actionGestion.setVisible(False)
+        #self.show()
+
+class Connexion(QtWidgets.QDialog): #Ouvre la petite fenêtre de démarrage
+    def __init__(self):
+        super().__init__()
+        self.ui = Ui_Connexion()
+        self.ui.setupUi(self)
+        self.ui.pushButton.clicked.connect(self.testconnex) #Trigger le test login avec le bouton OK
+        self.secondwindow = AdminWindow()
+    """def addWidget(self):
+        temp = AdminWindow()
+        self.kod.append(temp)
+        self.scrollLayout.addRow(temp)
+
+    def remove_widget(self):
+        self.kod.pop().deleteLater()"""
+
+    def testconnex(self):
+        testwindow = self.secondwindow.testhide()
+        testwindow.show()
+
+        """with open("testuser.json", "r") as f:
+            dicto = json.load(f)
+            logged_in = False
+
+        while not logged_in:
+            for a in (dicto):
+                if self.ui.lineEdit.text() == "admin" and self.ui.lineEdit_2.text() == "admin123":
+                    self.mainwindow.show()
+                    #self.mainwindow.actionGestion.setVisible(True)
+                    self.ui.lineEdit.clear()
+                    self.ui.lineEdit_2.clear()
+                    self.ui.lineEdit.setFocus()
+                    self.hide()
+                    logged_in = True
 
 
-class Ui_Test(object):
-    def setupUi(self, Connexion):
-        Connexion.setObjectName("Connexion")
-        Connexion.resize(270, 122)
-        self.buttonBox = QtWidgets.QDialogButtonBox(Connexion)
-        self.buttonBox.setGeometry(QtCore.QRect(90, 80, 161, 32))
-        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName("buttonBox")
-        self.lineEdit_3 = QtWidgets.QLineEdit(Connexion)
-        self.lineEdit_3.setGeometry(QtCore.QRect(100, 20, 161, 20))
-        self.lineEdit_3.setObjectName("lineEdit_3")
-        self.lineEdit_4 = QtWidgets.QLineEdit(Connexion)
-        self.lineEdit_4.setGeometry(QtCore.QRect(100, 50, 161, 20))
-        self.lineEdit_4.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.lineEdit_4.setObjectName("lineEdit_4")
-        self.label = QtWidgets.QLabel(Connexion)
-        self.label.setGeometry(QtCore.QRect(10, 20, 91, 20))
-        self.label.setObjectName("label")
-        self.label_2 = QtWidgets.QLabel(Connexion)
-        self.label_2.setGeometry(QtCore.QRect(10, 50, 111, 20))
-        self.label_2.setObjectName("label_2")
+                elif a['codeutilisateur'] == self.ui.lineEdit.text() and a['password'] == self.ui.lineEdit_2.text() \
+                        and a["acces"] == "Modification":
+                    self.modifwindow.show()
+                    self.ui.lineEdit.clear()
+                    self.ui.lineEdit_2.clear()
+                    self.ui.lineEdit.setFocus()
+                    self.hide()
+                    logged_in = True
 
-        self.retranslateUi(Connexion)
-        self.buttonBox.accepted.connect(Connexion.accept)
-        self.buttonBox.rejected.connect(Connexion.reject)
-        QtCore.QMetaObject.connectSlotsByName(Connexion)
+                elif a['codeutilisateur'] == self.ui.lineEdit.text() and a['password'] == self.ui.lineEdit_2.text() \
+                        and a["acces"] == "Lecture":
+                    self.ViewUi()
+                    self.ui.lineEdit.clear()
+                    self.ui.lineEdit_2.clear()
+                    self.ui.lineEdit.setFocus()
+                    self.hide()
+                    logged_in = True
 
-    def retranslateUi(self, Connexion):
-        _translate = QtCore.QCoreApplication.translate
-        Connexion.setWindowTitle(_translate("Connexion", "Connexion"))
-        self.label.setText(_translate("Connexion", "Code employé :"))
-        self.label_2.setText(_translate("Connexion", " Mot de passe :"))
+            if logged_in is not True :
+                msg = QtWidgets.QMessageBox()
+                msg.setIcon(QtWidgets.QMessageBox.Warning)
+                msg.setText("Identifiants erronés")
+                msg.setInformativeText('')
+                msg.setWindowTitle("Erreur")
+                msg.exec_()
+                break"""
+
+
+
+
+
+
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    w= Connexion()
+    w.show()
+    sys.exit(app.exec_())

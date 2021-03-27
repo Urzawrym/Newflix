@@ -89,7 +89,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.connex.hide()              #Cache la fenêtre de connexion
         self.admin.actionGestion.triggered.connect(self.showgestuser) #Dans la fen. principale, trigger la gestion users
         self.admin.actionDeconnexion.triggered.connect(self.logout) #Trigger la déconnexion du logiciel
-        self.admin.actionQuitter.triggered.connect(self.close) #Trigger la fermeture du logiciel
+        self.admin.actionQuitter.triggered.connect(self.closeall) #Trigger la fermeture du logiciel
     def modifwindow(self):
         self.modif = FenPrinci()                       #Fait la même chose que la fonction précédente
         self.modif.actionGestion.setVisible(False)     #Cache le bouton Gestion Usagés du menu principal
@@ -99,7 +99,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.connex.lineEdit.setFocus()
         self.connex.hide()
         self.modif.actionDeconnexion.triggered.connect(self.logout)
-        self.modif.actionQuitter.triggered.connect(self.close)
+        self.modif.actionQuitter.triggered.connect(self.closeall)
 
     def viewwindow(self):
         self.view = FenPrinci()                        #Fait la même chose que la fonction précédente
@@ -116,7 +116,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.connex.lineEdit.setFocus()
         self.connex.hide()
         self.view.actionDeconnexion.triggered.connect(self.logout)
-        self.view.actionQuitter.triggered.connect(self.close)
+        self.view.actionQuitter.triggered.connect(self.closeall)
 
     def showgestuser(self):
         self.showgest = GestUser()  #Importe la fenêtre de gestion des usagers
@@ -127,25 +127,25 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         app.closeAllWindows()       #Ferme toutes les fenêtres et l'application
         self.connex.show()          #Démarrer l'affichage de la fenêtre de connexion
 
-    def close(self):
+    def closeall(self):
         app.closeAllWindows()       #Ferme toutes les fenêtres et l'application
 
     def showpopuser(self):
         self.showpopusager = FormUser()
         self.showpopusager.show()
-        self.showpopusager.pushButton.clicked.connect(self.Saveuser)
-        self.showpopusager.pushButton_2.clicked.connect(self.close)
+        self.showpopusager.pushButton.clicked.connect(self.saveuser)
+        self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close)
 
-    def Saveuser(self):
-        employee=Employe(self.showpopusager.lineEdit.text(),self.showpopusager.lineEdit_2.text(),
-                         self.showpopusager.comboBox.currentText(),self.showpopusager.dateEdit.text(),
-                         self.showpopusager.lineEdit_3.text(),self.showpopusager.lineEdit_5.text(),
+    def saveuser(self):
+        employee=Employe(self.showpopusager.lineEdit.text(), self.showpopusager.lineEdit_2.text(),
+                         self.showpopusager.comboBox.currentText(), self.showpopusager.dateEdit.text(),
+                         self.showpopusager.lineEdit_3.text(), self.showpopusager.lineEdit_5.text(),
                          self.showpopusager.comboBox_2.currentText())
         dictemployee=vars(employee)
         with open("testuser.json", "r") as f:
             dic = json.load(f)
-            if self.showpopusager.lineEdit.text() == "" or self.showpopusager.lineEdit_2.text() == "" or self.showpopusager.lineEdit_3.text() == ""\
-                    or self.showpopusager.lineEdit_5.text() == "":
+            if self.showpopusager.lineEdit.text() == "" or self.showpopusager.lineEdit_2.text() == "" or \
+                    self.showpopusager.lineEdit_3.text() == "" or self.showpopusager.lineEdit_5.text() == "":
                msg = QtWidgets.QMessageBox()
                msg.setIcon(QtWidgets.QMessageBox.Warning)
                msg.setText("Veuillez compléter les informations manquantes")
@@ -164,14 +164,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                     dic.append(dictemployee)
                     print(dic)
                     json.dump(dic,outfile)
-
-
-
-
-
-
-
-
 
 
 if __name__ == "__main__":

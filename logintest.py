@@ -18,142 +18,141 @@ file.close()
 file = open('key.key','rb')
 key = file.read()
 file.close()"""
+################## Aucune classe provenant de QT Designer n'est modifiée. Ici on créé les classes ##################
+################## localement qui importent et initialisent les classes provenant de QT Designer. ##################
 
-
-class AdminWindow(QtWidgets.QMainWindow, Ui_MainWindow): #Ouvre la fenêtre principale du logiciel
+class FenPrinci(QtWidgets.QMainWindow, Ui_MainWindow): #Initialise mainwindow.py. Fenêtre principale du logiciel.
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         self.setupUi(self)
 
-class GestUser(QtWidgets.QDialog, Ui_GestiUser): #Ouvre la fenêtre de gestion des employés
+class GestUser(QtWidgets.QDialog, Ui_GestiUser): #Initialise gestionusers.py. Fenêtre de gestion des employés
     def __init__(self):
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
 
-class FormUser(QtWidgets.QDialog, Ui_FormUser): #Ouvre le formulaire pour créer ou modifier un employé
+class FormUser(QtWidgets.QDialog, Ui_FormUser): #Initialise popupuser.py. Formulaire pour créer/modifier un employé
     def __init__(self):
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
 
-class Connexion(QtWidgets.QDialog, Ui_Connexion): #Ouvre la petite fenêtre de démarrage
+class Connexion(QtWidgets.QDialog, Ui_Connexion): #Initialise logindialog.py. Fenêtre de connexion au démarrage
     def __init__(self):
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
 
-class Controller:
-
-    def __init__(self):
-        pass
+class Controller: #C'est dans cette classe que l'action se passe, toutes les modifications visuelles et les
+                  #les interactions avec l'utilisateur vont se faire à partir d'ici.
 
     def showlogin(self):
-        self.connex = Connexion()
-        self.connex.pushButton.clicked.connect(self.testconnex)
-        self.connex.show()
+        self.connex = Connexion() #Importe la classe  Connexion
+        self.connex.pushButton.clicked.connect(self.testconnex) #Le bouton activera la fonction de tester la connex.
+        self.connex.show() #Affichage la fenêtre de connexion
+
+    def testconnex(self):
+        with open("testuser.json", "r") as f: #Ouvre la liste de dictionnaires contenent les identifiants des
+            dicto = json.load(f)              #usagers. 3 données sont utilisées: user,password,type d'acces
+            logged_in = False                 #par défaut la connexion est fausse avant le démarrer la boucle
+            self.mesgexcept = ""   #Va servir pour le try
+        try:   #Défini un try avant de démarrer la boucle
+            while not logged_in:                  #Démarre la boucle.
+                for a in (dicto): # Dans toute la liste, vérifie chaque dict. pour retrouver les 3 mêmes paramètres
+                    if self.connex.lineEdit.text() == "admin" and self.connex.lineEdit_2.text() == "admin123":
+                        self.adminwindow() #Si les 2 inputs de l'usager sont les mêmes, activer la fonction adminwindow
+                        logged_in = True   #Le "true" met fin à la boucle.
+                    elif a['codeutilisateur'] == self.connex.lineEdit.text() and \
+                            a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Modification":
+                        self.modifwindow() #Si les 3 inputs de l'usager correspond à un dict., active modifwindow
+                        logged_in = True #Ferme la boucle
+                    elif a['codeutilisateur'] == self.connex.lineEdit.text() and \
+                            a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Lecture":
+                        self.viewwindow() #Si les 3 inputs de l'usager correspond à un dict., active viewwindow
+                        logged_in = True #Ferme la boucle
+                if logged_in is not True: #Si la boucle n'est toujours pas fermée après les 3 premiers tests, fait
+                    msg = QtWidgets.QMessageBox() #Affiche une fenêtre qui mentionne que les identifiants sont erronés
+                    msg.setIcon(QtWidgets.QMessageBox.Warning)
+                    msg.setText("Identifiants erronés")
+                    msg.setInformativeText('')
+                    msg.setWindowTitle("Erreur")
+                    msg.exec_()
+                    self.connex.lineEdit.setFocus() #Remet le focus du clavier sur la ligne de l'usager
+                    break #Casse la boucle car aucun identifiant n'a fonctionné
+        except Exception as e:
+            self.mesgexcept = "Une erreur est survenue" +e
 
     def adminwindow(self):
-        self.admin = AdminWindow()
-        self.admin.show()
-
+        self.admin = FenPrinci()        #Importe la fenêtre principale
+        self.admin.show()               #L'affiche la fenêtre principale
+        self.connex.lineEdit.clear()    #Vide la ligne usager de la fenêtre de connexion
+        self.connex.lineEdit_2.clear()  #Vide la ligne mot de passe de la fenêtre de connexion
+        self.connex.lineEdit.setFocus() #Met le focus sur la ligne usager de la fenêtre de connexion
+        self.connex.hide()              #Cache la fenêtre de connexion
+        self.admin.actionGestion.triggered.connect(self.showgestuser) #Dans la fen. principale, trigger la gestion users
+        self.admin.actionDeconnexion.triggered.connect(self.logout) #Trigger la déconnexion du logiciel
+        self.admin.actionQuitter.triggered.connect(self.close) #Trigger la fermeture du logiciel
     def modifwindow(self):
-        self.modif = AdminWindow()
-        self.modif.actionGestion.setVisible(False)
+        self.modif = FenPrinci()                       #Fait la même chose que la fonction précédente
+        self.modif.actionGestion.setVisible(False)     #Cache le bouton Gestion Usagés du menu principal
         self.modif.show()
+        self.connex.lineEdit.clear()
+        self.connex.lineEdit_2.clear()
+        self.connex.lineEdit.setFocus()
+        self.connex.hide()
+        self.modif.actionDeconnexion.triggered.connect(self.logout)
+        self.modif.actionQuitter.triggered.connect(self.close)
 
     def viewwindow(self):
-        self.view = AdminWindow()
+        self.view = FenPrinci()                        #Fait la même chose que la fonction précédente
         self.view.actionGestion.setVisible(False)
-        self.view.pushButton.hide()
-        self.view.pushButton_2.hide()
-        self.view.pushButton_3.hide()
+        self.view.pushButton.hide()                    #Cache les 6 boutons ajouter/modifier/supprimer de la
+        self.view.pushButton_2.hide()                  #fenêtre principale pour permettre un accès en lecture
+        self.view.pushButton_3.hide()                  #seulement des listes de clients et de films.
         self.view.pushButton_4.hide()
         self.view.pushButton_5.hide()
         self.view.pushButton_6.hide()
         self.view.show()
+        self.connex.lineEdit.clear()
+        self.connex.lineEdit_2.clear()
+        self.connex.lineEdit.setFocus()
+        self.connex.hide()
+        self.view.actionDeconnexion.triggered.connect(self.logout)
+        self.view.actionQuitter.triggered.connect(self.close)
 
-    def testconnex(self):
-        with open("testuser.json", "r") as f:
-            dicto = json.load(f)
-            logged_in = False
-        while not logged_in:
-            for a in (dicto):
-                if self.connex.lineEdit.text() == "admin" and self.connex.lineEdit_2.text() == "admin123":
-                    self.adminwindow()
-                    self.connex.lineEdit.clear()
-                    self.connex.lineEdit_2.clear()
-                    self.connex.lineEdit.setFocus()
-                    self.connex.hide()
-                    logged_in = True
-                elif a['codeutilisateur'] == self.connex.lineEdit.text() and a['password'] == self.connex.lineEdit_2.text() \
-                        and a["acces"] == "Modification":
-                    self.modifwindow()
-                    self.connex.lineEdit.clear()
-                    self.connex.lineEdit_2.clear()
-                    self.connex.lineEdit.setFocus()
-                    self.connex.hide()
-                    logged_in = True
-                elif a['codeutilisateur'] == self.connex.lineEdit.text() and a['password'] == self.connex.lineEdit_2.text() \
-                        and a["acces"] == "Lecture":
-                    self.viewwindow()
-                    self.connex.lineEdit.clear()
-                    self.connex.lineEdit_2.clear()
-                    self.connex.lineEdit.setFocus()
-                    self.connex.hide()
-                    logged_in = True
-            if logged_in is not True:
-                msg = QtWidgets.QMessageBox()
-                msg.setIcon(QtWidgets.QMessageBox.Warning)
-                msg.setText("Identifiants erronés")
-                msg.setInformativeText('')
-                msg.setWindowTitle("Erreur")
-                msg.exec_()
-                self.connex.lineEdit.setFocus()
-                break
+    def showgestuser(self):
+        self.showgest = GestUser()  #Importe la fenêtre de gestion des usagers
+        self.showgest.show()        #L'affiche
+        self.showgest.pushButton.clicked.connect(self.showpopuser)
 
-    """def AdminUi(self):
-        self.adminwindow.show()
+    def logout(self):
+        app.closeAllWindows()       #Ferme toutes les fenêtres et l'application
+        self.connex.show()          #Démarrer l'affichage de la fenêtre de connexion
 
-    def ModifUi(self):
-        self.modifwindow.show()
+    def close(self):
+        app.closeAllWindows()       #Ferme toutes les fenêtres et l'application
 
-
-
-
-    def MainUi(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.PrinciUi(self.window)
-        self.window.show()
-        self.ui.actionGestion.setVisible(False)
-
-    def ViewUi(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.PrinciUi(self.window)
-        self.window.show()
-        self.ui.pushButton_1.hide()
-        self.ui.pushButton_2.hide()
-        self.ui.pushButton_3.hide()
-        self.ui.pushButton_4.hide()
-        self.ui.pushButton_5.hide()
-        self.ui.pushButton_6.hide()
-        self.ui.actionGestion.setVisible(False)
+    def showpopuser(self):
+        self.showpopusager = FormUser()
+        self.showpopusager.show()
+        self.showpopusager.pushButton.clicked.connect(self.Saveuser)
+        self.showpopusager.pushButton_2.clicked.connect(self.close)
 
     def Saveuser(self):
-        employee=Employe(self.lineEdit.text(),self.lineEdit_2.text(),self.comboBox.currentText(),
-                         self.dateEdit.text(),self.lineEdit_3.text(),self.lineEdit_5.text(),
-                         self.comboBox_2.currentText())
+        employee=Employe(self.showpopusager.lineEdit.text(),self.showpopusager.lineEdit_2.text(),
+                         self.showpopusager.comboBox.currentText(),self.showpopusager.dateEdit.text(),
+                         self.showpopusager.lineEdit_3.text(),self.showpopusager.lineEdit_5.text(),
+                         self.showpopusager.comboBox_2.currentText())
         dictemployee=vars(employee)
         with open("testuser.json", "r") as f:
             dic = json.load(f)
-            if self.lineEdit.text() == "" or self.lineEdit_2.text() == "" or self.lineEdit_3.text() == ""\
-                    or self.lineEdit_5.text() == "":
+            if self.showpopusager.lineEdit.text() == "" or self.showpopusager.lineEdit_2.text() == "" or self.showpopusager.lineEdit_3.text() == ""\
+                    or self.showpopusager.lineEdit_5.text() == "":
                msg = QtWidgets.QMessageBox()
                msg.setIcon(QtWidgets.QMessageBox.Warning)
                msg.setText("Veuillez compléter les informations manquantes")
                msg.setInformativeText('')
                msg.setWindowTitle("Erreur")
                msg.exec_()
-            elif any(d["codeutilisateur"] == self.lineEdit_3.text() for d in dic):
+            elif any(d["codeutilisateur"] == self.showpopusager.lineEdit_3.text() for d in dic):
                 msg = QtWidgets.QMessageBox()
                 msg.setIcon(QtWidgets.QMessageBox.Warning)
                 msg.setText("Code utilisateur déjà utilisé")
@@ -171,86 +170,6 @@ class Controller:
 
 
 
-
-
-
-
-
-
-    def CloseUi(self):
-        app.closeAllWindows()
-
-    def LogoutUi(self):
-        app.closeAllWindows()
-
-
-
-
-
-
-
-
-    def AdminUi(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.PrinciUi(self.window)
-        self.window.show()
-
-    def MainUi(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.PrinciUi(self.window)
-        self.window.show()
-        self.ui.actionGestion.setVisible(False)
-
-    def ViewUi(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.PrinciUi(self.window)
-        self.window.show()
-        self.ui.pushButton_1.hide()
-        self.ui.pushButton_2.hide()
-        self.ui.pushButton_3.hide()
-        self.ui.pushButton_4.hide()
-        self.ui.pushButton_5.hide()
-        self.ui.pushButton_6.hide()
-        self.ui.actionGestion.setVisible(False)
-
-
-    def testconnex(self):
-        with open("testuser.json", "r") as f:
-            dicto = json.load(f)
-            logged_in = False
-        while not logged_in:
-            for a in (dicto):
-                if self.login.text() == "admin" and self.password.text() == "admin123":
-                    self.AdminUi()
-                    self.login.clear()
-                    self.password.clear()
-                    self.login.setFocus()
-                    logged_in = True
-                elif a['codeutilisateur'] == self.login.text() and a['password'] == self.password.text() \
-                        and a["acces"] == "Modification":
-                    self.MainUi()
-                    self.login.clear()
-                    self.password.clear()
-                    self.login.setFocus()
-                    logged_in = True
-                elif a['codeutilisateur'] == self.login.text() and a['password'] == self.password.text() \
-                        and a["acces"] == "Lecture":
-                    self.ViewUi()
-                    self.login.clear()
-                    self.password.clear()
-                    self.login.setFocus()
-                    logged_in = True
-            if logged_in is not True:
-                msg = QtWidgets.QMessageBox()
-                msg.setIcon(QtWidgets.QMessageBox.Warning)
-                msg.setText("Identifiants erronés")
-                msg.setInformativeText('')
-                msg.setWindowTitle("Erreur")
-                msg.exec_()
-                break"""
 
 
 

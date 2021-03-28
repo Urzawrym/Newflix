@@ -122,6 +122,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.showgest = GestUser()  #Importe la fenêtre de gestion des usagers
         self.showgest.show()        #L'affiche
         self.showgest.pushButton.clicked.connect(self.showpopuser)
+        #self.showgest.tableWidget
 
     def logout(self):
         app.closeAllWindows()       #Ferme toutes les fenêtres et l'application

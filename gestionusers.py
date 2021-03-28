@@ -9,15 +9,12 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import sys
+
 
 class Ui_GestiUser(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(685, 156)
-        self.listWidget = QtWidgets.QListWidget(Form)
-        self.listWidget.setGeometry(QtCore.QRect(10, 30, 571, 111))
-        self.listWidget.setObjectName("listWidget")
         self.pushButton = QtWidgets.QPushButton(Form)
         self.pushButton.setGeometry(QtCore.QRect(590, 30, 75, 23))
         self.pushButton.setObjectName("pushButton")
@@ -30,6 +27,10 @@ class Ui_GestiUser(object):
         self.label = QtWidgets.QLabel(Form)
         self.label.setGeometry(QtCore.QRect(10, 10, 281, 16))
         self.label.setObjectName("label")
+        self.treeView = QtWidgets.QTreeView(Form)
+        self.treeView.setGeometry(QtCore.QRect(10, 30, 571, 111))
+        self.treeView.setAlternatingRowColors(True)
+        self.treeView.setObjectName("treeView")
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -41,6 +42,7 @@ class Ui_GestiUser(object):
         self.pushButton_2.setText(_translate("Form", "Modifier"))
         self.pushButton_3.setText(_translate("Form", "Supprimer"))
         self.label.setText(_translate("Form", "Liste des employés"))
+
 
 if __name__ == "__main__":
     import sys

@@ -13,16 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QListWidget" name="listWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>30</y>
-     <width>571</width>
-     <height>111</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
@@ -73,6 +63,19 @@
    </property>
    <property name="text">
     <string>Liste des employés</string>
+   </property>
+  </widget>
+  <widget class="QTreeView" name="treeView">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>30</y>
+     <width>571</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="alternatingRowColors">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>

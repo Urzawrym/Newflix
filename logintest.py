@@ -120,9 +120,28 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def showgestuser(self):
         self.showgest = GestUser()  #Importe la fenêtre de gestion des usagers
-        self.showgest.show()        #L'affiche
-        self.showgest.pushButton.clicked.connect(self.showpopuser)
-        self.showlistuser()
+        self.showgest.pushButton.clicked.connect(self.showpopuser) #Ouvre le formulaire
+        self.model = QtGui.QStandardItemModel()
+        self.model.setHorizontalHeaderLabels(['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager',
+                                              'Mot de passe', 'Type Acces'])
+        self.showgest.treeView.header().setDefaultSectionSize(150)  # Défini la largeur des colonnes
+        self.showgest.treeView.setModel(self.model)  # Active le modèle
+        self.showgest.show()  # Affiche le tableau
+
+        with open("testuser.json", "r") as f:  # Ouvre la liste de dictionnaires contenant les informations des
+            dicto = json.load(f)  # usagers.
+            self.mesgexcept = ""  # Va servir pour l'exception du try
+
+        root = self.model.invisibleRootItem()  # Sert à rendre invisible l'entête "parent" de l'arbre
+        parent = root
+        try:  # Défini un try avant de démarrer la boucle
+            for a in (dicto):  # Pour chaque dictionnaire dans la liste, on créé une ligne avec les informations ci bas
+                parent.appendRow([QtGui.QStandardItem(a['nom']), QtGui.QStandardItem(a['prenom']),
+                                  QtGui.QStandardItem(a['sexe']), QtGui.QStandardItem(a['dateembauche']),
+                                  QtGui.QStandardItem(a['codeutilisateur']), QtGui.QStandardItem(a['password']),
+                                  QtGui.QStandardItem(a['acces'])])
+        except Exception as e:  # Si la boucle n'a pas fonctionné, affiche ce message
+            self.mesgexcept = "Une erreur est survenue" + e
 
     def logout(self):
         app.closeAllWindows()       #Ferme toutes les fenêtres et l'application
@@ -131,7 +150,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def closeall(self):
         app.closeAllWindows()       #Ferme toutes les fenêtres et l'application
 
-    def showlistuser(self):  # Va servir à afficher les usagers dans la fenêtre de la liste
+    """def showlistuser(self):  # Va servir à afficher les usagers dans la fenêtre de la liste
         self.tree = GestUser() #J'importe la fenêtre des usagers. Je vais préparer l'arbre ci bas plutôt que dans l'UI
         self.model = QtGui.QStandardItemModel()
         self.model.setHorizontalHeaderLabels(['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager',
@@ -155,7 +174,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                                   QtGui.QStandardItem(a['codeutilisateur']), QtGui.QStandardItem(a['password']),
                                   QtGui.QStandardItem(a['acces'])])
         except Exception as e:    #Si la boucle n'a pas fonctionné, affiche ce message
-            self.mesgexcept = "Une erreur est survenue" + e
+            self.mesgexcept = "Une erreur est survenue" + e"""
 
     def showpopuser(self): #Ouvre le formulaire pour créer un nouvel employé ou le modifier
         self.showpopusager = FormUser()  #Importe la fenêtre de formulaire de l'usager

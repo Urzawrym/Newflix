@@ -31,7 +31,7 @@ class Ui_GestiUser(object):
         self.treeView.setGeometry(QtCore.QRect(10, 30, 771, 600))
         self.treeView.setAlternatingRowColors(True)
         self.treeView.setObjectName("treeView")
-
+        self.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 

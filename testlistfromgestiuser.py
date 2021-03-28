@@ -16,7 +16,6 @@ class Testlist():
             ['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager', 'Mot de passe', 'Type Acces'])
         self.tree.treeView.header().setDefaultSectionSize(150)
         self.tree.treeView.setModel(self.model)
-        #self.tree.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tree.show()
 
 

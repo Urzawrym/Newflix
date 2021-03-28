@@ -10,41 +10,39 @@ class Testlist():
 
     def testtable(self):
         self.tree = GestUser()
-        users = [{'Prenom': 'Claude', 'Nom': 'Belanger', 'Ville': 'Levis'},
-                 {'Prenom': 'Francis', 'Nom': 'Gariepy', 'Ville': 'Quebec'},
-                 {'Prenom': 'Nicolas', 'Nom': 'Mercier', 'Ville': 'Levis'}
-                 ]
-        row_count = (len(users))
-        column_count = (len(users[0]))
-
-
+        users = [{"nom": "Administrateur", "prenom": "Admin", "sexe": "Masculin", "dateembauche": "01/01/00", "codeutilisateur": "admin", "password": "admin123", "acces": "Admin"}, {"nom": "", "prenom": "", "sexe": "Masculin", "dateembauche": "01/01/00", "codeutilisateur": "user1", "password": "password1", "acces": "Lecture"}, {"nom": "Claude", "prenom": "Belanger", "sexe": "Masculin", "dateembauche": "18/05/83", "codeutilisateur": "claude", "password": "1234", "acces": "Lecture"}, {"nom": "Mathieu", "prenom": "Royer", "sexe": "Masculin", "dateembauche": "17/12/84", "codeutilisateur": "mathieu", "password": "royer", "acces": "Modification"}, {"nom": "Meo", "prenom": "Ouellet", "sexe": "Feminin", "dateembauche": "17/12/84", "codeutilisateur": "meo", "password": "0987", "acces": "Modification"}, {"nom": "Meo", "prenom": "Ouellet", "sexe": "Feminin", "dateembauche": "1984-05-13", "codeutilisateur": "franky", "password": "0987", "acces": "Lecture"}, {"nom": "", "prenom": "", "sexe": "Masculin", "dateembauche": "2000-01-01", "codeutilisateur": "test", "password": "1234", "acces": "Lecture"}, {"nom": "", "prenom": "", "sexe": "Masculin", "dateembauche": "2000-01-01", "codeutilisateur": "meo2", "password": "1234", "acces": "Lecture"}, {"nom": "d", "prenom": "d", "sexe": "Masculin", "dateembauche": "2000-01-01", "codeutilisateur": "d", "password": "1234", "acces": "Lecture"}]
         self.model = QtGui.QStandardItemModel()
         self.model.setHorizontalHeaderLabels(
             ['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager', 'Mot de passe', 'Type Acces'])
         self.tree.treeView.header().setDefaultSectionSize(150)
         self.tree.treeView.setModel(self.model)
+        #self.tree.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.tree.show()
 
 
-        def createModel(self):
 
-            self.model = QtGui.QStandardItemModel()
-            self.model.setHorizontalHeaderLabels(
-                ['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager', 'Mot de passe', 'Type Acces'])
-            self.treeView.header().setDefaultSectionSize(150)
-            self.tree.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-            self.treeView.setModel(self.model)
+        #self.model.setrowCount(0)
 
 
-        self.tree.tableWidget.setColumnCount(column_count)
-        self.tree.tableWidget.setRowCount(row_count)
-        self.tree.tableWidget.setHorizontalHeaderLabels((list(users[0].keys())))
-        self.tree.model.setHeaderData()
+        root = self.model.invisibleRootItem()
 
-        for row in range(row_count):  # add items from array to QTableWidget
+        parent = root
+
+        for a in (users):
+            parent.appendRow([QtGui.QStandardItem(a['nom']), QtGui.QStandardItem(a['prenom']),
+                              QtGui.QStandardItem(a['sexe']), QtGui.QStandardItem(a['dateembauche']),
+                              QtGui.QStandardItem(a['codeutilisateur']), QtGui.QStandardItem(a['password']),
+                              QtGui.QStandardItem(a['acces'])])
+
+
+
+
+
+        """for row in range(row_count):  # add items from array to QTableWidget
             for column in range(column_count):
                 item = (list(users[row].values())[column])
                 self.tree.tableWidget.setItem(row, column, QtWidgets.QTableWidgetItem(item))
-        self.tree.show()
+        self.tree.show()"""
 
 
 if __name__ == "__main__":

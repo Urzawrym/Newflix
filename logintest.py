@@ -50,10 +50,10 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.connex.show() #Affichage la fenêtre de connexion
 
     def testconnex(self):
-        with open("testuser.json", "r") as f: #Ouvre la liste de dictionnaires contenent les identifiants des
+        with open("testuser.json", "r") as f: #Ouvre la liste de dictionnaires contenant les identifiants des
             dicto = json.load(f)              #usagers. 3 données sont utilisées: user,password,type d'acces
             logged_in = False                 #par défaut la connexion est fausse avant le démarrer la boucle
-            self.mesgexcept = ""   #Va servir pour le try
+            self.mesgexcept = ""   #Va servir pour l'exception du try
         try:   #Défini un try avant de démarrer la boucle
             while not logged_in:                  #Démarre la boucle.
                 for a in (dicto): # Dans toute la liste, vérifie chaque dict. pour retrouver les 3 mêmes paramètres
@@ -77,7 +77,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                     msg.exec_()
                     self.connex.lineEdit.setFocus() #Remet le focus du clavier sur la ligne de l'usager
                     break #Casse la boucle car aucun identifiant n'a fonctionné
-        except Exception as e:
+        except Exception as e: #Si la boucle n'a pas fonctionné, affiche ce message
             self.mesgexcept = "Une erreur est survenue" +e
 
     def adminwindow(self):
@@ -122,7 +122,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.showgest = GestUser()  #Importe la fenêtre de gestion des usagers
         self.showgest.show()        #L'affiche
         self.showgest.pushButton.clicked.connect(self.showpopuser)
-        #self.showgest.tableWidget
+        self.showlistuser()
 
     def logout(self):
         app.closeAllWindows()       #Ferme toutes les fenêtres et l'application
@@ -131,11 +131,38 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def closeall(self):
         app.closeAllWindows()       #Ferme toutes les fenêtres et l'application
 
-    def showpopuser(self):
-        self.showpopusager = FormUser()
-        self.showpopusager.show()
-        self.showpopusager.pushButton.clicked.connect(self.saveuser)
-        self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close)
+    def showlistuser(self):  # Va servir à afficher les usagers dans la fenêtre de la liste
+        self.tree = GestUser() #J'importe la fenêtre des usagers. Je vais préparer l'arbre ci bas plutôt que dans l'UI
+        self.model = QtGui.QStandardItemModel()
+        self.model.setHorizontalHeaderLabels(['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager',
+                                              'Mot de passe', 'Type Acces'])
+        self.tree.treeView.header().setDefaultSectionSize(150) #Défini la largeur des colonnes
+        self.tree.treeView.setModel(self.model)                #Active le modèle
+        #self.tree.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers) #Empêche les usagers de modifie le tableau
+        self.tree.show()                                       #Affiche le tableau
+
+        with open("testuser.json", "r") as f:   # Ouvre la liste de dictionnaires contenant les informations des
+            dicto = json.load(f)                # usagers.
+            self.mesgexcept = ""  # Va servir pour l'exception du try
+
+
+        root = self.model.invisibleRootItem()       #Sert à rendre invisible l'entête "parent" de l'arbre
+        parent = root
+        try:                                            #Défini un try avant de démarrer la boucle
+            for a in (dicto): #Pour chaque dictionnaire dans la liste, on créé une ligne avec les informations ci bas
+                parent.appendRow([QtGui.QStandardItem(a['nom']), QtGui.QStandardItem(a['prenom']),
+                                  QtGui.QStandardItem(a['sexe']), QtGui.QStandardItem(a['dateembauche']),
+                                  QtGui.QStandardItem(a['codeutilisateur']), QtGui.QStandardItem(a['password']),
+                                  QtGui.QStandardItem(a['acces'])])
+        except Exception as e:    #Si la boucle n'a pas fonctionné, affiche ce message
+            self.mesgexcept = "Une erreur est survenue" + e
+
+    def showpopuser(self): #Ouvre le formulaire pour créer un nouvel employé ou le modifier
+        self.showpopusager = FormUser()  #Importe la fenêtre de formulaire de l'usager
+        self.showpopusager.show()        #L'affiche
+        self.showpopusager.pushButton.clicked.connect(self.saveuser) #Active le test de sauvegarde si bouton utilisé
+        self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close) #Ferme la fenêtre sans sauvegarder
+
 
     def saveuser(self):
         employee=Employe(self.showpopusager.lineEdit.text(), self.showpopusager.lineEdit_2.text(),

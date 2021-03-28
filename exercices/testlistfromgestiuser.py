@@ -34,8 +34,12 @@ class Testlist():
                               QtGui.QStandardItem(a['acces'])])
 
     def onClickedRow(self, index=None):
-        showlist = self.tree.treeView.selectedIndexes()
-        print(showlist.index.model().itemFromIndex(index))
+        #index = self.tree.treeView.selectedIndexes()[0]
+        #print(index.model().itemFromIndex(index))
+
+        for ix in self.tree.treeView.selectedIndexes():
+            text = ix.data()  # or ix.data()
+            print(text)
 
 
 

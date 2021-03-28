@@ -124,7 +124,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.model = QtGui.QStandardItemModel()
         self.model.setHorizontalHeaderLabels(['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager',
                                               'Mot de passe', 'Type Acces'])
-        self.showgest.treeView.header().setDefaultSectionSize(150)  # Défini la largeur des colonnes
         self.showgest.treeView.setModel(self.model)  # Active le modèle
         self.showgest.show()  # Affiche le tableau
 

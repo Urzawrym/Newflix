@@ -17,7 +17,7 @@ class Testlist():
         self.tree.treeView.header().setDefaultSectionSize(150)
         self.tree.treeView.setModel(self.model)
         self.tree.show()
-
+        self.tree.pushButton_2.clicked.connect(self.onClickedRow)
 
 
         #self.model.setrowCount(0)
@@ -33,15 +33,11 @@ class Testlist():
                               QtGui.QStandardItem(a['codeutilisateur']), QtGui.QStandardItem(a['password']),
                               QtGui.QStandardItem(a['acces'])])
 
+    def onClickedRow(self, index=None):
+        showlist = self.tree.treeView.selectedIndexes()
+        print(showlist.index.model().itemFromIndex(index))
 
 
-
-
-        """for row in range(row_count):  # add items from array to QTableWidget
-            for column in range(column_count):
-                item = (list(users[row].values())[column])
-                self.tree.tableWidget.setItem(row, column, QtWidgets.QTableWidgetItem(item))
-        self.tree.show()"""
 
 
 if __name__ == "__main__":

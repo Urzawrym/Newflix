@@ -54,6 +54,10 @@ class Testlist():
         text = row.data()
         print(text)
 
+        row = self.tree.treeView.selected_indexes[0].row()
+        row_data = [self.model.index(row, col).data().toString()
+                    for col in xrange(self.model.columnCount())]
+
 
 
 

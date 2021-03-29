@@ -33,19 +33,26 @@ class Testlist():
                               QtGui.QStandardItem(a['codeutilisateur']), QtGui.QStandardItem(a['password']),
                               QtGui.QStandardItem(a['acces'])])
 
-    def onClickedRow(self, index):
+    def onClickedRow(self):
 
 
 
-        for ix in self.tree.treeView.selectedIndexes():
+        """for ix in self.tree.treeView.selectedIndexes():
             if ix.column() == 1:
                 text1 = ix.data()
                 print(text1)
             elif ix.column() == 2:
                 text2 = ix.data()
-                print(text2)
+                print(text2)"""
 
+        """index = (self.tree.treeView.selectionModel().currentIndex())
+        #print(index)
+        value = index.data()
+        print(value)"""
 
+        row = self.tree.treeView.currentIndex()
+        text = row.data()
+        print(text)
 
 
 

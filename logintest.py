@@ -1,12 +1,14 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import json
 import sys
-from mainwindow import *
-from gestionusers import *
-from popupuser import *
-from popupcustomer import *
-from logindialog import *
-from classes import *
+from mainwindow import *        #Importe l'affichage de la fenêtre principale
+from gestionusers import *      #Importe l'affichage de la fenêtre gestion usager
+from popupuser import *         #Importe le formulaire de création/modification d'usager
+from popupcustomer import *     #Importe le formulaire de création/modification de client
+from logindialog import *       #Importe la fenêtre de connexion du démarrage du logiciel
+from classes import *            #Importe les classes Personnes, Employés, Clients, Cartes crédits, films, Categorie
+                                 #avec toute la gestion des héritages entre les classes, tel que demandé dans la mise
+                                 #en situation
 
 #from cryptography.fernet import Fernet
 
@@ -90,6 +92,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.admin.actionGestion.triggered.connect(self.showgestuser) #Dans la fen. principale, trigger la gestion users
         self.admin.actionDeconnexion.triggered.connect(self.logout) #Trigger la déconnexion du logiciel
         self.admin.actionQuitter.triggered.connect(self.closeall) #Trigger la fermeture du logiciel
+
     def modifwindow(self):
         self.modif = FenPrinci()                       #Fait la même chose que la fonction précédente
         self.modif.actionGestion.setVisible(False)     #Cache le bouton Gestion Usagés du menu principal
@@ -120,7 +123,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def showgestuser(self):
         self.showgest = GestUser()  #Importe la fenêtre de gestion des usagers
-        self.showgest.pushButton.clicked.connect(self.showpopuser) #Ouvre le formulaire
+        self.showgest.pushButton.clicked.connect(self.showpopuser) #Ouvre le formulaire d'usager si on appuie
         self.model = QtGui.QStandardItemModel()
         self.model.setHorizontalHeaderLabels(['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager',
                                               'Mot de passe', 'Type Acces'])
@@ -138,42 +141,16 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 parent.appendRow([QtGui.QStandardItem(a['nom']), QtGui.QStandardItem(a['prenom']),
                                   QtGui.QStandardItem(a['sexe']), QtGui.QStandardItem(a['dateembauche']),
                                   QtGui.QStandardItem(a['codeutilisateur']), QtGui.QStandardItem(a['password']),
-                                  QtGui.QStandardItem(a['acces'])])
+                                  QtGui.QStandardItem(a['acces'])])     #Ajoute chaque information dans les colonnes.
         except Exception as e:  # Si la boucle n'a pas fonctionné, affiche ce message
             self.mesgexcept = "Une erreur est survenue" + e
 
     def logout(self):
         app.closeAllWindows()       #Ferme toutes les fenêtres et l'application
-        self.connex.show()          #Démarrer l'affichage de la fenêtre de connexion
+        self.connex.show()          #Démarre l'affichage de la fenêtre de connexion
 
     def closeall(self):
         app.closeAllWindows()       #Ferme toutes les fenêtres et l'application
-
-    """def showlistuser(self):  # Va servir à afficher les usagers dans la fenêtre de la liste
-        self.tree = GestUser() #J'importe la fenêtre des usagers. Je vais préparer l'arbre ci bas plutôt que dans l'UI
-        self.model = QtGui.QStandardItemModel()
-        self.model.setHorizontalHeaderLabels(['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager',
-                                              'Mot de passe', 'Type Acces'])
-        self.tree.treeView.header().setDefaultSectionSize(150) #Défini la largeur des colonnes
-        self.tree.treeView.setModel(self.model)                #Active le modèle
-        #self.tree.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers) #Empêche les usagers de modifie le tableau
-        self.tree.show()                                       #Affiche le tableau
-
-        with open("testuser.json", "r") as f:   # Ouvre la liste de dictionnaires contenant les informations des
-            dicto = json.load(f)                # usagers.
-            self.mesgexcept = ""  # Va servir pour l'exception du try
-
-
-        root = self.model.invisibleRootItem()       #Sert à rendre invisible l'entête "parent" de l'arbre
-        parent = root
-        try:                                            #Défini un try avant de démarrer la boucle
-            for a in (dicto): #Pour chaque dictionnaire dans la liste, on créé une ligne avec les informations ci bas
-                parent.appendRow([QtGui.QStandardItem(a['nom']), QtGui.QStandardItem(a['prenom']),
-                                  QtGui.QStandardItem(a['sexe']), QtGui.QStandardItem(a['dateembauche']),
-                                  QtGui.QStandardItem(a['codeutilisateur']), QtGui.QStandardItem(a['password']),
-                                  QtGui.QStandardItem(a['acces'])])
-        except Exception as e:    #Si la boucle n'a pas fonctionné, affiche ce message
-            self.mesgexcept = "Une erreur est survenue" + e"""
 
     def showpopuser(self): #Ouvre le formulaire pour créer un nouvel employé ou le modifier
         self.showpopusager = FormUser()  #Importe la fenêtre de formulaire de l'usager
@@ -183,6 +160,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
 
     def saveuser(self):
+        #Ici j'utilise la classe Employe héritée de la classe Personne pour inscrire les données du formulaire dans
+        #une liste de dictionnaire. Chaque dict = 1 usager. La liste est ensuite enregistrée dans un fichier json crypté
         employee=Employe(self.showpopusager.lineEdit.text(), self.showpopusager.lineEdit_2.text(),
                          self.showpopusager.comboBox.currentText(), self.showpopusager.dateEdit.text(),
                          self.showpopusager.lineEdit_3.text(), self.showpopusager.lineEdit_5.text(),

@@ -1,7 +1,13 @@
 from gestionusers import *
+from popupuser import *
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class GestUser(QtWidgets.QDialog, Ui_GestiUser): #Initialise gestionusers.py. Fenêtre de gestion des employés
+    def __init__(self):
+        QtWidgets.QDialog.__init__(self)
+        self.setupUi(self)
+
+class FormUser(QtWidgets.QDialog, Ui_FormUser): #Initialise popupuser.py. Formulaire pour créer/modifier un employé
     def __init__(self):
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
@@ -10,7 +16,7 @@ class Testlist():
 
     def testtable(self):
         self.tree = GestUser()
-        users = [{"nom": "Administrateur", "prenom": "Admin", "sexe": "Masculin", "dateembauche": "01/01/00", "codeutilisateur": "admin", "password": "admin123", "acces": "Admin"}, {"nom": "", "prenom": "", "sexe": "Masculin", "dateembauche": "01/01/00", "codeutilisateur": "user1", "password": "password1", "acces": "Lecture"}, {"nom": "Claude", "prenom": "Belanger", "sexe": "Masculin", "dateembauche": "18/05/83", "codeutilisateur": "claude", "password": "1234", "acces": "Lecture"}, {"nom": "Mathieu", "prenom": "Royer", "sexe": "Masculin", "dateembauche": "17/12/84", "codeutilisateur": "mathieu", "password": "royer", "acces": "Modification"}, {"nom": "Meo", "prenom": "Ouellet", "sexe": "Feminin", "dateembauche": "17/12/84", "codeutilisateur": "meo", "password": "0987", "acces": "Modification"}, {"nom": "Meo", "prenom": "Ouellet", "sexe": "Feminin", "dateembauche": "1984-05-13", "codeutilisateur": "franky", "password": "0987", "acces": "Lecture"}, {"nom": "", "prenom": "", "sexe": "Masculin", "dateembauche": "2000-01-01", "codeutilisateur": "test", "password": "1234", "acces": "Lecture"}, {"nom": "", "prenom": "", "sexe": "Masculin", "dateembauche": "2000-01-01", "codeutilisateur": "meo2", "password": "1234", "acces": "Lecture"}, {"nom": "d", "prenom": "d", "sexe": "Masculin", "dateembauche": "2000-01-01", "codeutilisateur": "d", "password": "1234", "acces": "Lecture"}]
+        users = [{"nom": "Administrateur", "prenom": "Admin", "sexe": "Masculin", "dateembauche": "01-01-0000", "codeutilisateur": "admin", "password": "admin123", "acces": "Admin"}, {"nom": "", "prenom": "", "sexe": "Masculin", "dateembauche": "01-01-0000", "codeutilisateur": "user1", "password": "password1", "acces": "Lecture"}, {"nom": "Claude", "prenom": "Belanger", "sexe": "Masculin", "dateembauche": "18-05-1983", "codeutilisateur": "claude", "password": "1234", "acces": "Lecture"}, {"nom": "Royer", "prenom": "Mathieu", "sexe": "Masculin", "dateembauche": "17-12-1984", "codeutilisateur": "mathieu", "password": "royer", "acces": "Modification"}, {"nom": "Meo", "prenom": "Ouellet", "sexe": "F\u00e9minin", "dateembauche": "17-12-1984", "codeutilisateur": "meo", "password": "0987", "acces": "Modification"}, {"nom": "Meo", "prenom": "Ouellet", "sexe": "F\u00e9minin", "dateembauche": "13-05-1984", "codeutilisateur": "franky", "password": "0987", "acces": "Lecture"}, {"nom": "", "prenom": "", "sexe": "Masculin", "dateembauche": "01-01-2000", "codeutilisateur": "test", "password": "1234", "acces": "Lecture"}, {"nom": "", "prenom": "", "sexe": "Masculin", "dateembauche": "01-01-2000", "codeutilisateur": "meo2", "password": "1234", "acces": "Lecture"}, {"nom": "d", "prenom": "d", "sexe": "Masculin", "dateembauche": "01-01-2000", "codeutilisateur": "d", "password": "1234", "acces": "Lecture"}]
         self.model = QtGui.QStandardItemModel()
         self.model.setHorizontalHeaderLabels(
             ['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager', 'Mot de passe', 'Type Acces'])
@@ -19,44 +25,33 @@ class Testlist():
         self.tree.show()
         self.tree.pushButton_2.clicked.connect(self.onClickedRow)
 
-
-        #self.model.setrowCount(0)
-
-
         root = self.model.invisibleRootItem()
-
         parent = root
-
         for a in (users):
             parent.appendRow([QtGui.QStandardItem(a['nom']), QtGui.QStandardItem(a['prenom']),
                               QtGui.QStandardItem(a['sexe']), QtGui.QStandardItem(a['dateembauche']),
                               QtGui.QStandardItem(a['codeutilisateur']), QtGui.QStandardItem(a['password']),
                               QtGui.QStandardItem(a['acces'])])
 
+
+
     def onClickedRow(self):
+        self.showpopusager = FormUser()
+        self.showpopusager.show()
+
+        donnees = [a.data() for a in self.tree.treeView.selectedIndexes()] #Créé une liste avec les infos de la ligne
+        self.showpopusager.lineEdit.setText(donnees[0])
+        self.showpopusager.lineEdit_2.setText(donnees[1])
+
+        date = QtCore.QDate.fromString(donnees[3], "dd-MM-yyyy")
+        self.showpopusager.dateEdit.setDate(date)
+        index = self.showpopusager.comboBox.findText(donnees[2], QtCore.Qt.MatchFlag.MatchFixedString)
+        self.showpopusager.comboBox.setCurrentIndex(index)
+
+        #print(type(index))
 
 
 
-        """for ix in self.tree.treeView.selectedIndexes():
-            if ix.column() == 1:
-                text1 = ix.data()
-                print(text1)
-            elif ix.column() == 2:
-                text2 = ix.data()
-                print(text2)"""
-
-        """index = (self.tree.treeView.selectionModel().currentIndex())
-        #print(index)
-        value = index.data()
-        print(value)"""
-
-        row = self.tree.treeView.currentIndex()
-        text = row.data()
-        print(text)
-
-        row = self.tree.treeView.selected_indexes[0].row()
-        row_data = [self.model.index(row, col).data().toString()
-                    for col in xrange(self.model.columnCount())]
 
 
 

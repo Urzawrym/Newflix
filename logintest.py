@@ -124,6 +124,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def showgestuser(self):
         self.showgest = GestUser()  #Importe la fenêtre de gestion des usagers
         self.showgest.pushButton.clicked.connect(self.showpopuser) #Ouvre le formulaire d'usager si on appuie
+        self.showgest.pushButton_2.clicked.connect(self.modifpopup) #Ouvre le formulaire pour modifier l'usager
         self.model = QtGui.QStandardItemModel()
         self.model.setHorizontalHeaderLabels(['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager',
                                               'Mot de passe', 'Type Acces'])
@@ -189,6 +190,23 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                     dic.append(dictemployee)
                     print(dic)
                     json.dump(dic,outfile)
+
+    def modifpopup(self):
+        self.showpopusager = FormUser()
+        self.showpopusager.show()
+        self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close)
+        donnees = [a.data() for a in self.showgest.treeView.selectedIndexes()] #Créé une liste avec les infos de la ligne
+        self.showpopusager.lineEdit.setText(donnees[0])
+        self.showpopusager.lineEdit_2.setText(donnees[1])
+        index = self.showpopusager.comboBox.findText(donnees[2], QtCore.Qt.MatchFlag.MatchFixedString)
+        self.showpopusager.comboBox.setCurrentIndex(index)  # Converti le format texte de l'item en index de la boite
+        date = QtCore.QDate.fromString(donnees[3], "dd-MM-yyyy") #Converti le texte de la date en format Date
+        self.showpopusager.dateEdit.setDate(date)
+        self.showpopusager.lineEdit_3.setText(donnees[4])
+        self.showpopusager.lineEdit_3.setEnabled(False)
+        self.showpopusager.lineEdit_5.setText(donnees[5])
+        index2 = self.showpopusager.comboBox_2.findText(donnees[6], QtCore.Qt.MatchFlag.MatchFixedString)
+        self.showpopusager.comboBox_2.setCurrentIndex(index2)  # Converti le format texte de l'item en index de la boite
 
 
 if __name__ == "__main__":

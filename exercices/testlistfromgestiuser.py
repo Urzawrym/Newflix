@@ -42,13 +42,15 @@ class Testlist():
         donnees = [a.data() for a in self.tree.treeView.selectedIndexes()] #Créé une liste avec les infos de la ligne
         self.showpopusager.lineEdit.setText(donnees[0])
         self.showpopusager.lineEdit_2.setText(donnees[1])
-
-        date = QtCore.QDate.fromString(donnees[3], "dd-MM-yyyy")
-        self.showpopusager.dateEdit.setDate(date)
         index = self.showpopusager.comboBox.findText(donnees[2], QtCore.Qt.MatchFlag.MatchFixedString)
-        self.showpopusager.comboBox.setCurrentIndex(index)
+        self.showpopusager.comboBox.setCurrentIndex(index)  # Converti le format texte de l'item en index de la boite
+        date = QtCore.QDate.fromString(donnees[3], "dd-MM-yyyy") #Converti le texte de la date en format Date
+        self.showpopusager.dateEdit.setDate(date)
+        self.showpopusager.lineEdit_3.setText(donnees[4])
+        self.showpopusager.lineEdit_5.setText(donnees[5])
+        index2 = self.showpopusager.comboBox_2.findText(donnees[6], QtCore.Qt.MatchFlag.MatchFixedString)
+        self.showpopusager.comboBox_2.setCurrentIndex(index2)  # Converti le format texte de l'item en index de la boite
 
-        #print(type(index))
 
 
 

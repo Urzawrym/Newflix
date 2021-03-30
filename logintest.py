@@ -195,18 +195,27 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.showpopusager = FormUser()
         self.showpopusager.show()
         self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close)
-        donnees = [a.data() for a in self.showgest.treeView.selectedIndexes()] #Créé une liste avec les infos de la ligne
-        self.showpopusager.lineEdit.setText(donnees[0])
-        self.showpopusager.lineEdit_2.setText(donnees[1])
-        index = self.showpopusager.comboBox.findText(donnees[2], QtCore.Qt.MatchFlag.MatchFixedString)
-        self.showpopusager.comboBox.setCurrentIndex(index)  # Converti le format texte de l'item en index de la boite
-        date = QtCore.QDate.fromString(donnees[3], "dd-MM-yyyy") #Converti le texte de la date en format Date
-        self.showpopusager.dateEdit.setDate(date)
-        self.showpopusager.lineEdit_3.setText(donnees[4])
-        self.showpopusager.lineEdit_3.setEnabled(False)
-        self.showpopusager.lineEdit_5.setText(donnees[5])
-        index2 = self.showpopusager.comboBox_2.findText(donnees[6], QtCore.Qt.MatchFlag.MatchFixedString)
-        self.showpopusager.comboBox_2.setCurrentIndex(index2)  # Converti le format texte de l'item en index de la boite
+        donnees = [a.data() for a in self.showgest.treeView.selectedIndexes()] #Créé une liste des données sélectionées
+        if donnees[4] == "admin":
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("L'administrateur système ne peut être modifié")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+            self.showpopusager.close()
+        else:
+            self.showpopusager.lineEdit.setText(donnees[0])          #Affiche la donnée de la colonne 0 dans la lineedit
+            self.showpopusager.lineEdit_2.setText(donnees[1])        #Affiche la donnée de la colonne 1 dans la lineedit_2
+            index = self.showpopusager.comboBox.findText(donnees[2], QtCore.Qt.MatchFlag.MatchFixedString) #Converti en int
+            self.showpopusager.comboBox.setCurrentIndex(index)       #Affiche l'index correspondant au int
+            date = QtCore.QDate.fromString(donnees[3], "dd-MM-yyyy") #Converti le texte de la date en format Date
+            self.showpopusager.dateEdit.setDate(date)                #Affiche la date sélectionnée
+            self.showpopusager.lineEdit_3.setText(donnees[4])        #Affiche le nom d'utilisateur provenant de la colonne4
+            self.showpopusager.lineEdit_3.setEnabled(False)          #Le rend visible mais désactivé pour éviter sa modif
+            self.showpopusager.lineEdit_5.setText(donnees[5])        #Affiche le mot de passe provenant de la colonne5
+            index2 = self.showpopusager.comboBox_2.findText(donnees[6], QtCore.Qt.MatchFlag.MatchFixedString) #Conv. en int
+            self.showpopusager.comboBox_2.setCurrentIndex(index2)    #Affiche l'index correspondant au int
 
 
 if __name__ == "__main__":

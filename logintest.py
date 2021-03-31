@@ -59,16 +59,20 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         try:   #Défini un try avant de démarrer la boucle
             while not logged_in:                  #Démarre la boucle.
                 for a in (dicto): # Dans toute la liste, vérifie chaque dict. pour retrouver les 3 mêmes paramètres
-                    if self.connex.lineEdit.text() == "admin" and self.connex.lineEdit_2.text() == "admin123":
-                        self.adminwindow() #Si les 2 inputs de l'usager sont les mêmes, activer la fonction adminwindow
+                    if a['codeutilisateur'] == self.connex.lineEdit.text() and \
+                            a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Admin":
+                        self.adminwindow()
+                        #Si les 3 inputs de l'usager correspond à un dict. avec accès admin, active modifwindow
                         logged_in = True   #Le "true" met fin à la boucle.
                     elif a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Modification":
-                        self.modifwindow() #Si les 3 inputs de l'usager correspond à un dict., active modifwindow
+                        self.modifwindow()
+                        #Si les 3 inputs de l'usager correspond à un dict. avec accès modif, active modifwindow
                         logged_in = True #Ferme la boucle
                     elif a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Lecture":
-                        self.viewwindow() #Si les 3 inputs de l'usager correspond à un dict., active viewwindow
+                        self.viewwindow()
+                        #Si les 3 inputs de l'usager correspond à un dict. avec accès lecture, active modifwindow
                         logged_in = True #Ferme la boucle
                 if logged_in is not True: #Si la boucle n'est toujours pas fermée après les 3 premiers tests, fait
                     msg = QtWidgets.QMessageBox() #Affiche une fenêtre qui mentionne que les identifiants sont erronés

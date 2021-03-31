@@ -188,8 +188,9 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             else:
                 with open("testuser.json", "w") as outfile:
                     dic.append(dictemployee)
-                    print(dic)
                     json.dump(dic,outfile)
+                self.showpopusager.close()
+
 
     def modifpopup(self):
         self.showpopusager = FormUser()

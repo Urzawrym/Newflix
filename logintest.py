@@ -162,7 +162,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.showpopusager.show()        #L'affiche
         self.showpopusager.pushButton.clicked.connect(self.saveuser) #Active le test de sauvegarde si bouton utilisé
         self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close) #Ferme la fenêtre sans sauvegarder
-
+        self.showgest.close()
 
     def saveuser(self):
         #Ici j'utilise la classe Employe héritée de la classe Personne pour inscrire les données du formulaire dans
@@ -194,7 +194,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                     dic.append(dictemployee)
                     json.dump(dic,outfile)
                 self.showpopusager.close()
-
+                self.showgest.show()
 
     def modifpopup(self):
         self.showpopusager = FormUser()

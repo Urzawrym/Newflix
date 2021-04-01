@@ -96,9 +96,10 @@ class Testlist():
 
 
     def deleteuser(self):
-        indexes = self.tree.treeView.selectedIndexes()
-        print(indexes)
-        self.parent.removeRow(self.tree.treeView.selectedIndexes())
+       indexes = self.tree.treeView.selectedIndexes()
+       if indexes:
+        index = indexes[0] #L'idndex correspond à la liste des items de la rangée
+        self.model.removeRow(index.row()) #Enlève l'item
 
 
 

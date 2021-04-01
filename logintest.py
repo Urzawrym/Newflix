@@ -142,6 +142,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.showgest = GestUser()  #Importe la fenêtre de gestion des usagers
         self.showgest.pushButton.clicked.connect(self.showpopuser) #Ouvre le formulaire d'usager si on appuie
         self.showgest.pushButton_2.clicked.connect(self.modifpopup) #Ouvre le formulaire pour modifier l'usager
+        self.showgest.pushButton_3.clicked.connect(self.deleteuser) #Envoie vers la fonction supprimer usager
         self.model = QtGui.QStandardItemModel()
         self.model.setHorizontalHeaderLabels(['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager',
                                               'Mot de passe', 'Type Acces'])
@@ -214,7 +215,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.showpopusager.show()
         self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close)
         donnees = [a.data() for a in self.showgest.treeView.selectedIndexes()] #Créé une liste des données sélectionées
-        if donnees[4] == "admin":
+        if self.donnees[4] == "admin":
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
             msg.setText("L'administrateur système ne peut être modifié")
@@ -234,6 +235,23 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.showpopusager.lineEdit_5.setText(donnees[5])        #Affiche le mot de passe provenant de la colonne5
             index2 = self.showpopusager.comboBox_2.findText(donnees[6], QtCore.Qt.MatchFlag.MatchFixedString) #Conv. en int
             self.showpopusager.comboBox_2.setCurrentIndex(index2)    #Affiche l'index correspondant au int
+
+    def deleteuser(self):
+        donnees = [a.data() for a in self.showgest.treeView.selectedIndexes()]  # Créé une liste des données sélectionées
+        if donnees[4] == "admin":
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("L'administrateur système ne peut être supprimé")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+
+        else:
+            indexes = self.showgest.treeView.selectedIndexes()
+            if indexes:
+                index = indexes[0]  # L'idndex correspond à la liste des items de la rangée
+                self.model.removeRow(index.row())  # Enlève l'item
+            self.saveuser()
 
 
 if __name__ == "__main__":

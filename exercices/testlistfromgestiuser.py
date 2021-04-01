@@ -96,6 +96,7 @@ class Testlist():
 
 
     def deleteuser(self):
+
        indexes = self.tree.treeView.selectedIndexes()
        if indexes:
         index = indexes[0] #L'idndex correspond à la liste des items de la rangée

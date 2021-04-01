@@ -45,8 +45,20 @@ class Connexion(QtWidgets.QDialog, Ui_Connexion): #Initialise logindialog.py. Fe
 
 class Controller: #C'est dans cette classe que l'action se passe, toutes les modifications visuelles et les
                   #les interactions avec l'utilisateur vont se faire à partir d'ici.
-    with open("testuser.json","r") as f:  # Ouvre la liste de dictionnaires contenant les identifiants des
-        dictuser = json.load(f)           # usagers. 3 données sont utilisées: user,password,type d'acces
+
+    def loaduser(self):
+        try:
+            with open("testuser.json","r") as f:  # Ouvre la liste de dictionnaires contenant les identifiants des
+                self.dictuser = json.load(f)           # usagers. 3 données sont utilisées: user,password,type d'acces
+        except Exception:
+            pass
+
+    def saveuser(self):
+        try:
+            with open("testuser.json", "w") as f:  # Ouvre la liste de dictionnaires contenant les identifiants des
+                data = json.dump(self.dictuser,f)
+        except Exception:
+            pass
 
     def showlogin(self):
         self.connex = Connexion() #Importe la classe  Connexion
@@ -54,6 +66,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.connex.show() #Affichage la fenêtre de connexion
 
     def testconnex(self):
+        self.loaduser()
         logged_in = False                 #par défaut la connexion est fausse avant le démarrer la boucle
         self.mesgexcept = ""   #Va servir pour l'exception du try
         try:   #Défini un try avant de démarrer la boucle
@@ -83,7 +96,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                     msg.exec_()
                     self.connex.lineEdit.setFocus() #Remet le focus du clavier sur la ligne de l'usager
                     break #Casse la boucle car aucun identifiant n'a fonctionné
-        except Exception: #Si la boucle n'a pas fonctionné, stop la boucle
+        except Exception: #Si la boucle n'a pas fonctionné
             pass
 
     def adminwindow(self):
@@ -136,10 +149,10 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.showgest.show()  # Affiche le tableau
         self.mesgexcept = ""  # Va servir pour l'exception du try
         root = self.model.invisibleRootItem()  # Sert à rendre invisible l'entête "parent" de l'arbre
-        parent = root
+        self.parent = root
         try:  # Défini un try avant de démarrer la boucle
             for a in (self.dictuser):  # Pour chaque dictionnaire dans la liste, on créé une ligne avec les informations ci bas
-                parent.appendRow([QtGui.QStandardItem(a['nom']), QtGui.QStandardItem(a['prenom']),
+                self.parent.appendRow([QtGui.QStandardItem(a['nom']), QtGui.QStandardItem(a['prenom']),
                                   QtGui.QStandardItem(a['sexe']), QtGui.QStandardItem(a['dateembauche']),
                                   QtGui.QStandardItem(a['codeutilisateur']), QtGui.QStandardItem(a['password']),
                                   QtGui.QStandardItem(a['acces'])])     #Ajoute chaque information dans les colonnes.
@@ -157,11 +170,11 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def showpopuser(self): #Ouvre le formulaire pour créer un nouvel employé ou le modifier
         self.showpopusager = FormUser()  #Importe la fenêtre de formulaire de l'usager
         self.showpopusager.show()        #L'affiche
-        self.showpopusager.pushButton.clicked.connect(self.saveuser) #Active le test de sauvegarde si bouton utilisé
+        self.showpopusager.pushButton.clicked.connect(self.savinguser) #Active le test de sauvegarde si bouton utilisé
         self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close) #Ferme la fenêtre sans sauvegarder
 
 
-    def saveuser(self):
+    def savinguser(self):
         #Ici j'utilise la classe Employe héritée de la classe Personne pour inscrire les données du formulaire dans
         #une liste de dictionnaire. Chaque dict = 1 usager. La liste est ensuite enregistrée dans un fichier json crypté
         employee=Employe(self.showpopusager.lineEdit.text(), self.showpopusager.lineEdit_2.text(),
@@ -186,10 +199,16 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.exec_()
         else:
             with open("testuser.json", "w") as outfile:
+                self.parent.appendRow(
+                    [QtGui.QStandardItem(dictemployee['nom']), QtGui.QStandardItem(dictemployee['prenom']),
+                     QtGui.QStandardItem(dictemployee['sexe']), QtGui.QStandardItem(dictemployee['dateembauche']),
+                     QtGui.QStandardItem(dictemployee['codeutilisateur']),
+                     QtGui.QStandardItem(dictemployee['password']),
+                     QtGui.QStandardItem(dictemployee['acces'])])
                 self.dictuser.append(dictemployee)
-                json.dump(self.dictuser,outfile)
+                self.saveuser()
                 self.showpopusager.close()
-                self.model.layoutChanged.emit()
+
 
 
     def modifpopup(self):

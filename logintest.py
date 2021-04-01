@@ -215,7 +215,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.showpopusager.show()
         self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close)
         donnees = [a.data() for a in self.showgest.treeView.selectedIndexes()] #Créé une liste des données sélectionées
-        if self.donnees[4] == "admin":
+        if donnees[4] == "admin":
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
             msg.setText("L'administrateur système ne peut être modifié")
@@ -245,13 +245,14 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
-
+        elif
         else:
             indexes = self.showgest.treeView.selectedIndexes()
             if indexes:
                 index = indexes[0]  # L'idndex correspond à la liste des items de la rangée
                 self.model.removeRow(index.row())  # Enlève l'item
             self.saveuser()
+    def testdelete(self):
 
 
 if __name__ == "__main__":

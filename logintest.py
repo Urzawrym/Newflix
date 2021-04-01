@@ -189,7 +189,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 self.dictuser.append(dictemployee)
                 json.dump(self.dictuser,outfile)
                 self.showpopusager.close()
-
+                self.model.layoutChanged.emit()
 
 
     def modifpopup(self):

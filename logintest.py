@@ -45,6 +45,8 @@ class Connexion(QtWidgets.QDialog, Ui_Connexion): #Initialise logindialog.py. Fe
 
 class Controller: #C'est dans cette classe que l'action se passe, toutes les modifications visuelles et les
                   #les interactions avec l'utilisateur vont se faire à partir d'ici.
+    with open("testuser.json","r") as f:  # Ouvre la liste de dictionnaires contenant les identifiants des
+        dictuser = json.load(f)           # usagers. 3 données sont utilisées: user,password,type d'acces
 
     def showlogin(self):
         self.connex = Connexion() #Importe la classe  Connexion
@@ -52,13 +54,11 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.connex.show() #Affichage la fenêtre de connexion
 
     def testconnex(self):
-        with open("testuser.json", "r") as f: #Ouvre la liste de dictionnaires contenant les identifiants des
-            dicto = json.load(f)              #usagers. 3 données sont utilisées: user,password,type d'acces
-            logged_in = False                 #par défaut la connexion est fausse avant le démarrer la boucle
-            self.mesgexcept = ""   #Va servir pour l'exception du try
+        logged_in = False                 #par défaut la connexion est fausse avant le démarrer la boucle
+        self.mesgexcept = ""   #Va servir pour l'exception du try
         try:   #Défini un try avant de démarrer la boucle
             while not logged_in:                  #Démarre la boucle.
-                for a in (dicto): # Dans toute la liste, vérifie chaque dict. pour retrouver les 3 mêmes paramètres
+                for a in (self.dictuser): # Dans toute la liste, vérifie chaque dict. pour retrouver les 3 mêmes paramètres
                     if a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Admin":
                         self.adminwindow()
@@ -134,15 +134,11 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                                               'Mot de passe', 'Type Acces'])
         self.showgest.treeView.setModel(self.model)  # Active le modèle
         self.showgest.show()  # Affiche le tableau
-
-        with open("testuser.json", "r") as f:  # Ouvre la liste de dictionnaires contenant les informations des
-            dicto = json.load(f)  # usagers.
-            self.mesgexcept = ""  # Va servir pour l'exception du try
-
+        self.mesgexcept = ""  # Va servir pour l'exception du try
         root = self.model.invisibleRootItem()  # Sert à rendre invisible l'entête "parent" de l'arbre
         parent = root
         try:  # Défini un try avant de démarrer la boucle
-            for a in (dicto):  # Pour chaque dictionnaire dans la liste, on créé une ligne avec les informations ci bas
+            for a in (self.dictuser):  # Pour chaque dictionnaire dans la liste, on créé une ligne avec les informations ci bas
                 parent.appendRow([QtGui.QStandardItem(a['nom']), QtGui.QStandardItem(a['prenom']),
                                   QtGui.QStandardItem(a['sexe']), QtGui.QStandardItem(a['dateembauche']),
                                   QtGui.QStandardItem(a['codeutilisateur']), QtGui.QStandardItem(a['password']),
@@ -151,6 +147,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.mesgexcept = "Une erreur est survenue" + e
 
     def logout(self):
+
         app.closeAllWindows()       #Ferme toutes les fenêtres et l'application
         self.connex.show()          #Démarre l'affichage de la fenêtre de connexion
 
@@ -162,7 +159,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.showpopusager.show()        #L'affiche
         self.showpopusager.pushButton.clicked.connect(self.saveuser) #Active le test de sauvegarde si bouton utilisé
         self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close) #Ferme la fenêtre sans sauvegarder
-        self.showgest.close()
+
 
     def saveuser(self):
         #Ici j'utilise la classe Employe héritée de la classe Personne pour inscrire les données du formulaire dans
@@ -172,29 +169,28 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                          self.showpopusager.lineEdit_3.text(), self.showpopusager.lineEdit_5.text(),
                          self.showpopusager.comboBox_2.currentText())
         dictemployee=vars(employee)
-        with open("testuser.json", "r") as f:
-            dic = json.load(f)
-            if self.showpopusager.lineEdit.text() == "" or self.showpopusager.lineEdit_2.text() == "" or \
+        if self.showpopusager.lineEdit.text() == "" or self.showpopusager.lineEdit_2.text() == "" or \
                     self.showpopusager.lineEdit_3.text() == "" or self.showpopusager.lineEdit_5.text() == "":
-               msg = QtWidgets.QMessageBox()
-               msg.setIcon(QtWidgets.QMessageBox.Warning)
-               msg.setText("Veuillez compléter les informations manquantes")
-               msg.setInformativeText('')
-               msg.setWindowTitle("Erreur")
-               msg.exec_()
-            elif any(d["codeutilisateur"] == self.showpopusager.lineEdit_3.text() for d in dic):
-                msg = QtWidgets.QMessageBox()
-                msg.setIcon(QtWidgets.QMessageBox.Warning)
-                msg.setText("Code utilisateur déjà utilisé")
-                msg.setInformativeText('')
-                msg.setWindowTitle("Erreur")
-                msg.exec_()
-            else:
-                with open("testuser.json", "w") as outfile:
-                    dic.append(dictemployee)
-                    json.dump(dic,outfile)
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Veuillez compléter les informations manquantes")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+        elif any(d["codeutilisateur"] == self.showpopusager.lineEdit_3.text() for d in self.dictuser):
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Code utilisateur déjà utilisé")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+        else:
+            with open("testuser.json", "w") as outfile:
+                self.dictuser.append(dictemployee)
+                json.dump(self.dictuser,outfile)
                 self.showpopusager.close()
-                self.showgest.show()
+
+
 
     def modifpopup(self):
         self.showpopusager = FormUser()

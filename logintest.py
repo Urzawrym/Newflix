@@ -245,14 +245,24 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
-        elif
-        else:
-            indexes = self.showgest.treeView.selectedIndexes()
-            if indexes:
-                index = indexes[0]  # L'idndex correspond à la liste des items de la rangée
-                self.model.removeRow(index.row())  # Enlève l'item
-            self.saveuser()
+        else: self.testdelete()
+
     def testdelete(self):
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+        msg.setText("This is a message box")
+        msg.setInformativeText("This is additional information")
+        msg.setWindowTitle("MessageBox demo")
+        msg.setDetailedText("The details are as follows:")
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+        msg.buttonClicked.connect(self.yesdelete)
+
+    def yesdelete(self):
+        indexes = self.showgest.treeView.selectedIndexes()
+        if indexes:
+            index = indexes[0]  # L'idndex correspond à la liste des items de la rangée
+            self.model.removeRow(index.row())  # Enlève l'item
+        self.saveuser()
 
 
 if __name__ == "__main__":

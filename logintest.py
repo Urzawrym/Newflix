@@ -209,8 +209,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 self.saveuser()
                 self.showpopusager.close()
 
-
-
     def modifpopup(self):
         self.showpopusager = FormUser()
         self.showpopusager.show()

@@ -26,6 +26,7 @@ class Testlist():
         self.tree.show()
         self.tree.pushButton_2.clicked.connect(self.modifpopup)
         self.tree.pushButton.clicked.connect(self.showpopuser)
+        self.tree.pushButton_3.clicked.connect(self.deleteuser)
 
         root = self.model.invisibleRootItem()
         self.parent = root
@@ -75,6 +76,7 @@ class Testlist():
     def modifpopup(self):
         self.showpopusager = FormUser()
         self.showpopusager.show()
+        self.showpopusager.pushButton.clicked.connect(self.modifusager)
         self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close)
         donnees = [a.data() for a in self.tree.treeView.selectedIndexes()] #Créé une liste avec les infos de la ligne
         self.showpopusager.lineEdit.setText(donnees[0])
@@ -89,6 +91,14 @@ class Testlist():
         index2 = self.showpopusager.comboBox_2.findText(donnees[6], QtCore.Qt.MatchFlag.MatchFixedString)
         self.showpopusager.comboBox_2.setCurrentIndex(index2)  # Converti le format texte de l'item en index de la boite
 
+    def modifusager(self):
+        indexes = self.tree.treeView.selectedIndexes()
+
+
+    def deleteuser(self):
+        indexes = self.tree.treeView.selectedIndexes()
+        print(indexes)
+        self.parent.removeRow(self.tree.treeView.selectedIndexes())
 
 
 

@@ -83,8 +83,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                     msg.exec_()
                     self.connex.lineEdit.setFocus() #Remet le focus du clavier sur la ligne de l'usager
                     break #Casse la boucle car aucun identifiant n'a fonctionné
-        except Exception as e: #Si la boucle n'a pas fonctionné, affiche ce message
-            self.mesgexcept = "Une erreur est survenue" +e
+        except Exception: #Si la boucle n'a pas fonctionné, stop la boucle
+            pass
 
     def adminwindow(self):
         self.admin = FenPrinci()        #Importe la fenêtre principale
@@ -143,8 +143,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                                   QtGui.QStandardItem(a['sexe']), QtGui.QStandardItem(a['dateembauche']),
                                   QtGui.QStandardItem(a['codeutilisateur']), QtGui.QStandardItem(a['password']),
                                   QtGui.QStandardItem(a['acces'])])     #Ajoute chaque information dans les colonnes.
-        except Exception as e:  # Si la boucle n'a pas fonctionné, affiche ce message
-            self.mesgexcept = "Une erreur est survenue" + e
+        except Exception:  #Si la boucle n'a pas fonctionné, stop la boucle
+            pass
 
     def logout(self):
 

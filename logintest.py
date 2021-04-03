@@ -199,16 +199,15 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setWindowTitle("Erreur")
             msg.exec_()
         else:
-            with open("testuser.json", "w") as outfile:
-                self.parent.appendRow(
+            self.parent.appendRow(
                     [QtGui.QStandardItem(dictemployee['nom']), QtGui.QStandardItem(dictemployee['prenom']),
                      QtGui.QStandardItem(dictemployee['sexe']), QtGui.QStandardItem(dictemployee['dateembauche']),
                      QtGui.QStandardItem(dictemployee['codeutilisateur']),
                      QtGui.QStandardItem(dictemployee['password']),
                      QtGui.QStandardItem(dictemployee['acces'])])
-                self.dictuser.append(dictemployee)
-                self.saveuser()
-                self.showpopusager.close()
+            self.dictuser.append(dictemployee)
+            self.saveuser()
+            self.showpopusager.close()
 
     def modifpopup(self):
         self.showpopusager = FormUser()
@@ -245,9 +244,9 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
-        else: self.testdelete()
+        else: self.yesdelete()
 
-    def testdelete(self):
+    """def testdelete(self):
         msg = QtWidgets.QMessageBox()
         msg.setIcon(QtWidgets.QMessageBox.Information)
         msg.setText("This is a message box")
@@ -255,14 +254,16 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         msg.setWindowTitle("MessageBox demo")
         msg.setDetailedText("The details are as follows:")
         msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
-        msg.buttonClicked.connect(self.yesdelete)
+        msg.buttonClicked.connect(self.yesdelete)"""
 
     def yesdelete(self):
         indexes = self.showgest.treeView.selectedIndexes()
+        donnees = [a.data() for a in self.showgest.treeView.selectedIndexes()]
         if indexes:
             index = indexes[0]  # L'idndex correspond à la liste des items de la rangée
             self.model.removeRow(index.row())  # Enlève l'item
-        self.saveuser()
+            self.dictuser = [element for element in self.dictuser if element.get('codeutilisateur', '') != donnees[4]]
+            self.saveuser()
 
 
 if __name__ == "__main__":

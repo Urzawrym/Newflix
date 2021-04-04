@@ -198,6 +198,9 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
+        elif self.showpopusager.lineEdit_3.setEnabled() == False :
+            self.dictemployee.update(self.updateduser)
+
         else:
             self.parent.appendRow(
                     [QtGui.QStandardItem(self.dictemployee['nom']), QtGui.QStandardItem(self.dictemployee['prenom']),
@@ -235,7 +238,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.showpopusager.lineEdit_3.setText(donnees[4]),        #Affiche le nom d'utilisateur provenant de la colonne4
             self.showpopusager.lineEdit_5.setText(donnees[5]),        #Affiche le mot de passe provenant de la colonne5
             self.showpopusager.comboBox_2.setCurrentIndex(index2))  #Affiche l'index correspondant au int
-            self.showpopusager.pushButton.clicked.connect(self.modifuser)
+            print(self.updateduser)
     def modifuser(self):
         self.dictemployee.update(self.updateduser)
         print(self.dictemployee)

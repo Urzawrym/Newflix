@@ -244,17 +244,24 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
-        else: self.yesdelete()
+        else: self.testdelete()
 
-    """def testdelete(self):
-        msg = QtWidgets.QMessageBox()
-        msg.setIcon(QtWidgets.QMessageBox.Information)
-        msg.setText("This is a message box")
-        msg.setInformativeText("This is additional information")
-        msg.setWindowTitle("MessageBox demo")
-        msg.setDetailedText("The details are as follows:")
-        msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
-        msg.buttonClicked.connect(self.yesdelete)"""
+    def testdelete(self):
+        box = QtWidgets.QMessageBox()
+        box.setIcon(QtWidgets.QMessageBox.Question)
+        box.setWindowTitle('Confirmation')
+        box.setText('Êtes vous sûr de vouloir supprimer cet utilisateur?')
+        box.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+        buttonY = box.button(QtWidgets.QMessageBox.Yes)
+        buttonY.setText('Oui')
+        buttonN = box.button(QtWidgets.QMessageBox.No)
+        buttonN.setText('Non')
+        box.exec_()
+
+        if box.clickedButton() == buttonY:
+            self.yesdelete()
+        elif box.clickedButton() == buttonN:
+            pass
 
     def yesdelete(self):
         indexes = self.showgest.treeView.selectedIndexes()

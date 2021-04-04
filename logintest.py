@@ -182,7 +182,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                          self.showpopusager.comboBox.currentText(), self.showpopusager.dateEdit.text(),
                          self.showpopusager.lineEdit_3.text(), self.showpopusager.lineEdit_5.text(),
                          self.showpopusager.comboBox_2.currentText())
-        dictemployee=vars(employee)
+        self.dictemployee=vars(employee)
         if self.showpopusager.lineEdit.text() == "" or self.showpopusager.lineEdit_2.text() == "" or \
                     self.showpopusager.lineEdit_3.text() == "" or self.showpopusager.lineEdit_5.text() == "":
             msg = QtWidgets.QMessageBox()
@@ -200,12 +200,12 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.exec_()
         else:
             self.parent.appendRow(
-                    [QtGui.QStandardItem(dictemployee['nom']), QtGui.QStandardItem(dictemployee['prenom']),
-                     QtGui.QStandardItem(dictemployee['sexe']), QtGui.QStandardItem(dictemployee['dateembauche']),
-                     QtGui.QStandardItem(dictemployee['codeutilisateur']),
-                     QtGui.QStandardItem(dictemployee['password']),
-                     QtGui.QStandardItem(dictemployee['acces'])])
-            self.dictuser.append(dictemployee)
+                    [QtGui.QStandardItem(self.dictemployee['nom']), QtGui.QStandardItem(self.dictemployee['prenom']),
+                     QtGui.QStandardItem(self.dictemployee['sexe']), QtGui.QStandardItem(self.dictemployee['dateembauche']),
+                     QtGui.QStandardItem(self.dictemployee['codeutilisateur']),
+                     QtGui.QStandardItem(self.dictemployee['password']),
+                     QtGui.QStandardItem(self.dictemployee['acces'])])
+            self.dictuser.append(self.dictemployee)
             self.saveuser()
             self.showpopusager.close()
 
@@ -223,17 +223,22 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.exec_()
             self.showpopusager.close()
         else:
-            self.showpopusager.lineEdit.setText(donnees[0])          #Affiche la donnée de la colonne 0 dans la lineedit
-            self.showpopusager.lineEdit_2.setText(donnees[1])        #Affiche la donnée de la colonne 1 dans la lineedit_2
-            index = self.showpopusager.comboBox.findText(donnees[2], QtCore.Qt.MatchFlag.MatchFixedString) #Converti en int
-            self.showpopusager.comboBox.setCurrentIndex(index)       #Affiche l'index correspondant au int
-            date = QtCore.QDate.fromString(donnees[3], "dd-MM-yyyy") #Converti le texte de la date en format Date
-            self.showpopusager.dateEdit.setDate(date)                #Affiche la date sélectionnée
-            self.showpopusager.lineEdit_3.setText(donnees[4])        #Affiche le nom d'utilisateur provenant de la colonne4
-            self.showpopusager.lineEdit_3.setEnabled(False)          #Le rend visible mais désactivé pour éviter sa modif
-            self.showpopusager.lineEdit_5.setText(donnees[5])        #Affiche le mot de passe provenant de la colonne5
-            index2 = self.showpopusager.comboBox_2.findText(donnees[6], QtCore.Qt.MatchFlag.MatchFixedString) #Conv. en int
-            self.showpopusager.comboBox_2.setCurrentIndex(index2)    #Affiche l'index correspondant au int
+            index = self.showpopusager.comboBox.findText(donnees[2],QtCore.Qt.MatchFlag.MatchFixedString)  # Converti en int
+            date = QtCore.QDate.fromString(donnees[3], "dd-MM-yyyy")  # Converti le texte de la date en format Date
+            index2 = self.showpopusager.comboBox_2.findText(donnees[6],QtCore.Qt.MatchFlag.MatchFixedString)  # Conv. en int
+            self.showpopusager.lineEdit_3.setEnabled(False)
+            self.updateduser=Employe(
+            self.showpopusager.lineEdit.setText(donnees[0]),          #Affiche la donnée de la colonne 0 dans la lineedit
+            self.showpopusager.lineEdit_2.setText(donnees[1]),        #Affiche la donnée de la colonne 1 dans la lineedit_2
+            self.showpopusager.comboBox.setCurrentIndex(index),       #Affiche l'index correspondant au int
+            self.showpopusager.dateEdit.setDate(date),                #Affiche la date sélectionnée
+            self.showpopusager.lineEdit_3.setText(donnees[4]),        #Affiche le nom d'utilisateur provenant de la colonne4
+            self.showpopusager.lineEdit_5.setText(donnees[5]),        #Affiche le mot de passe provenant de la colonne5
+            self.showpopusager.comboBox_2.setCurrentIndex(index2))  #Affiche l'index correspondant au int
+            self.showpopusager.pushButton.clicked.connect(self.modifuser)
+    def modifuser(self):
+        self.dictemployee.update(self.updateduser)
+        print(self.dictemployee)
 
     def deleteuser(self):
         donnees = [a.data() for a in self.showgest.treeView.selectedIndexes()]  # Créé une liste des données sélectionées

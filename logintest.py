@@ -217,8 +217,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.showpopusager.show()
         self.showpopusager.pushButton.clicked.connect(self.modifuser)
         self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close)
-        donnees = [a.data() for a in self.showgest.treeView.selectedIndexes()] #Créé une liste des données sélectionées
-        if donnees[4] == "admin":
+        self.donnees = [a.data() for a in self.showgest.treeView.selectedIndexes()] #Créé une liste des données sélectionées
+        if self.donnees[4] == "admin":
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
             msg.setText("L'administrateur système ne peut être modifié")
@@ -227,20 +227,21 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.exec_()
             self.showpopusager.close()
         else:
-            index = self.showpopusager.comboBox.findText(donnees[2],QtCore.Qt.MatchFlag.MatchFixedString)  # Converti en int
-            date = QtCore.QDate.fromString(donnees[3], "dd-MM-yyyy")  # Converti le texte de la date en format Date
-            index2 = self.showpopusager.comboBox_2.findText(donnees[6],QtCore.Qt.MatchFlag.MatchFixedString)  # Conv. en int
+            index = self.showpopusager.comboBox.findText(self.donnees[2],QtCore.Qt.MatchFlag.MatchFixedString)  # Converti en int
+            date = QtCore.QDate.fromString(self.donnees[3], "dd-MM-yyyy")  # Converti le texte de la date en format Date
+            index2 = self.showpopusager.comboBox_2.findText(self.donnees[6],QtCore.Qt.MatchFlag.MatchFixedString)  # Conv. en int
             self.showpopusager.lineEdit_3.setEnabled(False)
             self.updateduser=Employe(
-            self.showpopusager.lineEdit.setText(donnees[0]),          #Affiche la donnée de la colonne 0 dans la lineedit
-            self.showpopusager.lineEdit_2.setText(donnees[1]),        #Affiche la donnée de la colonne 1 dans la lineedit_2
+            self.showpopusager.lineEdit.setText(self.donnees[0]),          #Affiche la donnée de la colonne 0 dans la lineedit
+            self.showpopusager.lineEdit_2.setText(self.donnees[1]),        #Affiche la donnée de la colonne 1 dans la lineedit_2
             self.showpopusager.comboBox.setCurrentIndex(index),       #Affiche l'index correspondant au int
             self.showpopusager.dateEdit.setDate(date),                #Affiche la date sélectionnée
-            self.showpopusager.lineEdit_3.setText(donnees[4]),        #Affiche le nom d'utilisateur provenant de la colonne4
-            self.showpopusager.lineEdit_5.setText(donnees[5]),        #Affiche le mot de passe provenant de la colonne5
+            self.showpopusager.lineEdit_3.setText(self.donnees[4]),        #Affiche le nom d'utilisateur provenant de la colonne4
+            self.showpopusager.lineEdit_5.setText(self.donnees[5]),        #Affiche le mot de passe provenant de la colonne5
             self.showpopusager.comboBox_2.setCurrentIndex(index2))  #Affiche l'index correspondant au int
 
     def modifuser(self):
+
         changeusager = next(
             item for item in self.dictuser if item['codeutilisateur'] == self.showpopusager.lineEdit_3.text())
         changeusager['nom'] = self.showpopusager.lineEdit.text()
@@ -250,8 +251,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         changeusager['password'] = self.showpopusager.lineEdit_5.text()
         changeusager['acces'] = self.showpopusager.comboBox_2.currentText()
         self.showpopusager.close()
-
         self.saveuser()
+
 
     def deleteuser(self):
         donnees = [a.data() for a in self.showgest.treeView.selectedIndexes()]  # Créé une liste des données sélectionées
@@ -285,7 +286,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         indexes = self.showgest.treeView.selectedIndexes()
         donnees = [a.data() for a in self.showgest.treeView.selectedIndexes()]
         if indexes:
-            index = indexes[0]  # L'idndex correspond à la liste des items de la rangée
+            index = indexes[0]  # L'index correspond à la liste des items de la rangée
             self.model.removeRow(index.row())  # Enlève l'item
             self.dictuser = [element for element in self.dictuser if element.get('codeutilisateur', '') != donnees[4]]
             self.saveuser()

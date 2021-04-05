@@ -103,8 +103,6 @@ class Testlist():
 
 
     def modifuser(self):
-
-
         changeusager = next(item for item in self.users if item['codeutilisateur'] == self.showpopusager.lineEdit_3.text())
         changeusager['nom'] = self.showpopusager.lineEdit.text()
         changeusager['prenom'] = self.showpopusager.lineEdit_2.text()
@@ -112,7 +110,15 @@ class Testlist():
         changeusager['dateembauche'] = self.showpopusager.dateEdit.text()
         changeusager['password'] = self.showpopusager.lineEdit_5.text()
         changeusager['acces'] = self.showpopusager.comboBox_2.currentText()
-        print(self.users)
+        indexes = self.model.selectedIndexes()
+        if indexes:
+            index = indexes[0]
+            row = index.row()
+
+            self.model[row] = changeusager
+            # .dataChanged takes top-left and bottom right, which are equal
+            # for a single selection.
+            #self.model.dataChanged.emit(index, index)
 
     def deleteuser(self):
 

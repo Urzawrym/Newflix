@@ -46,11 +46,11 @@ class Testlist():
 
         #Ici j'utilise la classe Employe héritée de la classe Personne pour inscrire les données du formulaire dans
         #une liste de dictionnaire. Chaque dict = 1 usager. La liste est ensuite enregistrée dans un fichier json crypté
-        employee=Employe(self.showpopusager.lineEdit.text(), self.showpopusager.lineEdit_2.text(),
+        self.employee=Employe(self.showpopusager.lineEdit.text(), self.showpopusager.lineEdit_2.text(),
                          self.showpopusager.comboBox.currentText(), self.showpopusager.dateEdit.text(),
                          self.showpopusager.lineEdit_3.text(), self.showpopusager.lineEdit_5.text(),
                          self.showpopusager.comboBox_2.currentText())
-        dictemployee=vars(employee)
+        self.dictemployee=vars(self.employee)
         if self.showpopusager.lineEdit.text() == "" or self.showpopusager.lineEdit_2.text() == "" or \
                     self.showpopusager.lineEdit_3.text() == "" or self.showpopusager.lineEdit_5.text() == "":
             msg = QtWidgets.QMessageBox()
@@ -59,6 +59,7 @@ class Testlist():
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
+
         elif any(d["codeutilisateur"] == self.showpopusager.lineEdit_3.text() for d in self.users):
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
@@ -67,33 +68,51 @@ class Testlist():
             msg.setWindowTitle("Erreur")
             msg.exec_()
         else:
-            self.parent.appendRow([QtGui.QStandardItem(dictemployee['nom']), QtGui.QStandardItem(dictemployee['prenom']),
-                              QtGui.QStandardItem(dictemployee['sexe']), QtGui.QStandardItem(dictemployee['dateembauche']),
-                              QtGui.QStandardItem(dictemployee['codeutilisateur']), QtGui.QStandardItem(dictemployee['password']),
-                              QtGui.QStandardItem(dictemployee['acces'])])
+            self.parent.appendRow([QtGui.QStandardItem(self.dictemployee['nom']), QtGui.QStandardItem(self.dictemployee['prenom']),
+                              QtGui.QStandardItem(self.dictemployee['sexe']), QtGui.QStandardItem(self.dictemployee['dateembauche']),
+                              QtGui.QStandardItem(self.dictemployee['codeutilisateur']), QtGui.QStandardItem(self.dictemployee['password']),
+                              QtGui.QStandardItem(self.dictemployee['acces'])])
 
 
     def modifpopup(self):
         self.showpopusager = FormUser()
         self.showpopusager.show()
-        self.showpopusager.pushButton.clicked.connect(self.modifusager)
+        self.showpopusager.pushButton.clicked.connect(self.modifuser)
         self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close)
-        donnees = [a.data() for a in self.tree.treeView.selectedIndexes()] #Créé une liste avec les infos de la ligne
-        self.showpopusager.lineEdit.setText(donnees[0])
-        self.showpopusager.lineEdit_2.setText(donnees[1])
-        index = self.showpopusager.comboBox.findText(donnees[2], QtCore.Qt.MatchFlag.MatchFixedString)
-        self.showpopusager.comboBox.setCurrentIndex(index)  # Converti le format texte de l'item en index de la boite
-        date = QtCore.QDate.fromString(donnees[3], "dd-MM-yyyy") #Converti le texte de la date en format Date
-        self.showpopusager.dateEdit.setDate(date)
-        self.showpopusager.lineEdit_3.setText(donnees[4])
-        self.showpopusager.lineEdit_3.setEnabled(False)
-        self.showpopusager.lineEdit_5.setText(donnees[5])
-        index2 = self.showpopusager.comboBox_2.findText(donnees[6], QtCore.Qt.MatchFlag.MatchFixedString)
-        self.showpopusager.comboBox_2.setCurrentIndex(index2)  # Converti le format texte de l'item en index de la boite
+        self.donnees = [a.data() for a in self.tree.treeView.selectedIndexes()]  # Créé une liste des données sélectionées
+        if self.donnees[4] == "admin":
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("L'administrateur système ne peut être modifié")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+            self.showpopusager.close()
+        else:
+            index = self.showpopusager.comboBox.findText(self.donnees[2], QtCore.Qt.MatchFlag.MatchFixedString)  # Converti en int
+            date = QtCore.QDate.fromString(self.donnees[3], "dd-MM-yyyy")  # Converti le texte de la date en format Date
+            index2 = self.showpopusager.comboBox_2.findText(self.donnees[6], QtCore.Qt.MatchFlag.MatchFixedString)  # Conv. en int
+            self.showpopusager.lineEdit_3.setEnabled(False)
+            self.showpopusager.lineEdit.setText(self.donnees[0]),  # Affiche la donnée de la colonne 0 dans la lineedit
+            self.showpopusager.lineEdit_2.setText(self.donnees[1]),
+            self.showpopusager.comboBox.setCurrentIndex(index),
+            self.showpopusager.dateEdit.setDate(date),
+            self.showpopusager.lineEdit_3.setText(self.donnees[4]),
+            self.showpopusager.lineEdit_5.setText(self.donnees[5]),
+            self.showpopusager.comboBox_2.setCurrentIndex(index2)
 
-    def modifusager(self):
-        indexes = self.tree.treeView.selectedIndexes()
 
+    def modifuser(self):
+
+
+        changeusager = next(item for item in self.users if item['codeutilisateur'] == self.showpopusager.lineEdit_3.text())
+        changeusager['nom'] = self.showpopusager.lineEdit.text()
+        changeusager['prenom'] = self.showpopusager.lineEdit_2.text()
+        changeusager['sexe'] = self.showpopusager.comboBox.currentText()
+        changeusager['dateembauche'] = self.showpopusager.dateEdit.text()
+        changeusager['password'] = self.showpopusager.lineEdit_5.text()
+        changeusager['acces'] = self.showpopusager.comboBox_2.currentText()
+        print(self.users)
 
     def deleteuser(self):
 

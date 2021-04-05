@@ -198,13 +198,13 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
-        elif self.showpopusager.lineEdit_3.setEnabled() == False :
-            self.dictemployee.update(self.updateduser)
 
         else:
             self.parent.appendRow(
-                    [QtGui.QStandardItem(self.dictemployee['nom']), QtGui.QStandardItem(self.dictemployee['prenom']),
-                     QtGui.QStandardItem(self.dictemployee['sexe']), QtGui.QStandardItem(self.dictemployee['dateembauche']),
+                    [QtGui.QStandardItem(self.dictemployee['nom']),
+                     QtGui.QStandardItem(self.dictemployee['prenom']),
+                     QtGui.QStandardItem(self.dictemployee['sexe']),
+                     QtGui.QStandardItem(self.dictemployee['dateembauche']),
                      QtGui.QStandardItem(self.dictemployee['codeutilisateur']),
                      QtGui.QStandardItem(self.dictemployee['password']),
                      QtGui.QStandardItem(self.dictemployee['acces'])])
@@ -215,6 +215,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def modifpopup(self):
         self.showpopusager = FormUser()
         self.showpopusager.show()
+        self.showpopusager.pushButton.clicked.connect(self.modifuser)
         self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close)
         donnees = [a.data() for a in self.showgest.treeView.selectedIndexes()] #Créé une liste des données sélectionées
         if donnees[4] == "admin":
@@ -238,10 +239,19 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.showpopusager.lineEdit_3.setText(donnees[4]),        #Affiche le nom d'utilisateur provenant de la colonne4
             self.showpopusager.lineEdit_5.setText(donnees[5]),        #Affiche le mot de passe provenant de la colonne5
             self.showpopusager.comboBox_2.setCurrentIndex(index2))  #Affiche l'index correspondant au int
-            print(self.updateduser)
+
     def modifuser(self):
-        self.dictemployee.update(self.updateduser)
-        print(self.dictemployee)
+        changeusager = next(
+            item for item in self.dictuser if item['codeutilisateur'] == self.showpopusager.lineEdit_3.text())
+        changeusager['nom'] = self.showpopusager.lineEdit.text()
+        changeusager['prenom'] = self.showpopusager.lineEdit_2.text()
+        changeusager['sexe'] = self.showpopusager.comboBox.currentText()
+        changeusager['dateembauche'] = self.showpopusager.dateEdit.text()
+        changeusager['password'] = self.showpopusager.lineEdit_5.text()
+        changeusager['acces'] = self.showpopusager.comboBox_2.currentText()
+        self.showpopusager.close()
+
+        self.saveuser()
 
     def deleteuser(self):
         donnees = [a.data() for a in self.showgest.treeView.selectedIndexes()]  # Créé une liste des données sélectionées

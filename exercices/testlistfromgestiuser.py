@@ -30,6 +30,7 @@ class Testlist():
 
         root = self.model.invisibleRootItem()
         self.parent = root
+
         for a in (self.users):
             self.parent.appendRow([QtGui.QStandardItem(a['nom']), QtGui.QStandardItem(a['prenom']),
                               QtGui.QStandardItem(a['sexe']), QtGui.QStandardItem(a['dateembauche']),
@@ -88,6 +89,7 @@ class Testlist():
             msg.setWindowTitle("Erreur")
             msg.exec_()
             self.showpopusager.close()
+
         else:
             index = self.showpopusager.comboBox.findText(self.donnees[2], QtCore.Qt.MatchFlag.MatchFixedString)  # Converti en int
             date = QtCore.QDate.fromString(self.donnees[3], "dd-MM-yyyy")  # Converti le texte de la date en format Date
@@ -103,7 +105,7 @@ class Testlist():
 
 
     def modifuser(self):
-        self.model.layoutAboutToBeChanged.emit()
+
         changeusager = next(item for item in self.users if item['codeutilisateur'] == self.showpopusager.lineEdit_3.text())
         changeusager['nom'] = self.showpopusager.lineEdit.text()
         changeusager['prenom'] = self.showpopusager.lineEdit_2.text()
@@ -114,7 +116,7 @@ class Testlist():
 
         self.donnees = list(changeusager.values())
         self.showpopusager.close()
-        self.model.layoutChanged.emit()
+
         #self.showpopusager.close()
 
         #indexes = self.model.selectedIndexes()

@@ -148,6 +148,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                                               'Mot de passe', 'Type Acces'])
         self.showgest.treeView.setModel(self.model)  # Active le modèle
         self.showgest.show()  # Affiche le tableau
+
         self.mesgexcept = ""  # Va servir pour l'exception du try
         root = self.model.invisibleRootItem()  # Sert à rendre invisible l'entête "parent" de l'arbre
         self.parent = root
@@ -226,14 +227,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setWindowTitle("Erreur")
             msg.exec_()
             self.showpopusager.close()
-        elif self.showgest.treeView.selectedIndexes() == False :
-            msg = QtWidgets.QMessageBox()
-            msg.setIcon(QtWidgets.QMessageBox.Warning)
-            msg.setText("Veuillez sélectionner un usager pour modification")
-            msg.setInformativeText('')
-            msg.setWindowTitle("Erreur")
-            msg.exec_()
-            self.showpopusager.close()
         else:
             index = self.showpopusager.comboBox.findText(self.donnees[2],QtCore.Qt.MatchFlag.MatchFixedString)  # Converti en int
             date = QtCore.QDate.fromString(self.donnees[3], "dd-MM-yyyy")  # Converti le texte de la date en format Date
@@ -258,7 +251,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         changeusager['dateembauche'] = self.showpopusager.dateEdit.text()
         changeusager['password'] = self.showpopusager.lineEdit_5.text()
         changeusager['acces'] = self.showpopusager.comboBox_2.currentText()
-        self.parent.emitDataChanged()
+        #self.model.endResetModel()
+        self.showgestuser()
         #self.showgest.treeView.
 
         self.showpopusager.close()

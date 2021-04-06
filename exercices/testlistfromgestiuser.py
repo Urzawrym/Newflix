@@ -27,11 +27,13 @@ class Testlist():
         self.tree.pushButton_2.clicked.connect(self.modifpopup)
         self.tree.pushButton.clicked.connect(self.showpopuser)
         self.tree.pushButton_3.clicked.connect(self.deleteuser)
+        self.tree.pushButton.setToolTip("ceci est un test")
 
         root = self.model.invisibleRootItem()
         self.parent = root
 
         for a in (self.users):
+            
             self.parent.appendRow([QtGui.QStandardItem(a['nom']), QtGui.QStandardItem(a['prenom']),
                               QtGui.QStandardItem(a['sexe']), QtGui.QStandardItem(a['dateembauche']),
                               QtGui.QStandardItem(a['codeutilisateur']), QtGui.QStandardItem(a['password']),

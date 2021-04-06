@@ -25,8 +25,10 @@ class ViewTree(QTreeWidget):
 
 if __name__ == '__main__':
     app = QApplication([])
-    window = ViewTree({ 'key1': 'value1', 'key3': [1,2,3]})
+    window = ViewTree({'nom': 'belanger', 'carte': [{'carte1': 3, 'exp': 9},{'carte2': 3, 'exp': 9},{'carte3': 3, 'exp': 9}]})
     window.show()
     app.exec_()
 
-    #{'key1': 'value1', 'key3': [1, 2, 3, {1: 3, 7: 9}]})
+    #{'nom': 'belanger', 'carte': [{carte1: 3, exp: 9},{carte2: 3, exp: 9},{carte3: 3, exp: 9}]})
+
+    #{'key1': 'value1', 'key2': 'value2', 'key3': [1, 2, 3, {1: 3, 7: 9}]}

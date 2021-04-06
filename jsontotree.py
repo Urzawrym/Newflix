@@ -6,7 +6,7 @@ class MainFrame(QtWidgets.QWidget):
     def __init__(self):
         QtWidgets.QWidget.__init__(self)
 
-        tree = {'root': {"1": ["A", "B", "C"],"2": {"2-1": ["G", "H", "I"],"2-2": ["J", "K", "L"]},"3": ["D", "E", "F"]}}
+        tree = {'root': {"List1": ["A", "B", "C"],"Key2": {"List2": ["G", "H", "I"],"List3": ["J", "K", "L"]},"List4": ["D", "E", "F"]}}
 
         self.tree = QtWidgets.QTreeView(self)
         layout = QtWidgets.QHBoxLayout(self)

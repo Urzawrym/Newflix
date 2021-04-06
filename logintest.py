@@ -248,7 +248,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.showpopusager.comboBox_2.setCurrentIndex(index2))  #Affiche l'index correspondant au int
 
     def modifuser(self):
-
         changeusager = next(
             item for item in self.dictuser if item['codeutilisateur'] == self.showpopusager.lineEdit_3.text())
         changeusager['nom'] = self.showpopusager.lineEdit.text()
@@ -257,12 +256,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         changeusager['dateembauche'] = self.showpopusager.dateEdit.text()
         changeusager['password'] = self.showpopusager.lineEdit_5.text()
         changeusager['acces'] = self.showpopusager.comboBox_2.currentText()
-        #self.model.endResetModel()
         self.showgestuser()
-        #self.showgest.treeView.
-
         self.showpopusager.close()
-        #self.model.dataChanged(QtCore.QModelIndex(), QtCore.QModelIndex())
         self.saveuser()
 
 
@@ -302,6 +297,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.model.removeRow(index.row())  # Enlève l'item
             self.dictuser = [element for element in self.dictuser if element.get('codeutilisateur', '') != donnees[4]]
             self.saveuser()
+
+
 
 
 if __name__ == "__main__":

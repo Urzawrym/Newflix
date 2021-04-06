@@ -214,20 +214,26 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.showpopusager.close()
 
     def modifpopup(self):
-        self.showpopusager = FormUser()
-        self.showpopusager.show()
-        self.showpopusager.pushButton.clicked.connect(self.modifuser)
-        self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close)
         self.donnees = [a.data() for a in self.showgest.treeView.selectedIndexes()] #Créé une liste des données sélectionées
-        if self.donnees[4] == "admin":
+        if self.donnees == [] :
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Veuillez choisir un usager à modifier")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+        elif self.donnees[4] == "admin":
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
             msg.setText("L'administrateur système ne peut être modifié")
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
-            self.showpopusager.close()
         else:
+            self.showpopusager = FormUser()
+            self.showpopusager.show()
+            self.showpopusager.pushButton.clicked.connect(self.modifuser)
+            self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close)
             index = self.showpopusager.comboBox.findText(self.donnees[2],QtCore.Qt.MatchFlag.MatchFixedString)  # Converti en int
             date = QtCore.QDate.fromString(self.donnees[3], "dd-MM-yyyy")  # Converti le texte de la date en format Date
             index2 = self.showpopusager.comboBox_2.findText(self.donnees[6],QtCore.Qt.MatchFlag.MatchFixedString)  # Conv. en int

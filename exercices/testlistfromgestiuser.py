@@ -81,7 +81,16 @@ class Testlist():
         self.showpopusager.pushButton.clicked.connect(self.modifuser)
         self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close)
         self.donnees = [a.data() for a in self.tree.treeView.selectedIndexes()]  # Créé une liste des données sélectionées
-        if self.donnees[4] == "admin":
+        print(self.donnees)
+        if self.donnees == [] :
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Veuillez choisir un usager à modifier")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+
+        """if self.donnees[4] == "admin":
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
             msg.setText("L'administrateur système ne peut être modifié")
@@ -101,7 +110,7 @@ class Testlist():
             self.showpopusager.dateEdit.setDate(date),
             self.showpopusager.lineEdit_3.setText(self.donnees[4]),
             self.showpopusager.lineEdit_5.setText(self.donnees[5]),
-            self.showpopusager.comboBox_2.setCurrentIndex(index2)
+            self.showpopusager.comboBox_2.setCurrentIndex(index2)"""
 
 
     def modifuser(self):

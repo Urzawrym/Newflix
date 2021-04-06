@@ -6,7 +6,7 @@ import sys
 
 
 data_for_tree = {"tomato":{"color":"red","amount":"10", "note":"a note for tomato"},"banana":{"color":"yellow","amount":"1", "note":"b note for banana"}, "some fruit":{"color":"unknown","amount":"100", "note":"some text"}}
-datatest = [{"nom": "Administrateur", "prenom": "Admin", "sexe": "Masculin", "dateinscription": "01-01-0000", "courriel": "admin", "password": "admin123", "cartes": [{"numero": "12345678", "expiration": "12/04/03", "codecarte": "005"}]}]
+datatest = [{"nom": "Administrateur", "prenom": "Admin", "sexe": "Masculin", "dateinscription": "01-01-0000", "courriel": "admin", "password": "admin123", "cartes": [{"numero": "12345678", "expiration": "12/04/03", "codecarte": "005"}]},{"nom": "Administrateur", "prenom": "Admin", "sexe": "Masculin", "dateinscription": "01-01-0000", "courriel": "admin", "password": "admin123", "cartes": [{"numero": "12345678", "expiration": "12/04/03", "codecarte": "005"}]}]
 
 class MainFrame(QWidget):
     def __init__(self):
@@ -49,8 +49,12 @@ class MainFrame(QWidget):
             password = QStandardItem(k["password"])
             self.cartes = QStandardItem("Cartes")
             item = (nom, prenom, sexe, date, courriel, password, self.cartes)
-
-            #self.rootnode.appendRow(item)
+            numero = QStandardItem("Numero")
+            expiration = QStandardItem("Expiration")
+            codecarte = QStandardItem("Code")
+            childitem = (numero, expiration, codecarte)
+            self.cartes.appendRow(childitem)
+            self.rootnode.appendRow(item)
 
             """for dict in k["cartes"]:
                 numero = QStandardItem(dict["numero"])
@@ -58,16 +62,11 @@ class MainFrame(QWidget):
                 codecarte = QStandardItem(dict["codecarte"])
                 childitem = (numero,expiration,codecarte)
                 cartes.appendRows(childitem)"""
-        numero = QStandardItem("Numero")
-        expiration = QStandardItem("Expiration")
-        codecarte = QStandardItem("Code")
-        childitem = (numero, expiration, codecarte)
-        self.cartes.appendRow(childitem)
-        self.rootnode.appendRow(item)
-        """c = 0
+
+        c = 0
         while c < len(self.most_used_cat_header):
             self.MyTreeView.resizeColumnToContents(c)
-            c=c+1"""
+            c=c+1
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

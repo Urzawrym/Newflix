@@ -11,9 +11,11 @@ class AppDemo(QMainWindow):
         self.resize(500, 700)
 
         treeView = QTreeView()
-        treeView.setHeaderHidden(True)
-
+        treeView.setHeaderHidden(False)
         treeModel = QStandardItemModel()
+        self.most_used_cat_header = ['Nom', "Prénom", "Sexe", "Date Inscription", "Courriel Client", "Mot de passe",
+                                     "Numéro de carte", "Expiration", "Code"]
+        treeModel.setHorizontalHeaderLabels(self.most_used_cat_header)
         rootNode = treeModel.invisibleRootItem()
 
 
@@ -41,11 +43,12 @@ class AppDemo(QMainWindow):
         testo = QStandardItem("testo")
         testo2 = QStandardItem("testo2")
         testo3 = QStandardItem("testo3")
-        item = (testo,testo2,testo3)
+        item = (testo,testo2)
         texas.appendRow(austin)
         texas.appendRow(houston)
         texas.appendRow(dallas)
         texas.appendRow(item)
+        testo.appendRow(testo3)
 
         # Canada
         canada = QStandardItem('Canada')

@@ -15,10 +15,10 @@ class view(QWidget):
         self.tree.setModel(self.model)
         self.importData(data)
         self.tree.expandAll()
-        tree_list = self.transverse_tree()
+        """tree_list = self.transverse_tree()
         print('tree_list saved from QTreeview:')
         for row in tree_list:
-            print(row)
+            print(row)"""
     # Function to save populate treeview with a dictionary
     def importData(self, data, root=None):
         self.model.setRowCount(0)
@@ -44,7 +44,7 @@ class view(QWidget):
             ])
             seen[unique_id] = parent.child(parent.rowCount() - 1)
     # Function to transverse treeview and derive tree_list
-    def transverse_tree(self):
+    """def transverse_tree(self):
         tree_list = []
         for i in range(self.model.rowCount()):
             item = self.model.item(i)
@@ -85,7 +85,7 @@ class view(QWidget):
                                 dic['weight'] = weight
                                 tree_list.append(dic)
                             self.GetItem(childitem, level, tree_list)
-                return tree_list
+                return tree_list"""
 if __name__ == '__main__':
     data = [
         {'unique_id': 1, 'parent_id': 0, 'short_name': '', 'height': ' ', 'weight': ' '},

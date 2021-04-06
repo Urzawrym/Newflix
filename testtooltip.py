@@ -62,7 +62,7 @@ class MainFrame(QWidget):
         expiration = QStandardItem("Expiration")
         codecarte = QStandardItem("Code")
         childitem = (numero, expiration, codecarte)
-        self.cartes.appendRows(childitem)
+        self.cartes.appendRow(childitem)
         self.rootnode.appendRow(item)
         """c = 0
         while c < len(self.most_used_cat_header):

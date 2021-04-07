@@ -18,7 +18,7 @@ class MainFrame(QWidget):
         self.most_used_cat_header = ['Nom', "Prénom", "Sexe", "Date Inscription", "Courriel Client", "Mot de passe", "Numéro de carte", "Expiration", "Code"]
         self.MyTreeViewModel.setHorizontalHeaderLabels(self.most_used_cat_header)
         self.MyTreeView.setSortingEnabled(True)
-        self.rootnode = self.MyTreeViewModel.invisibleRootItem()
+        #self.rootnode = self.MyTreeViewModel.invisibleRootItem()
         #self.MyTreeView_Fill()
         self.Testdata()
 
@@ -47,14 +47,11 @@ class MainFrame(QWidget):
             date = QStandardItem(k["dateinscription"])
             courriel = QStandardItem(k["courriel"])
             password = QStandardItem(k["password"])
-            self.cartes = QStandardItem("Cartes")
-            item = (nom, prenom, sexe, date, courriel, password, self.cartes)
+            cartes = QStandardItem("Cartes")
+            item = (nom, prenom, sexe, date, courriel, password, cartes)
             numero = QStandardItem("Numero")
-            expiration = QStandardItem("Expiration")
-            codecarte = QStandardItem("Code")
-            childitem = (numero, expiration, codecarte)
-            self.cartes.appendRow(childitem)
-            self.rootnode.appendRow(item)
+            cartes.appendRow(numero)
+            self.MyTreeViewModel.appendRow(item)
 
             """for dict in k["cartes"]:
                 numero = QStandardItem(dict["numero"])
@@ -62,6 +59,12 @@ class MainFrame(QWidget):
                 codecarte = QStandardItem(dict["codecarte"])
                 childitem = (numero,expiration,codecarte)
                 cartes.appendRows(childitem)"""
+
+        numero = QStandardItem("Numero")
+        expiration = QStandardItem("Expiration")
+        codecarte = QStandardItem("Code")
+        childitem = (numero, expiration, codecarte)
+        cartes.appendRow(childitem)
 
         c = 0
         while c < len(self.most_used_cat_header):

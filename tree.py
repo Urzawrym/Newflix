@@ -43,12 +43,14 @@ class AppDemo(QMainWindow):
         testo = QStandardItem("testo")
         testo2 = QStandardItem("testo2")
         testo3 = QStandardItem("testo3")
-        item = (testo,testo2)
-        texas.appendRow(austin)
-        texas.appendRow(houston)
-        texas.appendRow(dallas)
-        texas.appendRow(item)
-        testo.appendRow(testo3)
+        item = (austin,houston,dallas)
+        america.appendRow(item)
+        item2 = (testo,testo2, testo3)
+        #texas.appendRow(austin)
+        #texas.appendRow(houston)
+        #texas.appendRow(dallas)
+
+        dallas.appendRow(item2)
 
         # Canada
         canada = QStandardItem('Canada')

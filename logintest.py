@@ -133,61 +133,79 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         except Exception: #Si la boucle n'a pas fonctionné
             pass
 
+    def mainwindow(self):
+        self.mainw = FenPrinci()
+        self.mainw.show()
+        self.MyTreeView = QtWidgets.QTreeView()
+        self.MyTreeViewModel = QtGui.QStandardItemModel()
+        self.MyTreeView.setModel(self.MyTreeViewModel)
+        self.header = ['Nom', "Prénom", "Sexe", "Date Inscription", "Courriel Client", "Mot de passe",
+                                     "Numero de Carte", "Expiration", "Code secret"]
+        self.most_used_cat_header = ['Nom', "Prénom", "Sexe", "Date Inscription", "Courriel Client", "Mot de passe",
+                                     "Numero de Carte", "Expiration", "Code secret"]
+        self.MyTreeViewModel.setHorizontalHeaderLabels(self.most_used_cat_header)
+        self.MyTreeView.setSortingEnabled(True)
+        self.MyTreeView.setAlternatingRowColors(True)
+        for k in self.dictclient:
+            nom = QtGui.QStandardItem(k["nom"])
+            prenom = QtGui.QStandardItem(k["prenom"])
+            sexe = QtGui.QStandardItem(k["sexe"])
+            date = QtGui.QStandardItem(k["dateinscription"])
+            courriel = QtGui.QStandardItem(k["courriel"])
+            password = QtGui.QStandardItem(k["motdepasse"])
+            item = (nom, prenom, sexe, date, courriel, password)
+            self.MyTreeViewModel.appendRow(item)
+            for dict in k["cartes"]:
+                vide1 = QtGui.QStandardItem("**")
+                vide2 = QtGui.QStandardItem("**")
+                vide3 = QtGui.QStandardItem("**")
+                vide4 = QtGui.QStandardItem("**")
+                vide5 = QtGui.QStandardItem("**")
+                vide6 = QtGui.QStandardItem("**")
+                numero = QtGui.QStandardItem(dict["numero"])
+                expiration = QtGui.QStandardItem(dict["expiration"])
+                codecarte = QtGui.QStandardItem(dict["codecarte"])
+                childitem = (vide1, vide2, vide3, vide4, vide5, vide6, numero, expiration, codecarte)
+                nom.appendRow(childitem)
+
     def adminwindow(self):
-        self.admin = FenPrinci()        #Importe la fenêtre principale
-        self.admin.show()               #L'affiche la fenêtre principale
+        self.mainw.show()
         self.connex.lineEdit.clear()    #Vide la ligne usager de la fenêtre de connexion
         self.connex.lineEdit_2.clear()  #Vide la ligne mot de passe de la fenêtre de connexion
         self.connex.lineEdit.setFocus() #Met le focus sur la ligne usager de la fenêtre de connexion
         self.connex.hide()              #Cache la fenêtre de connexion
-        self.admin.actionGestion.triggered.connect(self.showgestuser) #Dans la fen. principale, trigger la gestion users
-        self.admin.actionDeconnexion.triggered.connect(self.logout) #Trigger la déconnexion du logiciel
-        self.admin.actionQuitter.triggered.connect(self.closeall) #Trigger la fermeture du logiciel
-        self.admin.pushButton.clicked.connect(self.popupclient)
+        self.mainw.actionGestion.triggered.connect(self.showgestuser) #Dans la fen. principale, trigger la gestion users
+        self.mainw.actionDeconnexion.triggered.connect(self.logout) #Trigger la déconnexion du logiciel
+        self.mainw.actionQuitter.triggered.connect(self.closeall) #Trigger la fermeture du logiciel
+        self.mainw.pushButton.clicked.connect(self.popupclient)
 
     def modifwindow(self):
-        self.modif = FenPrinci()                       #Fait la même chose que la fonction précédente
-        self.modif.actionGestion.setVisible(False)     #Cache le bouton Gestion Usagés du menu principal
-        self.modif.show()
+        self.mainw.show()                               #Fait la même chose que la fonction précédente
+        self.mainw.actionGestion.setVisible(False)      #Cache le bouton Gestion Usagés du menu principal
         self.connex.lineEdit.clear()
         self.connex.lineEdit_2.clear()
         self.connex.lineEdit.setFocus()
         self.connex.hide()
-        self.modif.actionDeconnexion.triggered.connect(self.logout)
-        self.modif.actionQuitter.triggered.connect(self.closeall)
-        self.modif.pushButton.clicked.connect(self.popupclient)
-
-
-
-                      <
-
-
-
-
-
-
-
-
-
-
-
+        self.mainw.actionDeconnexion.triggered.connect(self.logout)
+        self.mainw.actionQuitter.triggered.connect(self.closeall)
+        self.mainw.pushButton.clicked.connect(self.popupclient)
 
     def viewwindow(self):
-        self.view = FenPrinci()                        #Fait la même chose que la fonction précédente
-        self.view.actionGestion.setVisible(False)
-        self.view.pushButton.hide()                    #Cache les 6 boutons ajouter/modifier/supprimer de la
-        self.view.pushButton_2.hide()                  #fenêtre principale pour permettre un accès en lecture
-        self.view.pushButton_3.hide()                  #seulement des listes de clients et de films.
-        self.view.pushButton_4.hide()
-        self.view.pushButton_5.hide()
-        self.view.pushButton_6.hide()
-        self.view.show()
+        self.mainw.show()  # Fait la même chose que la fonction précédente
+        self.mainw.actionGestion.setVisible(False)
+        self.mainw.pushButton.hide()                    #Cache les 6 boutons ajouter/modifier/supprimer de la
+        self.mainw.pushButton_2.hide()                  #fenêtre principale pour permettre un accès en lecture
+        self.mainw.pushButton_3.hide()                  #seulement des listes de clients et de films.
+        self.mainw.pushButton_4.hide()
+        self.mainw.pushButton_5.hide()
+        self.mainw.pushButton_6.hide()
+        self.mainw.show()
         self.connex.lineEdit.clear()
         self.connex.lineEdit_2.clear()
         self.connex.lineEdit.setFocus()
         self.connex.hide()
-        self.view.actionDeconnexion.triggered.connect(self.logout)
-        self.view.actionQuitter.triggered.connect(self.closeall)
+        self.mainw.actionDeconnexion.triggered.connect(self.logout)
+        self.mainw.actionQuitter.triggered.connect(self.closeall)
 
     def showgestuser(self):
         self.showgest = GestUser()  #Importe la fenêtre de gestion des usagers
@@ -199,17 +217,19 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                                               'Mot de passe', 'Type Acces'])
         self.showgest.treeView.setModel(self.model)  # Active le modèle
         self.showgest.show()  # Affiche le tableau
-
         self.mesgexcept = ""  # Va servir pour l'exception du try
         root = self.model.invisibleRootItem()  # Sert à rendre invisible l'entête "parent" de l'arbre
         self.parent = root
         try:  # Défini un try avant de démarrer la boucle
             for a in (self.dictuser):  # Pour chaque dictionnaire dans la liste, on créé une ligne avec les informations ci bas
-                self.parent.appendRow([QtGui.QStandardItem(a['nom']), QtGui.QStandardItem(a['prenom']),
-                                  QtGui.QStandardItem(a['sexe']), QtGui.QStandardItem(a['dateembauche']),
-                                  QtGui.QStandardItem(a['codeutilisateur']), QtGui.QStandardItem(a['password']),
-                                  QtGui.QStandardItem(a['acces'])])     #Ajoute chaque information dans les colonnes.
-        except Exception:  #Si la boucle n'a pas fonctionné, stop la boucle
+                self.parent.appendRow([QtGui.QStandardItem(a['nom']),   #Ajoute chaque information dans les colonnes.
+                                       QtGui.QStandardItem(a['prenom']),
+                                       QtGui.QStandardItem(a['sexe']),
+                                       QtGui.QStandardItem(a['dateembauche']),
+                                       QtGui.QStandardItem(a['codeutilisateur']),
+                                       QtGui.QStandardItem(a['password']),
+                                       QtGui.QStandardItem(a['acces'])])
+        except Exception:  #Si la boucle n'a pas fonctionné, annule la boucle
             pass
 
     def logout(self):
@@ -349,8 +369,9 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.dictuser = [element for element in self.dictuser if element.get('codeutilisateur', '') != donnees[4]]
             self.saveuser()
 
-
-
+    def popupclient(self):
+        self.popupcustomer = FormClient()
+        self.popupcustomer.show()
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

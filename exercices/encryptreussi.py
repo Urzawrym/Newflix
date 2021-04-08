@@ -1,7 +1,7 @@
 import json
 from cryptography.fernet import Fernet
 
-users = {"name": "Scott", "website": "stackabuse.com", "from": "Nebraska"}, {"name": "Larry", "website": "google.com", "from": "Michigan"}, {"name": "Tim", "website": "apple.com", "from": "Alabama"}
+users = [{"name": "Scott", "website": "stackabuse.com", "from": "Nebraska"}, {"name": "Larry", "website": "google.com", "from": "Michigan"}, {"name": "Tim", "website": "apple.com", "from": "Alabama"}]
 
 with open('exemple.json', 'w') as json_file:
     json.dump(users, json_file)
@@ -31,3 +31,5 @@ with open('exemple.json','wb') as f:
 
 decrypted = fernet.decrypt(encrypted)
 print(decrypted)
+print(type(decrypted))
+print(decrypted.decode("utf-8"))

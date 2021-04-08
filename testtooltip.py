@@ -18,6 +18,7 @@ class MainFrame(QWidget):
         self.most_used_cat_header = ['Nom', "Prénom", "Sexe", "Date Inscription", "Courriel Client", "Mot de passe"]
         self.MyTreeViewModel.setHorizontalHeaderLabels(self.most_used_cat_header)
         self.MyTreeView.setSortingEnabled(True)
+        self.MyTreeView.setAlternatingRowColors(True)
         #self.rootnode = self.MyTreeViewModel.invisibleRootItem()
         #self.MyTreeView_Fill()
         self.Testdata()

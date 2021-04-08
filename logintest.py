@@ -1,16 +1,17 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import json
 import sys
-from mainwindow import *        #Importe l'affichage de la fenêtre principale
-from gestionusers import *      #Importe l'affichage de la fenêtre gestion usager
-from popupuser import *         #Importe le formulaire de création/modification d'usager
-from popupcustomer import *     #Importe le formulaire de création/modification de client
-from logindialog import *       #Importe la fenêtre de connexion du démarrage du logiciel
-from classes import *            #Importe les classes Personnes, Employés, Clients, Cartes crédits, films, Categorie
-                                 #avec toute la gestion des héritages entre les classes, tel que demandé dans la mise
-                                 #en situation
+from cryptography.fernet import Fernet  #Importe le module pour l'encryption
+from mainwindow import *                #Importe l'affichage de la fenêtre principale
+from gestionusers import *              #Importe l'affichage de la fenêtre gestion usager
+from popupuser import *                 #Importe le formulaire de création/modification d'usager
+from popupcustomer import *             #Importe le formulaire de création/modification de client
+from logindialog import *               #Importe la fenêtre de connexion du démarrage du logiciel
+from classes import *                   #Importe les classes Personnes, Employés, Clients, Cartes crédits, Films,
+                                        #Categorie avec toute la gestion des héritages entre les classes, tel que
+                                        #demandé dans la mise en situation
 
-#from cryptography.fernet import Fernet
+
 
 """key = Fernet.generate_key()
 file = open('key.key','wb')
@@ -33,7 +34,7 @@ class GestUser(QtWidgets.QDialog, Ui_GestiUser): #Initialise gestionusers.py. Fe
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
 
-class FormUser(QtWidgets.QDialog, Ui_FormUser): #Initialise popupuser.py. Formulaire pour créer/modifier un employé
+class FormUsager(QtWidgets.QDialog, Ui_FormUser): #Initialise popupuser.py. Formulaire pour créer/modifier un employé
     def __init__(self):
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
@@ -43,20 +44,53 @@ class Connexion(QtWidgets.QDialog, Ui_Connexion): #Initialise logindialog.py. Fe
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
 
+class FormClient(QtWidgets.QDialog, Ui_FormCostumer): #Init. popupcostumer.py. Fenêtre pour créer/modifier un client
+    def __init__(self):
+        QtWidgets.QDialog.__init__(self)
+        self.setupUi(self)
+
 class Controller: #C'est dans cette classe que l'action se passe, toutes les modifications visuelles et les
                   #les interactions avec l'utilisateur vont se faire à partir d'ici.
 
-    def loaduser(self):
+    def loaduser(self):                     # Ouvre la liste de dictionnaires contenant les identifiants usagers
         try:
-            with open("testuser.json","r") as f:  # Ouvre la liste de dictionnaires contenant les identifiants des
-                self.dictuser = json.load(f)           # usagers. 3 données sont utilisées: user,password,type d'acces
+            with open("testuser.json","r") as f:
+                self.dictuser = json.load(f)
         except Exception:
             pass
 
-    def saveuser(self):
+    def saveuser(self):                     # Sauvegarde le dictionnaire des usagers dans le fichier .json des usagers
         try:
-            with open("testuser.json", "w") as f:  # Ouvre la liste de dictionnaires contenant les identifiants des
+            with open("users.json", "w") as f:
                 data = json.dump(self.dictuser,f)
+        except Exception:
+            pass
+
+    def loadclient(self):                   # Ouvre la liste de dictionnaires contenant les informations des clients
+        try:
+            with open("clients.json","r") as f:
+                self.dictclient = json.load(f)
+        except Exception:
+            pass
+
+    def saveclient(self):                   # Sauvegarde le dictionnaire des usagers dans le fichier .json des clients
+        try:
+            with open("clients.json","w") as f:
+                data = json.dump(self.dictclient, f)
+        except Exception:
+            pass
+
+    def loadfilm(self):                     # Ouvre la liste de dictionnaires contenant les informations des films
+        try:
+            with open("movies.json", "r") as f:
+                self.dictmovie = json.load(f)
+        except Exception:
+            pass
+
+    def savefilm(self):                      # Sauvegarde le dictionnaire des usagers dans le fichier .json des films
+        try:
+            with open("movies.json", "w") as f:
+                data = json.dump(self.dictmovie, f)
         except Exception:
             pass
 
@@ -109,6 +143,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.admin.actionGestion.triggered.connect(self.showgestuser) #Dans la fen. principale, trigger la gestion users
         self.admin.actionDeconnexion.triggered.connect(self.logout) #Trigger la déconnexion du logiciel
         self.admin.actionQuitter.triggered.connect(self.closeall) #Trigger la fermeture du logiciel
+        self.admin.pushButton.clicked.connect(self.popupclient)
 
     def modifwindow(self):
         self.modif = FenPrinci()                       #Fait la même chose que la fonction précédente
@@ -120,6 +155,22 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.connex.hide()
         self.modif.actionDeconnexion.triggered.connect(self.logout)
         self.modif.actionQuitter.triggered.connect(self.closeall)
+        self.modif.pushButton.clicked.connect(self.popupclient)
+
+
+
+                      <
+
+
+
+
+
+
+
+
+
+
+
 
     def viewwindow(self):
         self.view = FenPrinci()                        #Fait la même chose que la fonction précédente
@@ -170,7 +221,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         app.closeAllWindows()       #Ferme toutes les fenêtres et l'application
 
     def showpopuser(self): #Ouvre le formulaire pour créer un nouvel employé ou le modifier
-        self.showpopusager = FormUser()  #Importe la fenêtre de formulaire de l'usager
+        self.showpopusager = FormUsager()  #Importe la fenêtre de formulaire de l'usager
         self.showpopusager.show()        #L'affiche
         self.showpopusager.pushButton.clicked.connect(self.savinguser) #Active le test de sauvegarde si bouton utilisé
         self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close) #Ferme la fenêtre sans sauvegarder
@@ -230,7 +281,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setWindowTitle("Erreur")
             msg.exec_()
         else:
-            self.showpopusager = FormUser()
+            self.showpopusager = FormUsager()
             self.showpopusager.show()
             self.showpopusager.pushButton.clicked.connect(self.modifuser)
             self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close)

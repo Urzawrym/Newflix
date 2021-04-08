@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>744</width>
-    <height>207</height>
+    <width>974</width>
+    <height>178</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>47</width>
-     <height>13</height>
+     <width>101</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
@@ -41,8 +41,8 @@
     <rect>
      <x>10</x>
      <y>60</y>
-     <width>47</width>
-     <height>13</height>
+     <width>111</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
@@ -72,51 +72,12 @@
     <string>Sexe :</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>130</y>
-     <width>82</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Masculin</string>
-   </property>
-  </widget>
-  <widget class="QRadioButton" name="radioButton_2">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>150</y>
-     <width>82</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Féminin</string>
-   </property>
-  </widget>
-  <widget class="QRadioButton" name="radioButton_3">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>170</y>
-     <width>82</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Non défini</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
      <x>140</x>
      <y>10</y>
-     <width>91</width>
+     <width>121</width>
      <height>16</height>
     </rect>
    </property>
@@ -129,7 +90,7 @@
     <rect>
      <x>140</x>
      <y>30</y>
-     <width>110</width>
+     <width>121</width>
      <height>22</height>
     </rect>
    </property>
@@ -183,7 +144,7 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>830</x>
      <y>30</y>
      <width>131</width>
      <height>41</height>
@@ -196,7 +157,7 @@
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>830</x>
      <y>80</y>
      <width>131</width>
      <height>41</height>
@@ -209,10 +170,10 @@
   <widget class="QListWidget" name="listWidget">
    <property name="geometry">
     <rect>
-     <x>260</x>
+     <x>270</x>
      <y>30</y>
-     <width>311</width>
-     <height>161</height>
+     <width>541</width>
+     <height>131</height>
     </rect>
    </property>
   </widget>
@@ -221,13 +182,38 @@
     <rect>
      <x>270</x>
      <y>10</y>
-     <width>111</width>
+     <width>161</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
     <string>Liste carte de crédit :</string>
    </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>130</y>
+     <width>111</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Masculin</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Féminin</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Non défini</string>
+    </property>
+   </item>
   </widget>
  </widget>
  <resources/>

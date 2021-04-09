@@ -11,10 +11,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_FormCostumer(object):
+class Ui_FormCustomer(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(974, 181)
+        Form.resize(974, 175)
         self.label_2 = QtWidgets.QLabel(Form)
         self.label_2.setGeometry(QtCore.QRect(10, 10, 101, 16))
         self.label_2.setObjectName("label_2")
@@ -34,9 +34,8 @@ class Ui_FormCostumer(object):
         self.label_5.setGeometry(QtCore.QRect(140, 10, 121, 16))
         self.label_5.setObjectName("label_5")
         self.dateEdit = QtWidgets.QDateEdit(Form)
-        self.dateEdit.setDateTime(QtCore.QDateTime.currentDateTime())
+        self.dateEdit.setGeometry(QtCore.QRect(140, 30, 111, 22))
         self.dateEdit.setCalendarPopup(True)
-        self.dateEdit.setGeometry(QtCore.QRect(140, 30, 121, 22))
         self.dateEdit.setObjectName("dateEdit")
         self.label_6 = QtWidgets.QLabel(Form)
         self.label_6.setGeometry(QtCore.QRect(140, 60, 111, 16))
@@ -69,8 +68,11 @@ class Ui_FormCostumer(object):
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.pushButton_3 = QtWidgets.QPushButton(Form)
-        self.pushButton_3.setGeometry(QtCore.QRect(670, 10, 141, 31))
+        self.pushButton_3.setGeometry(QtCore.QRect(480, 10, 111, 31))
         self.pushButton_3.setObjectName("pushButton_3")
+        self.pushButton_4 = QtWidgets.QPushButton(Form)
+        self.pushButton_4.setGeometry(QtCore.QRect(654, 10, 111, 31))
+        self.pushButton_4.setObjectName("pushButton_4")
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -82,21 +84,23 @@ class Ui_FormCostumer(object):
         self.label_3.setText(_translate("Form", "Prénom :"))
         self.label_4.setText(_translate("Form", "Sexe :"))
         self.label_5.setText(_translate("Form", "Date inscription :"))
+        self.dateEdit.setDisplayFormat(_translate("Form", "dd-MM-yyyy"))
         self.label_6.setText(_translate("Form", "Courriel :"))
         self.label_7.setText(_translate("Form", "Mot de passe :"))
         self.pushButton.setText(_translate("Form", "Sauvegarder"))
         self.pushButton_2.setText(_translate("Form", "Annuler"))
-        self.label.setText(_translate("Form", "Liste cartes de crédit :"))
+        self.label.setText(_translate("Form", "Liste carte de crédit :"))
         self.comboBox.setItemText(0, _translate("Form", "Masculin"))
         self.comboBox.setItemText(1, _translate("Form", "Féminin"))
         self.comboBox.setItemText(2, _translate("Form", "Non défini"))
         self.pushButton_3.setText(_translate("Form", "Ajouter une carte"))
+        self.pushButton_4.setText(_translate("Form", "Supprimer une carte"))
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_FormCostumer()
+    ui = Ui_FormCustomer()
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())

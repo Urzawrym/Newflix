@@ -44,7 +44,7 @@ class Connexion(QtWidgets.QDialog, Ui_Connexion): #Initialise logindialog.py. Fe
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
 
-class FormClient(QtWidgets.QDialog, Ui_FormCostumer): #Init. popupcostumer.py. Fenêtre pour créer/modifier un client
+class FormClient(QtWidgets.QDialog, Ui_FormCustomer): #Init. popupcostumer.py. Fenêtre pour créer/modifier un client
     def __init__(self):
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
@@ -143,9 +143,14 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.mainw = FenPrinci()
         self.mainw.show()
         self.mainw.actionGestion.triggered.connect(self.showgestuser)  # Dans la fen. principale, trigger la gestion users
-        self.mainw.actionDeconnexion.triggered.connect(self.logout)  # Trigger la déconnexion du logiciel
-        self.mainw.actionQuitter.triggered.connect(self.closeall)  # Trigger la fermeture du logiciel
+        self.mainw.actionDeconnexion.triggered.connect(self.logout)  # Trigger la fonction déconnexion du logiciel
+        self.mainw.actionQuitter.triggered.connect(self.closeall)  # Trigger la fonction fermeture du logiciel
         self.mainw.pushButton.clicked.connect(self.popupclient)
+        #self.mainw.pushButton_2.clicked.connect(self.modifclient)
+        #self.mainw.pushButton_3.clicked.connect(self.suppclient)
+        #self.mainw.pushButton_4.clicked.connect(self.popupfilm)
+        #self.mainw.pushButton_5.clicked.connect(self.modiffilm)
+        #self.mainw.pushButton_6.clicked.connect(self.suppfilm)
         self.treeViewModel = QtGui.QStandardItemModel()
         self.mainw.treeView.setModel(self.treeViewModel)
         self.mainw.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
@@ -193,14 +198,14 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 vide2 = QtGui.QStandardItem("*****")
                 vide3 = QtGui.QStandardItem("*****")
                 nomcat = QtGui.QStandardItem(dict["nom"])
-                descritioncat = QtGui.QStandardItem(dict["description"])
-                childitem2 = (vide1, vide2, vide3, nomcat, descritioncat)
+                descriptioncat = QtGui.QStandardItem(dict["description"])
+                childitem2 = (vide1, vide2, vide3, nomcat, descriptioncat)
                 nom2.appendRow(childitem2)
 
 
     def modifwindow(self):
         self.mainwindow()                              #Affiche la fenêtre principale
-        self.mainw.actionGestion.setVisible(False)     #Cache le bouton Gestion Usagés du menu principal
+        self.mainw.actionGestion.setVisible(False)     #Cache le bouton Gestion Usager du menu principal
 
     def viewwindow(self):
         self.mainwindow()                              # Fait la même chose que la fonction précédente
@@ -374,7 +379,17 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def popupclient(self):
         self.popupcustomer = FormClient()
         self.popupcustomer.show()
+        #self.popupcustomer.pushButton.clicked.connect(self.savecustomer)
         self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
+
+    """def savecustomer(self):
+        client=Client(self.popupcustomer.lineEdit.tex(),
+                      self.popupcustomer.lineEdit_2.text(),
+                      self.popupcustomer.comboBox.currentText(),
+                      self.popupcustomer.dateEdit.text(),
+                      self.popupcustomer.lineEdit_3.text(),
+                      self.popupcustomer.lineEdit_5.text(),
+                      ["test","test2"]"""
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

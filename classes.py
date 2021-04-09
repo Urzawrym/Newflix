@@ -1,7 +1,7 @@
 
 
 class Personne:
-    def __init__(self, prenom, nom, sexe):
+    def __init__(self, nom, prenom, sexe):
         self.nom = nom
         self.prenom = prenom
         self.sexe = sexe
@@ -28,8 +28,8 @@ class Personne:
             self.sexe = sexe
 
 class Employe(Personne):
-    def __init__(self, prenom, nom, sexe, dateembauche, codeutilisateur, password, acces):
-        super().__init__(prenom, nom, sexe)
+    def __init__(self, nom, prenom, sexe, dateembauche, codeutilisateur, password, acces):
+        super().__init__(nom, prenom, sexe)
         self.dateembauche = dateembauche
         self.codeutilisateur = codeutilisateur
         self.password = password
@@ -41,8 +41,8 @@ class Employe(Personne):
                                                                   self.codeutilisateur, self.password, self.acces)"""
 
 class Client(Personne):
-    def __init__(self, prenom, nom, sexe, dateinscription, courriel, motdepasse, cartes):
-        super().__init__(prenom,nom,sexe)
+    def __init__(self, nom, prenom, sexe, dateinscription, courriel, motdepasse, cartes):
+        super().__init__(nom,prenom,sexe)
         self.dateinscription = dateinscription
         self.courriel = courriel
         self.motdepasse = motdepasse
@@ -63,8 +63,8 @@ class CarteCredit:
             self.codecarte = codecarte
 
 class Acteur(Personne):
-    def __init__(self, prenom, nom, sexe, film, nompersonnage, debutemploi, finemploi, cachet):
-        super().__init__(prenom, nom, sexe)
+    def __init__(self, nom, prenom, sexe, film, nompersonnage, debutemploi, finemploi, cachet):
+        super().__init__(nom, prenom, sexe)
         self.film = film
         self.nompersonnage = nompersonnage
         self.debutemploi = debutemploi

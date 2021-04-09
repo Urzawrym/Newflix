@@ -29,7 +29,7 @@ class Ui_MainWindow(object):
         self.treeView = QtWidgets.QTreeView(self.centralwidget)
         self.treeView.setGeometry(QtCore.QRect(20, 40, 551, 192))
         self.treeView.setAlternatingRowColors(True)
-        self.treeView.setObjectName("ListeClient")
+        self.treeView.setObjectName("treeView")
         self.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_4.setGeometry(QtCore.QRect(580, 310, 75, 23))
@@ -93,6 +93,8 @@ class Ui_MainWindow(object):
         self.actionGestion.setText(_translate("MainWindow", "Gestion Employés"))
         self.actionDeconnexion.setText(_translate("MainWindow", "Déconnexion"))
         self.actionQuitter.setText(_translate("MainWindow", "Quitter"))
+
+
 
 if __name__ == "__main__":
     import sys

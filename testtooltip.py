@@ -7,7 +7,7 @@ import sys
 
 
 data_for_tree = {"tomato":{"color":"red","amount":"10", "note":"a note for tomato"},"banana":{"color":"yellow","amount":"1", "note":"b note for banana"}, "some fruit":{"color":"unknown","amount":"100", "note":"some text"}}
-datatest = [{"nom": "Belanger", "prenom": "Claude", "sexe": "Masculin", "dateinscription": "01-01-0000", "courriel": "admin", "motdepasse": "admin123", "cartes": [{"numero": "12345678", "expiration": "12/04/03", "codecarte": "005"}, {"numero": "987654321", "expiration": "12/05/06", "codecarte": "003"}]},{"nom": "Ouellet", "prenom": "Marie-Eve", "sexe": "Féminin", "dateinscription": "01-01-0000", "courriel": "admin", "motdepasse": "admin123", "cartes": [{"numero": "12345678", "expiration": "12/04/03", "codecarte": "005"}, {"numero": "1435345345", "expiration": "11/01/01", "codecarte": "001"}]}]
+#datatest = [{"nom": "Belanger", "prenom": "Claude", "sexe": "Masculin", "dateinscription": "01-01-0000", "courriel": "admin", "motdepasse": "admin123", "cartes": [{"numero": "12345678", "expiration": "12/04/03", "codecarte": "005"}, {"numero": "987654321", "expiration": "12/05/06", "codecarte": "003"}]},{"nom": "Ouellet", "prenom": "Marie-Eve", "sexe": "Féminin", "dateinscription": "01-01-0000", "courriel": "admin", "motdepasse": "admin123", "cartes": [{"numero": "12345678", "expiration": "12/04/03", "codecarte": "005"}, {"numero": "1435345345", "expiration": "11/01/01", "codecarte": "001"}]}]
 
 class MainFrame(QWidget):
     def __init__(self):
@@ -16,12 +16,11 @@ class MainFrame(QWidget):
         self.MyTreeView = QTreeView()
         self.MyTreeViewModel = QStandardItemModel()
         self.MyTreeView.setModel(self.MyTreeViewModel)
-        self.most_used_cat_header = ['Nom', "Prénom", "Sexe", "Date Inscription", "Courriel Client", "Mot de passe", "Numero de Carte", "Expiration", "Code secret"]
-        self.MyTreeViewModel.setHorizontalHeaderLabels(self.most_used_cat_header)
+        self.header = ['Nom', "Prénom", "Sexe", "Date Inscription", "Courriel Client", "Mot de passe", "Numero de Carte", "Expiration", "Code secret"]
+        self.MyTreeViewModel.setHorizontalHeaderLabels(self.header)
         self.MyTreeView.setSortingEnabled(True)
         self.MyTreeView.setAlternatingRowColors(True)
-        #self.rootnode = self.MyTreeViewModel.invisibleRootItem()
-        #self.MyTreeView_Fill()
+
         self.Testdata()
 
         MainWindow = QHBoxLayout(self)
@@ -42,8 +41,8 @@ class MainFrame(QWidget):
         #self.MyTreeView.sortByColumn(1, Qt.DescendingOrder)
 
     def Testdata(self):
-       # with open("clients.json", "r") as f:
-            #datatest = json.load(f)
+        with open("clients.json", "r") as f:
+            datatest = json.load(f)
         for k in datatest:
             nom = QStandardItem(k["nom"])
             prenom = QStandardItem(k["prenom"])
@@ -72,10 +71,10 @@ class MainFrame(QWidget):
         childitem = (numero, expiration, codecarte)
         cartes.appendRow(childitem)"""
 
-        c = 0
+        """c = 0
         while c < len(self.most_used_cat_header):
             self.MyTreeView.resizeColumnToContents(c)
-            c=c+1
+            c=c+1"""
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

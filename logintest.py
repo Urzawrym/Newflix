@@ -76,7 +76,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def saveclient(self):                   # Sauvegarde le dictionnaire des usagers dans le fichier .json des clients
         try:
             with open("clients.json","w") as f:
-                data = json.dump(self.dictclient, f)
+                data2 = json.dump(self.dictclient, f)
         except Exception:
             pass
 
@@ -90,7 +90,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def savefilm(self):                      # Sauvegarde le dictionnaire des usagers dans le fichier .json des films
         try:
             with open("movies.json", "w") as f:
-                data = json.dump(self.dictmovie, f)
+                data3 = json.dump(self.dictmovie, f)
         except Exception:
             pass
 
@@ -108,7 +108,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 for a in (self.dictuser): # Dans toute la liste, vérifie chaque dict. pour retrouver les 3 mêmes paramètres
                     if a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Admin":
-                        self.adminwindow()
+                        self.mainwindow()
                         #Si les 3 inputs de l'usager correspond à un dict. avec accès admin, active modifwindow
                         logged_in = True   #Le "true" met fin à la boucle.
                     elif a['codeutilisateur'] == self.connex.lineEdit.text() and \
@@ -134,18 +134,16 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             pass
 
     def mainwindow(self):
+        self.loadclient()
         self.mainw = FenPrinci()
         self.mainw.show()
-        self.MyTreeView = QtWidgets.QTreeView()
-        self.MyTreeViewModel = QtGui.QStandardItemModel()
-        self.MyTreeView.setModel(self.MyTreeViewModel)
+        self.treeViewModel = QtGui.QStandardItemModel()
+        self.mainw.treeView.setModel(self.treeViewModel)
         self.header = ['Nom', "Prénom", "Sexe", "Date Inscription", "Courriel Client", "Mot de passe",
                                      "Numero de Carte", "Expiration", "Code secret"]
-        self.most_used_cat_header = ['Nom', "Prénom", "Sexe", "Date Inscription", "Courriel Client", "Mot de passe",
-                                     "Numero de Carte", "Expiration", "Code secret"]
-        self.MyTreeViewModel.setHorizontalHeaderLabels(self.most_used_cat_header)
-        self.MyTreeView.setSortingEnabled(True)
-        self.MyTreeView.setAlternatingRowColors(True)
+        self.treeViewModel.setHorizontalHeaderLabels(self.header)
+        self.mainw.treeView.setSortingEnabled(True)
+        self.mainw.treeView.setAlternatingRowColors(True)
         for k in self.dictclient:
             nom = QtGui.QStandardItem(k["nom"])
             prenom = QtGui.QStandardItem(k["prenom"])
@@ -154,7 +152,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             courriel = QtGui.QStandardItem(k["courriel"])
             password = QtGui.QStandardItem(k["motdepasse"])
             item = (nom, prenom, sexe, date, courriel, password)
-            self.MyTreeViewModel.appendRow(item)
+            self.treeViewModel.appendRow(item)
             for dict in k["cartes"]:
                 vide1 = QtGui.QStandardItem("**")
                 vide2 = QtGui.QStandardItem("**")
@@ -169,15 +167,16 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 nom.appendRow(childitem)
 
     def adminwindow(self):
-        self.mainw.show()
+        self.admin = FenPrinci()
+        self.admin.show()
         self.connex.lineEdit.clear()    #Vide la ligne usager de la fenêtre de connexion
         self.connex.lineEdit_2.clear()  #Vide la ligne mot de passe de la fenêtre de connexion
         self.connex.lineEdit.setFocus() #Met le focus sur la ligne usager de la fenêtre de connexion
         self.connex.hide()              #Cache la fenêtre de connexion
-        self.mainw.actionGestion.triggered.connect(self.showgestuser) #Dans la fen. principale, trigger la gestion users
-        self.mainw.actionDeconnexion.triggered.connect(self.logout) #Trigger la déconnexion du logiciel
-        self.mainw.actionQuitter.triggered.connect(self.closeall) #Trigger la fermeture du logiciel
-        self.mainw.pushButton.clicked.connect(self.popupclient)
+        self.admin.actionGestion.triggered.connect(self.showgestuser) #Dans la fen. principale, trigger la gestion users
+        self.admin.actionDeconnexion.triggered.connect(self.logout) #Trigger la déconnexion du logiciel
+        self.admin.actionQuitter.triggered.connect(self.closeall) #Trigger la fermeture du logiciel
+        self.admin.pushButton.clicked.connect(self.popupclient)
 
     def modifwindow(self):
         self.mainw.show()                               #Fait la même chose que la fonction précédente
@@ -217,12 +216,9 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                                               'Mot de passe', 'Type Acces'])
         self.showgest.treeView.setModel(self.model)  # Active le modèle
         self.showgest.show()  # Affiche le tableau
-        self.mesgexcept = ""  # Va servir pour l'exception du try
-        root = self.model.invisibleRootItem()  # Sert à rendre invisible l'entête "parent" de l'arbre
-        self.parent = root
         try:  # Défini un try avant de démarrer la boucle
             for a in (self.dictuser):  # Pour chaque dictionnaire dans la liste, on créé une ligne avec les informations ci bas
-                self.parent.appendRow([QtGui.QStandardItem(a['nom']),   #Ajoute chaque information dans les colonnes.
+                self.model.appendRow([QtGui.QStandardItem(a['nom']),   #Ajoute chaque information dans les colonnes.
                                        QtGui.QStandardItem(a['prenom']),
                                        QtGui.QStandardItem(a['sexe']),
                                        QtGui.QStandardItem(a['dateembauche']),
@@ -272,7 +268,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.exec_()
 
         else:
-            self.parent.appendRow(
+            self.model.appendRow(
                     [QtGui.QStandardItem(self.dictemployee['nom']),
                      QtGui.QStandardItem(self.dictemployee['prenom']),
                      QtGui.QStandardItem(self.dictemployee['sexe']),

@@ -82,14 +82,14 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def loadfilm(self):                     # Ouvre la liste de dictionnaires contenant les informations des films
         try:
-            with open("movies.json", "r") as f:
+            with open("films.json", "r") as f:
                 self.dictmovie = json.load(f)
         except Exception:
             pass
 
     def savefilm(self):                      # Sauvegarde le dictionnaire des usagers dans le fichier .json des films
         try:
-            with open("movies.json", "w") as f:
+            with open("films.json", "w") as f:
                 data3 = json.dump(self.dictmovie, f)
         except Exception:
             pass
@@ -108,7 +108,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 for a in (self.dictuser): # Dans toute la liste, vérifie chaque dict. pour retrouver les 3 mêmes paramètres
                     if a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Admin":
-                        self.adminwindow()
+                        self.mainwindow()
                         #Si les 3 inputs de l'usager correspond à un dict. avec accès admin, active modifwindow
                         logged_in = True   #Le "true" met fin à la boucle.
                     elif a['codeutilisateur'] == self.connex.lineEdit.text() and \
@@ -134,7 +134,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             pass
 
     def mainwindow(self):
-        self.loadclient()
+        self.loadclient() #Charge la liste des client provenant du fichier json dans la variable self.dictclient
+        self.loadfilm()   #Charge la liste des films provenant du fichier json dans la variable self.dictmovie
         self.connex.lineEdit.clear()  # Vide la ligne usager de la fenêtre de connexion
         self.connex.lineEdit_2.clear()  # Vide la ligne mot de passe de la fenêtre de connexion
         self.connex.lineEdit.setFocus()  # Met le focus sur la ligne usager de la fenêtre de connexion
@@ -147,21 +148,29 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.mainw.pushButton.clicked.connect(self.popupclient)
         self.treeViewModel = QtGui.QStandardItemModel()
         self.mainw.treeView.setModel(self.treeViewModel)
+        self.mainw.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.header = ['Nom', "Prénom", "Sexe", "Date Inscription", "Courriel Client", "Mot de passe",
                                      "Numero de Carte", "Expiration", "Code secret"]
         self.treeViewModel.setHorizontalHeaderLabels(self.header)
         self.mainw.treeView.setSortingEnabled(True)
         self.mainw.treeView.setAlternatingRowColors(True)
-        for k in self.dictclient:
-            nom = QtGui.QStandardItem(k["nom"])
-            prenom = QtGui.QStandardItem(k["prenom"])
-            sexe = QtGui.QStandardItem(k["sexe"])
-            date = QtGui.QStandardItem(k["dateinscription"])
-            courriel = QtGui.QStandardItem(k["courriel"])
-            password = QtGui.QStandardItem(k["motdepasse"])
+        self.treeViewModel2 = QtGui.QStandardItemModel()
+        self.mainw.treeView_2.setModel(self.treeViewModel2)
+        self.mainw.treeView_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.header2 = ['Nom', "Durée", "Description", "Nom de catégorie", "Description catégorie"]
+        self.treeViewModel2.setHorizontalHeaderLabels(self.header2)
+        self.mainw.treeView_2.setSortingEnabled(True)
+        self.mainw.treeView_2.setAlternatingRowColors(True)
+        for b in self.dictclient:
+            nom = QtGui.QStandardItem(b["nom"])
+            prenom = QtGui.QStandardItem(b["prenom"])
+            sexe = QtGui.QStandardItem(b["sexe"])
+            date = QtGui.QStandardItem(b["dateinscription"])
+            courriel = QtGui.QStandardItem(b["courriel"])
+            password = QtGui.QStandardItem(b["motdepasse"])
             item = (nom, prenom, sexe, date, courriel, password)
             self.treeViewModel.appendRow(item)
-            for dict in k["cartes"]:
+            for dict in b["cartes"]:
                 vide1 = QtGui.QStandardItem("*****")
                 vide2 = QtGui.QStandardItem("*****")
                 vide3 = QtGui.QStandardItem("*****")
@@ -173,12 +182,24 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 codecarte = QtGui.QStandardItem(dict["codecarte"])
                 childitem = (vide1, vide2, vide3, vide4, vide5, vide6, numero, expiration, codecarte)
                 nom.appendRow(childitem)
+        for g in self.dictmovie:
+            nom2 = QtGui.QStandardItem(g["nom"])
+            duree = QtGui.QStandardItem(g["duree"])
+            description = QtGui.QStandardItem(g["description"])
+            item2 = (nom2, duree, description)
+            self.treeViewModel2.appendRow(item2)
+            for dict in g["categories"]:
+                vide1 = QtGui.QStandardItem("*****")
+                vide2 = QtGui.QStandardItem("*****")
+                vide3 = QtGui.QStandardItem("*****")
+                nomcat = QtGui.QStandardItem(dict["nom"])
+                descritioncat = QtGui.QStandardItem(dict["description"])
+                childitem2 = (vide1, vide2, vide3, nomcat, descritioncat)
+                nom2.appendRow(childitem2)
 
-    def adminwindow(self):
-        self.mainwindow()                              #Affiche la fenêtre principale sans restriction
 
     def modifwindow(self):
-        self.mainwindow()                              #Fait la même chose que la fonction précédente
+        self.mainwindow()                              #Affiche la fenêtre principale
         self.mainw.actionGestion.setVisible(False)     #Cache le bouton Gestion Usagés du menu principal
 
     def viewwindow(self):
@@ -202,14 +223,14 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.showgest.treeView.setModel(self.model)  # Active le modèle
         self.showgest.show()  # Affiche le tableau
         try:  # Défini un try avant de démarrer la boucle
-            for a in (self.dictuser):  # Pour chaque dictionnaire dans la liste, on créé une ligne avec les informations ci bas
-                self.model.appendRow([QtGui.QStandardItem(a['nom']),   #Ajoute chaque information dans les colonnes.
-                                       QtGui.QStandardItem(a['prenom']),
-                                       QtGui.QStandardItem(a['sexe']),
-                                       QtGui.QStandardItem(a['dateembauche']),
-                                       QtGui.QStandardItem(a['codeutilisateur']),
-                                       QtGui.QStandardItem(a['password']),
-                                       QtGui.QStandardItem(a['acces'])])
+            for c in (self.dictuser):  # Pour chaque dictionnaire dans la liste, on créé une ligne avec les informations ci bas
+                self.model.appendRow([QtGui.QStandardItem(c['nom']),   #Ajoute chaque information dans les colonnes.
+                                       QtGui.QStandardItem(c['prenom']),
+                                       QtGui.QStandardItem(c['sexe']),
+                                       QtGui.QStandardItem(c['dateembauche']),
+                                       QtGui.QStandardItem(c['codeutilisateur']),
+                                       QtGui.QStandardItem(c['password']),
+                                       QtGui.QStandardItem(c['acces'])])
         except Exception:  #Si la boucle n'a pas fonctionné, annule la boucle
             pass
 
@@ -266,7 +287,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.showpopusager.close()
 
     def modifpopup(self):
-        self.donnees = [a.data() for a in self.showgest.treeView.selectedIndexes()] #Créé une liste des données sélectionées
+        self.donnees = [d.data() for d in self.showgest.treeView.selectedIndexes()] #Créé une liste des données sélectionées
         if self.donnees == [] :
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
@@ -314,7 +335,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
 
     def deleteuser(self):
-        donnees = [a.data() for a in self.showgest.treeView.selectedIndexes()]  # Créé une liste des données sélectionées
+        donnees = [e.data() for e in self.showgest.treeView.selectedIndexes()]  # Créé une liste des données sélectionées
         if donnees[4] == "admin":
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
@@ -343,7 +364,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def yesdelete(self):
         indexes = self.showgest.treeView.selectedIndexes()
-        donnees = [a.data() for a in self.showgest.treeView.selectedIndexes()]
+        donnees = [f.data() for f in self.showgest.treeView.selectedIndexes()]
         if indexes:
             index = indexes[0]  # L'index correspond à la liste des items de la rangée
             self.model.removeRow(index.row())  # Enlève l'item

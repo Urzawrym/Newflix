@@ -374,6 +374,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def popupclient(self):
         self.popupcustomer = FormClient()
         self.popupcustomer.show()
+        self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

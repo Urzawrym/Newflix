@@ -108,7 +108,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 for a in (self.dictuser): # Dans toute la liste, vérifie chaque dict. pour retrouver les 3 mêmes paramètres
                     if a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Admin":
-                        self.mainwindow()
+                        self.adminwindow()
                         #Si les 3 inputs de l'usager correspond à un dict. avec accès admin, active modifwindow
                         logged_in = True   #Le "true" met fin à la boucle.
                     elif a['codeutilisateur'] == self.connex.lineEdit.text() and \
@@ -135,8 +135,16 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def mainwindow(self):
         self.loadclient()
+        self.connex.lineEdit.clear()  # Vide la ligne usager de la fenêtre de connexion
+        self.connex.lineEdit_2.clear()  # Vide la ligne mot de passe de la fenêtre de connexion
+        self.connex.lineEdit.setFocus()  # Met le focus sur la ligne usager de la fenêtre de connexion
+        self.connex.hide()  # Cache la fenêtre de connexion
         self.mainw = FenPrinci()
         self.mainw.show()
+        self.mainw.actionGestion.triggered.connect(self.showgestuser)  # Dans la fen. principale, trigger la gestion users
+        self.mainw.actionDeconnexion.triggered.connect(self.logout)  # Trigger la déconnexion du logiciel
+        self.mainw.actionQuitter.triggered.connect(self.closeall)  # Trigger la fermeture du logiciel
+        self.mainw.pushButton.clicked.connect(self.popupclient)
         self.treeViewModel = QtGui.QStandardItemModel()
         self.mainw.treeView.setModel(self.treeViewModel)
         self.header = ['Nom', "Prénom", "Sexe", "Date Inscription", "Courriel Client", "Mot de passe",
@@ -154,12 +162,12 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             item = (nom, prenom, sexe, date, courriel, password)
             self.treeViewModel.appendRow(item)
             for dict in k["cartes"]:
-                vide1 = QtGui.QStandardItem("**")
-                vide2 = QtGui.QStandardItem("**")
-                vide3 = QtGui.QStandardItem("**")
-                vide4 = QtGui.QStandardItem("**")
-                vide5 = QtGui.QStandardItem("**")
-                vide6 = QtGui.QStandardItem("**")
+                vide1 = QtGui.QStandardItem("*****")
+                vide2 = QtGui.QStandardItem("*****")
+                vide3 = QtGui.QStandardItem("*****")
+                vide4 = QtGui.QStandardItem("*****")
+                vide5 = QtGui.QStandardItem("*****")
+                vide6 = QtGui.QStandardItem("*****")
                 numero = QtGui.QStandardItem(dict["numero"])
                 expiration = QtGui.QStandardItem(dict["expiration"])
                 codecarte = QtGui.QStandardItem(dict["codecarte"])
@@ -167,44 +175,21 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 nom.appendRow(childitem)
 
     def adminwindow(self):
-        self.admin = FenPrinci()
-        self.admin.show()
-        self.connex.lineEdit.clear()    #Vide la ligne usager de la fenêtre de connexion
-        self.connex.lineEdit_2.clear()  #Vide la ligne mot de passe de la fenêtre de connexion
-        self.connex.lineEdit.setFocus() #Met le focus sur la ligne usager de la fenêtre de connexion
-        self.connex.hide()              #Cache la fenêtre de connexion
-        self.admin.actionGestion.triggered.connect(self.showgestuser) #Dans la fen. principale, trigger la gestion users
-        self.admin.actionDeconnexion.triggered.connect(self.logout) #Trigger la déconnexion du logiciel
-        self.admin.actionQuitter.triggered.connect(self.closeall) #Trigger la fermeture du logiciel
-        self.admin.pushButton.clicked.connect(self.popupclient)
+        self.mainwindow()                              #Affiche la fenêtre principale sans restriction
 
     def modifwindow(self):
-        self.mainw.show()                               #Fait la même chose que la fonction précédente
-        self.mainw.actionGestion.setVisible(False)      #Cache le bouton Gestion Usagés du menu principal
-        self.connex.lineEdit.clear()
-        self.connex.lineEdit_2.clear()
-        self.connex.lineEdit.setFocus()
-        self.connex.hide()
-        self.mainw.actionDeconnexion.triggered.connect(self.logout)
-        self.mainw.actionQuitter.triggered.connect(self.closeall)
-        self.mainw.pushButton.clicked.connect(self.popupclient)
+        self.mainwindow()                              #Fait la même chose que la fonction précédente
+        self.mainw.actionGestion.setVisible(False)     #Cache le bouton Gestion Usagés du menu principal
 
     def viewwindow(self):
-        self.mainw.show()  # Fait la même chose que la fonction précédente
+        self.mainwindow()                              # Fait la même chose que la fonction précédente
         self.mainw.actionGestion.setVisible(False)
-        self.mainw.pushButton.hide()                    #Cache les 6 boutons ajouter/modifier/supprimer de la
-        self.mainw.pushButton_2.hide()                  #fenêtre principale pour permettre un accès en lecture
-        self.mainw.pushButton_3.hide()                  #seulement des listes de clients et de films.
+        self.mainw.pushButton.hide()                   #Cache les 6 boutons ajouter/modifier/supprimer de la
+        self.mainw.pushButton_2.hide()                 #fenêtre principale pour permettre un accès en lecture
+        self.mainw.pushButton_3.hide()                 #seulement des listes de clients et de films.
         self.mainw.pushButton_4.hide()
         self.mainw.pushButton_5.hide()
         self.mainw.pushButton_6.hide()
-        self.mainw.show()
-        self.connex.lineEdit.clear()
-        self.connex.lineEdit_2.clear()
-        self.connex.lineEdit.setFocus()
-        self.connex.hide()
-        self.mainw.actionDeconnexion.triggered.connect(self.logout)
-        self.mainw.actionQuitter.triggered.connect(self.closeall)
 
     def showgestuser(self):
         self.showgest = GestUser()  #Importe la fenêtre de gestion des usagers

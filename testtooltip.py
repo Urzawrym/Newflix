@@ -64,7 +64,7 @@ class MainFrame(QWidget):
                 codecarte = QStandardItem(dict["codecarte"])
                 childitem = (vide1, vide2, vide3, vide4,vide5, vide6, numero, expiration, codecarte)
                 nom.appendRow(childitem)
-                tooltip = "Numéro de carte: {}, Date d'expiration: {}, Code secret: {}".format(numero.data(), expiration.data(), codecarte.data())
+                tooltip = "Numéro de carte: {}, Date d'expiration: {}, Code secret: {}".format(dict["numero"], dict["expiration"], dict["codecarte"])
                 nom.setToolTip(tooltip)
 
 

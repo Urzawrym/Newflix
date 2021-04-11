@@ -16,8 +16,10 @@ class MainFrame(QWidget):
         self.MyTreeView = QTreeView()
         self.MyTreeViewModel = QStandardItemModel()
         self.MyTreeView.setModel(self.MyTreeViewModel)
-        self.header = ['Nom', "Prénom", "Sexe", "Date Inscription", "Courriel Client", "Mot de passe", "Numero de Carte", "Expiration", "Code secret"]
-        self.MyTreeViewModel.setHorizontalHeaderLabels(self.header)
+        #self.header = ['Nom', "Prénom", "Sexe", "Date Inscription", "Courriel Client", "Mot de passe", "Numero de Carte", "Expiration", "Code secret"]
+        self.headerfilm = ["Nom", "Durée", "Description", "Catégories", "Description Catégorie", "Nom de l'acteur",
+                           "Prénom de l'acteur", "Sexe", "Nom du personnage", "Début de l'emploi", "Fin de l'emploi", "Cachet"]
+        self.MyTreeViewModel.setHorizontalHeaderLabels(self.headerfilm)
         self.MyTreeView.setSortingEnabled(True)
         self.MyTreeView.setAlternatingRowColors(True)
 
@@ -43,7 +45,42 @@ class MainFrame(QWidget):
     def Testdata(self):
         with open("clients.json", "r") as f:
             datatest = json.load(f)
-        for k in datatest:
+        with open("films.json", "r") as f:
+            datafilm = json.load(f)
+
+            for g in datafilm:
+                nom = QStandardItem(g["nom"])
+                duree = QStandardItem(g["duree"])
+                description = QStandardItem(g["description"])
+                item = (nom, duree, description)
+                self.MyTreeViewModel.appendRow(item)
+
+                for dict in g["categories"]:
+                    vide = QStandardItem("*****")
+                    vide1 = QStandardItem("*****")
+                    vide2 = QStandardItem("*****")
+                    nomcat = QStandardItem(dict["nom"])
+                    descripcat = QStandardItem(dict["description"])
+                    childitem = (vide, vide1, vide2, nomcat, descripcat)
+                    nom.appendRow(childitem)
+                for dictact in g["acteurs"]:
+                    text1 = QStandardItem("*****")
+                    text2 = QStandardItem("*****")
+                    text3 = QStandardItem("*****")
+                    text4 = QStandardItem("*****")
+                    text5 = QStandardItem("*****")
+                    nomacteur = QStandardItem(dictact["nom"])
+                    prenomacteur = QStandardItem(dictact["prenom"])
+                    sexeacteur = QStandardItem(dictact["sexe"])
+                    personnage = QStandardItem(dictact["nompersonnage"])
+                    debutemploi = QStandardItem(dictact["debutemploi"])
+                    finemploi = QStandardItem(dictact["finemploi"])
+                    cachet = QStandardItem(dictact["cachet"])
+                    childfilm = (text1, text2, text3, text4, text5, nomacteur, prenomacteur, sexeacteur, personnage, debutemploi, finemploi, cachet)
+                    vide.appendRow(childfilm)
+
+
+        """for k in datatest:
             nom = QStandardItem(k["nom"])
             prenom = QStandardItem(k["prenom"])
             sexe = QStandardItem(k["sexe"])
@@ -64,8 +101,13 @@ class MainFrame(QWidget):
                 codecarte = QStandardItem(dict["codecarte"])
                 childitem = (vide1, vide2, vide3, vide4,vide5, vide6, numero, expiration, codecarte)
                 nom.appendRow(childitem)
-                tooltip = "Numéro de carte: {}, Date d'expiration: {}, Code secret: {}".format(dict["numero"], dict["expiration"], dict["codecarte"])
-                nom.setToolTip(tooltip)
+                #tooltip = "Numéro de carte: {}, Date d'expiration: {}, Code secret: {}".format(numero.data(), expiration.data(), codecarte.data())
+                #print(tooltip)
+                #nom.setToolTip(tooltip)
+                #for carte in k["cartes"] :
+                    #tooltip = "Numéro de carte: {}, Date d'expiration: {}, Code secret: {}".format(carte["numero"], carte["expiration"], carte["codecarte"])
+                    #nom.setToolTip(tooltip)"""
+
 
 
 

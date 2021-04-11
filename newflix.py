@@ -146,7 +146,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.mainw.actionDeconnexion.triggered.connect(self.logout)  # Trigger la fonction déconnexion du logiciel
         self.mainw.actionQuitter.triggered.connect(self.closeall)  # Trigger la fonction fermeture du logiciel
         self.mainw.pushButton.clicked.connect(self.popupclient)
-        #self.mainw.pushButton_2.clicked.connect(self.modifclient)
+        self.mainw.pushButton_2.clicked.connect(self.modifcustomer)
         #self.mainw.pushButton_3.clicked.connect(self.suppclient)
         #self.mainw.pushButton_4.clicked.connect(self.popupfilm)
         #self.mainw.pushButton_5.clicked.connect(self.modiffilm)
@@ -400,6 +400,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         #self.popupcustomer.pushButton.clicked.connect(self.savecustomer)
         self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
 
+
+
     """def savecustomer(self):
         client=Client(self.popupcustomer.lineEdit.tex(),
                       self.popupcustomer.lineEdit_2.text(),
@@ -408,6 +410,31 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                       self.popupcustomer.lineEdit_3.text(),
                       self.popupcustomer.lineEdit_5.text(),
                       ["test","test2"]"""
+
+    def modifcustomer(self):
+        self.donneesclient = [d.data() for d in self.mainw.treeView.selectedIndexes()]
+        if self.donneesclient == [] :
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Veuillez choisir un client à modifier")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+        else:
+            self.popupcustomer = FormClient()
+            self.popupcustomer.show()
+            #self.popupcustomer.pushButton.clicked.connect(self.modifclient)
+            self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
+            index = self.popupcustomer.comboBox.findText(self.donneesclient[2], QtCore.Qt.MatchFlag.MatchFixedString)
+            date = QtCore.QDate.fromString(self.donneesclient[3], "dd-MM-yyyy")
+            self.updateclient = Client(
+                self.popupcustomer.lineEdit.setText(self.donneesclient[0]),
+                self.popupcustomer.lineEdit_2.setText(self.donneesclient[1]),
+                self.popupcustomer.comboBox.setCurrentIndex(index),
+                self.popupcustomer.dateEdit.setDate(date),
+                self.popupcustomer.lineEdit_3.setText(self.donneesclient[4]),
+                self.popupcustomer.lineEdit_5.setText(self.donneesclient[5]),
+            ["test1, test2, test3"])
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

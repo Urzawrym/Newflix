@@ -162,7 +162,9 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.treeViewModel2 = QtGui.QStandardItemModel()
         self.mainw.treeView_2.setModel(self.treeViewModel2)
         self.mainw.treeView_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.header2 = ['Nom', "Durée", "Description", "Nom de catégorie", "Description catégorie"]
+        self.header2 = ["Nom", "Durée", "Description", "Catégories", "Description Catégorie", "Nom de l'acteur",
+                        "Prénom de l'acteur", "Sexe", "Nom du personnage", "Début de l'emploi", "Fin de l'emploi",
+                        "Cachet"]
         self.treeViewModel2.setHorizontalHeaderLabels(self.header2)
         self.mainw.treeView_2.setSortingEnabled(True)
         self.mainw.treeView_2.setAlternatingRowColors(True)
@@ -201,6 +203,22 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 descriptioncat = QtGui.QStandardItem(dict["description"])
                 childitem2 = (vide1, vide2, vide3, nomcat, descriptioncat)
                 nom2.appendRow(childitem2)
+            for dictact in g["acteurs"]:
+                text1 = QtGui.QStandardItem("*****")
+                text2 = QtGui.QStandardItem("*****")
+                text3 = QtGui.QStandardItem("*****")
+                text4 = QtGui.QStandardItem("*****")
+                text5 = QtGui.QStandardItem("*****")
+                nomacteur = QtGui.QStandardItem(dictact["nom"])
+                prenomacteur = QtGui.QStandardItem(dictact["prenom"])
+                sexeacteur = QtGui.QStandardItem(dictact["sexe"])
+                personnage = QtGui.QStandardItem(dictact["nompersonnage"])
+                debutemploi = QtGui.QStandardItem(dictact["debutemploi"])
+                finemploi = QtGui.QStandardItem(dictact["finemploi"])
+                cachet = QtGui.QStandardItem(dictact["cachet"])
+                childfilm = (text1, text2, text3, text4, text5, nomacteur, prenomacteur, sexeacteur,
+                             personnage, debutemploi, finemploi, cachet)
+                vide1.appendRow(childfilm)
 
 
     def modifwindow(self):

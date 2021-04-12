@@ -412,8 +412,9 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                       ["test","test2"]"""
 
     def modifcustomer(self):
-        item = self.mainw.treeView.selectedIndexes()[0]
-        print(item.parent().data())
+        donnees = [f.data() for f in self.mainw.treeView.selectedIndexes()]
+        print(donnees)
+
 
 
 

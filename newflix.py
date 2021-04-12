@@ -413,6 +413,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def modifcustomer(self):
         self.donneesclient = [d.data() for d in self.mainw.treeView.selectedIndexes()]
+        print(self.donneesclient)
         if self.donneesclient == [] :
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
@@ -427,6 +428,10 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
             index = self.popupcustomer.comboBox.findText(self.donneesclient[2], QtCore.Qt.MatchFlag.MatchFixedString)
             date = QtCore.QDate.fromString(self.donneesclient[3], "dd-MM-yyyy")
+            self.model3 = QtGui.QStandardItemModel()
+            self.model3.setHorizontalHeaderLabels(['Numéro de carte', 'Date Expiration', 'Code Carte'])
+            self.popupcustomer.treeView.setModel(self.model3)  # Active le modèle
+            #for dict in
             self.updateclient = Client(
                 self.popupcustomer.lineEdit.setText(self.donneesclient[0]),
                 self.popupcustomer.lineEdit_2.setText(self.donneesclient[1]),

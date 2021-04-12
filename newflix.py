@@ -412,9 +412,20 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                       ["test","test2"]"""
 
     def modifcustomer(self):
-        self.donneesclient = [d.data() for d in self.mainw.treeView.selectedIndexes()]
-        print(self.donneesclient)
-        if self.donneesclient == [] :
+        #self.donneesclient = self.mainw.treeView.selectedIndexes()
+
+
+
+        parents = set()
+        for index in self.mainw.treeView.selectedIndexes():
+            while index.parent().isValid():
+                index = index.parent()
+            parents.add(index.sibling(index.row(), 0))
+        return [index.data() for index in sorted(parents)]
+
+
+
+        """if self.donneesclient == [] :
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
             msg.setText("Veuillez choisir un client à modifier")
@@ -439,7 +450,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 self.popupcustomer.dateEdit.setDate(date),
                 self.popupcustomer.lineEdit_3.setText(self.donneesclient[4]),
                 self.popupcustomer.lineEdit_5.setText(self.donneesclient[5]),
-            ["test1, test2, test3"])
+            ["test1, test2, test3"])"""
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

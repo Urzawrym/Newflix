@@ -412,16 +412,10 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                       ["test","test2"]"""
 
     def modifcustomer(self):
-        #self.donneesclient = self.mainw.treeView.selectedIndexes()
+        item = self.mainw.treeView.selectedIndexes()[0]
+        print(item.parent().data())
 
 
-
-        parents = set()
-        for index in self.mainw.treeView.selectedIndexes():
-            while index.parent().isValid():
-                index = index.parent()
-            parents.add(index.sibling(index.row(), 0))
-        return [index.data() for index in sorted(parents)]
 
 
 

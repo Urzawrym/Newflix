@@ -200,6 +200,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             description = QtGui.QStandardItem(g["description"])
             item2 = (nom2, duree, description)
             self.treeViewModel2.appendRow(item2)
+            self.mainw.treeView_2.setCurrentIndex(self.treeViewModel2.index(0, 0))
             for dict in g["categories"]:
                 vide1 = QtGui.QStandardItem("*****")
                 vide2 = QtGui.QStandardItem("*****")
@@ -208,6 +209,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 descriptioncat = QtGui.QStandardItem(dict["description"])
                 childitem2 = (vide1, vide2, vide3, nomcat, descriptioncat)
                 nom2.appendRow(childitem2)
+
             for dictact in g["acteurs"]:
                 text1 = QtGui.QStandardItem("*****")
                 text2 = QtGui.QStandardItem("*****")

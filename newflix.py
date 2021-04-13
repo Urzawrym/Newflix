@@ -8,7 +8,7 @@ from popupuser import *                 #Importe le formulaire de création/modi
 from popupcustomer import *             #Importe le formulaire de création/modification de client
 from logindialog import *               #Importe la fenêtre de connexion du démarrage du logiciel
 from classes import *                   #Importe les classes Personnes, Employés, Clients, Cartes crédits, Films,
-                                        #Categorie avec toute la gestion des héritages entre les classes, tel que
+from popcard import *                   #Categorie avec toute la gestion des héritages entre les classes, tel que
                                         #demandé dans la mise en situation
 
 
@@ -45,6 +45,11 @@ class Connexion(QtWidgets.QDialog, Ui_Connexion): #Initialise logindialog.py. Fe
         self.setupUi(self)
 
 class FormClient(QtWidgets.QDialog, Ui_FormCustomer): #Init. popupcostumer.py. Fenêtre pour créer/modifier un client
+    def __init__(self):
+        QtWidgets.QDialog.__init__(self)
+        self.setupUi(self)
+
+class Popcarte(QtWidgets.QDialog, Ui_Carte):
     def __init__(self):
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
@@ -434,7 +439,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupcustomer.show()
         # self.popupcustomer.pushButton.clicked.connect(self.modifclient)
         self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
-        #self.popupcustomer.pushButton_3.clicked.connect(self.ajoutercarte)
+        self.popupcustomer.pushButton_3.clicked.connect(self.ajoutercarte)
         self.model3 = QtGui.QStandardItemModel()
         self.popupcustomer.treeView.setModel(self.model3)  # Active le modèle
         self.model3.setHorizontalHeaderLabels(['Numéro de carte', 'Date Expiration', 'Code Carte'])
@@ -456,7 +461,13 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupcustomer.lineEdit_5.setText(self.dataclient["motdepasse"]),
             ["1", "2", "3"])
 
-    #def ajoutercarte(self):
+    def ajoutercarte(self):
+        self.showpopcarte = Popcarte()
+        self.showpopcarte.show()
+        self.showpopcarte.pushButton_2.clicked.connect(self.showpopcarte.close)
+
+
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

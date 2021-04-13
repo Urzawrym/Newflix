@@ -90,7 +90,7 @@ class Ui_FormCustomer(object):
         self.pushButton_2.setText(_translate("Form", "Annuler"))
         self.label.setText(_translate("Form", "Liste carte de crédit :"))
         self.comboBox.setItemText(0, _translate("Form", "Masculin"))
-        self.comboBox.setItemText(1, _translate("Form", "Féminin"))
+        self.comboBox.setItemText(1, _translate("Form", "Feminin"))
         self.comboBox.setItemText(2, _translate("Form", "Non défini"))
         self.pushButton_3.setText(_translate("Form", "Ajouter une carte"))
         self.pushButton_4.setText(_translate("Form", "Supprimer une carte"))

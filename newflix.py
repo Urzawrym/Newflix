@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import json
 import sys
-from cryptography.fernet import Fernet  #Importe le module pour l'encryption
+#from cryptography.fernet import Fernet  #Importe le module pour l'encryption
 from mainwindow import *                #Importe l'affichage de la fenêtre principale
 from gestionusers import *              #Importe l'affichage de la fenêtre gestion usager
 from popupuser import *                 #Importe le formulaire de création/modification d'usager
@@ -412,11 +412,22 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                       ["test","test2"]"""
 
     def modifcustomer(self):
-        donnees = [f.data() for f in self.mainw.treeView.selectedIndexes()]
-        print(donnees)
-        item = self.treeView.selectedIndexes()[0]
-        print
-        item.model().itemFromIndex(index).text()
+        donnees = self.mainw.treeView.selectedIndexes()[4]
+        if donnees.data() == "*****" :
+            updateddonnees = donnees.parent()
+            print(updateddonnees.data())
+        else : print(donnees.data())
+        #print(donnees)
+
+        """data =  self.mainw.treeView.selectedIndexes()[4]
+        if data.data() == "*****" :
+            print("yes")
+        else: print("no")"""
+        #print(data.data())
+        #updatedata = data.parent()
+        #print(updatedata.data())
+        #item = self.mainw.treeView.selectedIndexes()[0]
+        #print(item.model().itemFromIndex().text())
 
 
 

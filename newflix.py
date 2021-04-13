@@ -152,7 +152,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         #self.mainw.pushButton_5.clicked.connect(self.modiffilm)
         #self.mainw.pushButton_6.clicked.connect(self.suppfilm)
         self.treeViewModel = QtGui.QStandardItemModel()
-
         self.mainw.treeView.setModel(self.treeViewModel)
         self.mainw.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.header = ['ID', 'Nom', "Prénom", "Sexe", "Date Inscription", "Courriel Client", "Mot de passe",
@@ -169,6 +168,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.treeViewModel2.setHorizontalHeaderLabels(self.header2)
         self.mainw.treeView_2.setSortingEnabled(True)
         self.mainw.treeView_2.setAlternatingRowColors(True)
+
         for b in self.dictclient:
             id = QtGui.QStandardItem(b["id"])
             nom = QtGui.QStandardItem(b["nom"])
@@ -179,7 +179,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             password = QtGui.QStandardItem(b["motdepasse"])
             item = (id, nom, prenom, sexe, date, courriel, password)
             self.treeViewModel.appendRow(item)
-
+            self.mainw.treeView.setCurrentIndex(self.treeViewModel.index(0, 0))
             for dict in b["cartes"]:
                 vide1 = QtGui.QStandardItem("*****")
                 vide2 = QtGui.QStandardItem("*****")
@@ -417,12 +417,10 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                       ["test","test2"]"""
 
     def modifcustomer(self, index):
-        donnees =  self.mainw.treeView.selectedIndexes()[0]
-
-        if donnees.data() == "*****" :
-            parentdonnees = donnees.parent()
-            print(parentdonnees.data())
-        else : print(donnees.data())
+        self.donneesclient = self.mainw.treeView.selectedIndexes()[0]
+        if self.donneesclient.data() == "*****" :
+            print(self.donneesclient.parent().data())
+        else : print(self.donneesclient.data())
 
 
 

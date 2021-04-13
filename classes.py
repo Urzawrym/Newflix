@@ -41,8 +41,9 @@ class Employe(Personne):
                                                                   self.codeutilisateur, self.password, self.acces)"""
 
 class Client(Personne):
-    def __init__(self, nom, prenom, sexe, dateinscription, courriel, motdepasse, cartes):
+    def __init__(self, id, nom, prenom, sexe, dateinscription, courriel, motdepasse, cartes):
         super().__init__(nom,prenom,sexe)
+        self.id = id
         self.dateinscription = dateinscription
         self.courriel = courriel
         self.motdepasse = motdepasse

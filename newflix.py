@@ -152,9 +152,10 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         #self.mainw.pushButton_5.clicked.connect(self.modiffilm)
         #self.mainw.pushButton_6.clicked.connect(self.suppfilm)
         self.treeViewModel = QtGui.QStandardItemModel()
+
         self.mainw.treeView.setModel(self.treeViewModel)
         self.mainw.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.header = ['Nom', "Prénom", "Sexe", "Date Inscription", "Courriel Client", "Mot de passe",
+        self.header = ['ID', 'Nom', "Prénom", "Sexe", "Date Inscription", "Courriel Client", "Mot de passe",
                                      "Numero de Carte", "Expiration", "Code secret"]
         self.treeViewModel.setHorizontalHeaderLabels(self.header)
         self.mainw.treeView.setSortingEnabled(True)
@@ -169,14 +170,16 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.mainw.treeView_2.setSortingEnabled(True)
         self.mainw.treeView_2.setAlternatingRowColors(True)
         for b in self.dictclient:
+            id = QtGui.QStandardItem(b["id"])
             nom = QtGui.QStandardItem(b["nom"])
             prenom = QtGui.QStandardItem(b["prenom"])
             sexe = QtGui.QStandardItem(b["sexe"])
             date = QtGui.QStandardItem(b["dateinscription"])
             courriel = QtGui.QStandardItem(b["courriel"])
             password = QtGui.QStandardItem(b["motdepasse"])
-            item = (nom, prenom, sexe, date, courriel, password)
+            item = (id, nom, prenom, sexe, date, courriel, password)
             self.treeViewModel.appendRow(item)
+
             for dict in b["cartes"]:
                 vide1 = QtGui.QStandardItem("*****")
                 vide2 = QtGui.QStandardItem("*****")
@@ -184,11 +187,13 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 vide4 = QtGui.QStandardItem("*****")
                 vide5 = QtGui.QStandardItem("*****")
                 vide6 = QtGui.QStandardItem("*****")
+                vide7 = QtGui.QStandardItem("*****")
                 numero = QtGui.QStandardItem(dict["numero"])
                 expiration = QtGui.QStandardItem(dict["expiration"])
                 codecarte = QtGui.QStandardItem(dict["codecarte"])
-                childitem = (vide1, vide2, vide3, vide4, vide5, vide6, numero, expiration, codecarte)
-                nom.appendRow(childitem)
+                childitem = (vide1, vide2, vide3, vide4, vide5, vide6, vide7, numero, expiration, codecarte)
+                id.appendRow(childitem)
+
         for g in self.dictmovie:
             nom2 = QtGui.QStandardItem(g["nom"])
             duree = QtGui.QStandardItem(g["duree"])
@@ -411,12 +416,15 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                       self.popupcustomer.lineEdit_5.text(),
                       ["test","test2"]"""
 
-    def modifcustomer(self):
-        donnees = [f.data() for f in self.mainw.treeView.selectedIndexes()]
-        print(donnees)
-        item = self.treeView.selectedIndexes()[0]
-        print
-        item.model().itemFromIndex(index).text()
+    def modifcustomer(self, index):
+        donnees =  self.mainw.treeView.selectedIndexes()[0]
+
+        if donnees.data() == "*****" :
+            parentdonnees = donnees.parent()
+            print(parentdonnees.data())
+        else : print(donnees.data())
+
+
 
 
 

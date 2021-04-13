@@ -406,6 +406,9 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupcustomer.show()
         #self.popupcustomer.pushButton.clicked.connect(self.savecustomer)
         self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
+        self.model3 = QtGui.QStandardItemModel()
+        self.popupcustomer.treeView(self.model3)  # Active le modèle
+        self.model3.setHorizontalHeaderLabels(['Numéro de carte', 'Date Expiration', 'Code Carte'])
 
 
 
@@ -430,25 +433,23 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupcustomer.show()
         # self.popupcustomer.pushButton.clicked.connect(self.modifclient)
         self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
-        #self.model3 = QtGui.QStandardItemModel()
-        #header = ['Numéro de carte', 'Date Expiration', 'Code Carte']
-        #self.model3.setHorizontalHeaderLabels(header)
-        #self.popupcustomer.treeView.setModel(self.model3)  # Active le modèle
+
 
         index = self.popupcustomer.comboBox.findText(self.dataclient["sexe"], QtCore.Qt.MatchFlag.MatchFixedString)
         date = QtCore.QDate.fromString(self.dataclient["dateinscription"], "dd-MM-yyyy")
-        #self.model3 = QtGui.QStandardItemModel()
-        #self.model3.setHorizontalHeaderLabels(['Numéro de carte', 'Date Expiration', 'Code Carte'])
-        #self.popupcustomer.treeView.setModel(self.model3)  # Active le modèle
-        #for dict in
-        #self.updateclient = Client()
-        self.popupcustomer.setWindowTitle(self.dataclient["id"])
-        self.popupcustomer.lineEdit.setText(self.dataclient["prenom"])
-        self.popupcustomer.lineEdit_2.setText(self.dataclient["nom"])
-        self.popupcustomer.comboBox.setCurrentIndex(index)
-        self.popupcustomer.dateEdit.setDate(date)
-        self.popupcustomer.lineEdit_3.setText(self.dataclient["courriel"])
-        self.popupcustomer.lineEdit_5.setText(self.dataclient["motdepasse"])
+        self.model3 = QtGui.QStandardItemModel()
+        self.popupcustomer.treeView(self.model3)  # Active le modèle
+        self.model3.setHorizontalHeaderLabels(['Numéro de carte', 'Date Expiration', 'Code Carte'])
+
+        self.updateclient = Client(
+        self.popupcustomer.setWindowTitle(self.dataclient["id"]),
+        self.popupcustomer.lineEdit.setText(self.dataclient["prenom"]),
+        self.popupcustomer.lineEdit_2.setText(self.dataclient["nom"]),
+        self.popupcustomer.comboBox.setCurrentIndex(index),
+        self.popupcustomer.dateEdit.setDate(date),
+        self.popupcustomer.lineEdit_3.setText(self.dataclient["courriel"]),
+        self.popupcustomer.lineEdit_5.setText(self.dataclient["motdepasse"]),
+            ["1", "2", "3"])
 
 
 if __name__ == "__main__":

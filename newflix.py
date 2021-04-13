@@ -351,7 +351,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.showpopusager.comboBox_2.setCurrentIndex(index2))  #Affiche l'index correspondant au int
 
     def modifuser(self):
-        changeusager = next(
+        changeusager = next( #va chercher le même usager et le changer par les informations ci basse
             item for item in self.dictuser if item['codeutilisateur'] == self.showpopusager.lineEdit_3.text())
         changeusager['nom'] = self.showpopusager.lineEdit.text()
         changeusager['prenom'] = self.showpopusager.lineEdit_2.text()
@@ -434,6 +434,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupcustomer.show()
         # self.popupcustomer.pushButton.clicked.connect(self.modifclient)
         self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
+        #self.popupcustomer.pushButton_3.clicked.connect(self.ajoutercarte)
         self.model3 = QtGui.QStandardItemModel()
         self.popupcustomer.treeView.setModel(self.model3)  # Active le modèle
         self.model3.setHorizontalHeaderLabels(['Numéro de carte', 'Date Expiration', 'Code Carte'])
@@ -455,6 +456,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupcustomer.lineEdit_5.setText(self.dataclient["motdepasse"]),
             ["1", "2", "3"])
 
+    #def ajoutercarte(self):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

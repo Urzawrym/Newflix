@@ -105,7 +105,10 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.connex.show() #Affichage la fenêtre de connexion
 
     def testconnex(self):
-        self.loaduser()
+        self.loaduser()     #Charge la liste des utilisateurs provenant du fichier json dans la variable self.dictuser
+        self.loadfilm()     #Charge la liste des films provenant du fichier json dans la variable self.dictmovie
+        self.loadclient()   #Charge la liste des client provenant du fichier json dans la variable self.dictclient
+
         logged_in = False                 #par défaut la connexion est fausse avant le démarrer la boucle
         self.mesgexcept = ""   #Va servir pour l'exception du try
         try:   #Défini un try avant de démarrer la boucle
@@ -114,11 +117,13 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                     if a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Admin":
                         self.mainwindow()
+                        self.statutlogin = "admin"
                         #Si les 3 inputs de l'usager correspond à un dict. avec accès admin, active modifwindow
                         logged_in = True   #Le "true" met fin à la boucle.
                     elif a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Modification":
                         self.modifwindow()
+                        self.statutlogin = "modif"
                         #Si les 3 inputs de l'usager correspond à un dict. avec accès modif, active modifwindow
                         logged_in = True #Ferme la boucle
                     elif a['codeutilisateur'] == self.connex.lineEdit.text() and \
@@ -139,8 +144,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             pass
 
     def mainwindow(self):
-        self.loadclient() #Charge la liste des client provenant du fichier json dans la variable self.dictclient
-        self.loadfilm()   #Charge la liste des films provenant du fichier json dans la variable self.dictmovie
+        #self.loadclient() #Charge la liste des client provenant du fichier json dans la variable self.dictclient
+        #self.loadfilm()   #Charge la liste des films provenant du fichier json dans la variable self.dictmovie
         self.connex.lineEdit.clear()  # Vide la ligne usager de la fenêtre de connexion
         self.connex.lineEdit_2.clear()  # Vide la ligne mot de passe de la fenêtre de connexion
         self.connex.lineEdit.setFocus()  # Met le focus sur la ligne usager de la fenêtre de connexion
@@ -478,7 +483,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.showpopcarte.close()
 
     def savemodifcustomer(self):
-        if any(j["courriel"] == self.popupcustomer.lineEdit_3.text() for j in self.dictclient):
+        if self.popupcustomer.lineEdit_3.text() != self.dataclient["courriel"] and \
+                any(j["courriel"] == self.popupcustomer.lineEdit_3.text() for j in self.dictclient):
             msg = QtWidgets.QMessageBox() #Cherche si le code est déjà dans le dictuser
             msg.setIcon(QtWidgets.QMessageBox.Warning)
             msg.setText("Ce courriel est déjà utilisé")
@@ -494,6 +500,11 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             changeusager['dateinscription'] = self.popupcustomer.dateEdit.text()
             changeusager['courriel'] = self.popupcustomer.lineEdit_3.text()
             changeusager['motdepasse'] = self.popupcustomer.lineEdit_5.text()
+            if self.statutlogin == "admin" :
+                self.mainwindow()
+            else :
+                self.mainwindow()
+                self.mainw.actionGestion.setVisible(False)
             self.popupcustomer.close()
             self.saveclient()
 

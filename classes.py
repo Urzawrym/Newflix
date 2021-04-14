@@ -6,7 +6,7 @@ class Personne:
         self.prenom = prenom
         self.sexe = sexe
 
-    def getPrenom(self):
+    """def getPrenom(self):
         return self.prenom
 
     def setPrenom(self, prenom):
@@ -25,7 +25,7 @@ class Personne:
 
     def setSexe(self, sexe):
         if type(sexe) == str:
-            self.sexe = sexe
+            self.sexe = sexe"""
 
 class Employe(Personne):
     def __init__(self, nom, prenom, sexe, dateembauche, codeutilisateur, password, acces):
@@ -47,14 +47,8 @@ class Client(Personne):
         self.dateinscription = dateinscription
         self.courriel = courriel
         self.motdepasse = motdepasse
-        self.cartes = []
+        self.cartes = {}
 
-    def setCredit(self,credit):
-        self.cartes.append(credit)
-    def getListeCredit(self):
-        return self.cartes
-    def getNbCredit(self):
-        return len(self.cartes)
 
 class CarteCredit:
     "Carte de crédit"

@@ -437,7 +437,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 self.dataclient = dict
         self.popupcustomer = FormClient()
         self.popupcustomer.show()
-        # self.popupcustomer.pushButton.clicked.connect(self.modifclient)
+        self.popupcustomer.pushButton.clicked.connect(self.savemodifcustomer)
         self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
         self.popupcustomer.pushButton_3.clicked.connect(self.ajoutercarte)
         self.model3 = QtGui.QStandardItemModel()
@@ -451,19 +451,19 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.model3.appendRow(item)
         index = self.popupcustomer.comboBox.findText(self.dataclient["sexe"], QtCore.Qt.MatchFlag.MatchFixedString)
         date = QtCore.QDate.fromString(self.dataclient["dateinscription"], "dd-MM-yyyy")
-        self.updateclient = Client(
-        self.popupcustomer.setWindowTitle(self.dataclient["id"]),
-        self.popupcustomer.lineEdit.setText(self.dataclient["prenom"]),
-        self.popupcustomer.lineEdit_2.setText(self.dataclient["nom"]),
-        self.popupcustomer.comboBox.setCurrentIndex(index),
-        self.popupcustomer.dateEdit.setDate(date),
-        self.popupcustomer.lineEdit_3.setText(self.dataclient["courriel"]),
-        self.popupcustomer.lineEdit_5.setText(self.dataclient["motdepasse"]),
-            ["1", "2", "3"])
+
+        self.popupcustomer.setWindowTitle(self.dataclient["id"])
+        self.popupcustomer.lineEdit.setText(self.dataclient["prenom"])
+        self.popupcustomer.lineEdit_2.setText(self.dataclient["nom"])
+        self.popupcustomer.comboBox.setCurrentIndex(index)
+        self.popupcustomer.dateEdit.setDate(date)
+        self.popupcustomer.lineEdit_3.setText(self.dataclient["courriel"])
+        self.popupcustomer.lineEdit_5.setText(self.dataclient["motdepasse"])
 
     def ajoutercarte(self):
         self.showpopcarte = Popcarte()
         self.showpopcarte.show()
+        self.showpopcarte.lineEdit.setFocus()
         self.showpopcarte.pushButton.clicked.connect(self.savecarte)
         self.showpopcarte.pushButton_2.clicked.connect(self.showpopcarte.close)
 
@@ -475,9 +475,29 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         codesecret = QtGui.QStandardItem(self.dictcarte["codecarte"])
         item = (numero, expiration, codesecret)
         self.model3.appendRow(item)
-        self.dataclient["cartes"].append(self.dictcarte)
-        self.saveclient()
         self.showpopcarte.close()
+
+    def savemodifcustomer(self):
+        if any(j["courriel"] == self.popupcustomer.lineEdit_3.text() for j in self.dictuser):
+            msg = QtWidgets.QMessageBox() #Cherche si le code est déjà dans le dictuser
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Ce courriel est déjà utilisé")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+        else:
+            self.dataclient["cartes"].append(self.dictcarte)
+            changeusager = next(  # va chercher le même usager et le changer par les informations ci basse
+                item for item in self.dictclient if item['id'] == self.dataclient["id"])
+            changeusager['prenom'] = self.popupcustomer.lineEdit.text()
+            changeusager['nom'] = self.popupcustomer.lineEdit_2.text()
+            changeusager['sexe'] = self.popupcustomer.comboBox.currentText()
+            changeusager['dateinscription'] = self.popupcustomer.dateEdit.text()
+            changeusager['courriel'] = self.popupcustomer.lineEdit_3.text()
+            changeusager['motdepasse'] = self.popupcustomer.lineEdit_3.currentText()
+            self.modifwindow()
+            self.popupcustomer.close()
+            self.saveclient()
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

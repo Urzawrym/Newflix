@@ -80,7 +80,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def saveclient(self):                   # Sauvegarde le dictionnaire des usagers dans le fichier .json des clients
         try:
-            with open("clients.json","w") as f:
+            with open("clients.json", "w") as f:
                 data2 = json.dump(self.dictclient, f)
         except Exception:
             pass
@@ -478,7 +478,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.showpopcarte.close()
 
     def savemodifcustomer(self):
-        if any(j["courriel"] == self.popupcustomer.lineEdit_3.text() for j in self.dictuser):
+        if any(j["courriel"] == self.popupcustomer.lineEdit_3.text() for j in self.dictclient):
             msg = QtWidgets.QMessageBox() #Cherche si le code est déjà dans le dictuser
             msg.setIcon(QtWidgets.QMessageBox.Warning)
             msg.setText("Ce courriel est déjà utilisé")
@@ -487,16 +487,16 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.exec_()
         else:
             self.dataclient["cartes"].append(self.dictcarte)
-            changeusager = next(  # va chercher le même usager et le changer par les informations ci basse
+            """changeusager = next(  # va chercher le même client et le change par les informations ci bas
                 item for item in self.dictclient if item['id'] == self.dataclient["id"])
             changeusager['prenom'] = self.popupcustomer.lineEdit.text()
             changeusager['nom'] = self.popupcustomer.lineEdit_2.text()
             changeusager['sexe'] = self.popupcustomer.comboBox.currentText()
             changeusager['dateinscription'] = self.popupcustomer.dateEdit.text()
             changeusager['courriel'] = self.popupcustomer.lineEdit_3.text()
-            changeusager['motdepasse'] = self.popupcustomer.lineEdit_3.currentText()
-            self.modifwindow()
-            self.popupcustomer.close()
+            changeusager['motdepasse'] = self.popupcustomer.lineEdit_3.currentText()"""
+            #self.modifwindow()
+            #self.popupcustomer.close()
             self.saveclient()
 
 if __name__ == "__main__":

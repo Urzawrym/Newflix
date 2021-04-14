@@ -80,8 +80,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def saveclient(self):                   # Sauvegarde le dictionnaire des usagers dans le fichier .json des clients
         try:
-            with open("testclients.json", "w") as f:
-                data = json.dump(self.dictclient,f)
+            with open("clients.json", "w") as f:
+                data2 = json.dump(self.dictclient,f)
         except Exception:
             pass
 
@@ -428,7 +428,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def modifcustomer(self):
         self.donneesclient = self.mainw.treeView.selectedIndexes()[0]
-
         if self.donneesclient.data() == "*****":
             self.donneesclient = self.donneesclient.parent()
 
@@ -487,7 +486,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setWindowTitle("Erreur")
             msg.exec_()
         else:
-            #self.dataclient["cartes"].append(self.dictcarte)
             changeusager = next(  # va chercher le même client et le change par les informations ci bas
                 item for item in self.dictclient if item["id"] == self.dataclient["id"])
             changeusager['prenom'] = self.popupcustomer.lineEdit.text()
@@ -496,10 +494,9 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             changeusager['dateinscription'] = self.popupcustomer.dateEdit.text()
             changeusager['courriel'] = self.popupcustomer.lineEdit_3.text()
             changeusager['motdepasse'] = self.popupcustomer.lineEdit_5.text()
-            print(self.dictclient)
-            self.modifwindow()
             self.popupcustomer.close()
             self.saveclient()
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

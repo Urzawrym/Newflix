@@ -36,6 +36,7 @@ class Ui_FormCustomer(object):
         self.dateEdit = QtWidgets.QDateEdit(Form)
         self.dateEdit.setGeometry(QtCore.QRect(140, 30, 111, 22))
         self.dateEdit.setCalendarPopup(True)
+        self.dateEdit.setDateTime(QtCore.QDateTime.currentDateTime())
         self.dateEdit.setObjectName("dateEdit")
         self.label_6 = QtWidgets.QLabel(Form)
         self.label_6.setGeometry(QtCore.QRect(140, 60, 111, 16))

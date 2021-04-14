@@ -193,7 +193,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 vide5 = QtGui.QStandardItem("*****")
                 vide6 = QtGui.QStandardItem("*****")
                 vide7 = QtGui.QStandardItem("*****")
-                numero = QtGui.QStandardItem(dict["numero"])
+                numero = QtGui.QStandardItem(dict["noCarte"])
                 expiration = QtGui.QStandardItem(dict["expiration"])
                 codecarte = QtGui.QStandardItem(dict["codecarte"])
                 childitem = (vide1, vide2, vide3, vide4, vide5, vide6, vide7, numero, expiration, codecarte)
@@ -444,7 +444,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupcustomer.treeView.setModel(self.model3)  # Active le modèle
         self.model3.setHorizontalHeaderLabels(['Numéro de carte', 'Date Expiration', 'Code Carte'])
         for h in self.dataclient["cartes"]:
-            numero = QtGui.QStandardItem(h["numero"])
+            numero = QtGui.QStandardItem(h["noCarte"])
             expiration = QtGui.QStandardItem(h["expiration"])
             codecarte = QtGui.QStandardItem(h["codecarte"])
             item = (numero, expiration, codecarte)
@@ -464,9 +464,18 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def ajoutercarte(self):
         self.showpopcarte = Popcarte()
         self.showpopcarte.show()
+        self.showpopcarte.pushButton.clicked.connect(self.savecarte)
         self.showpopcarte.pushButton_2.clicked.connect(self.showpopcarte.close)
 
-
+    def savecarte(self):
+        carte = CarteCredit(self.showpopcarte.lineEdit.text(), self.showpopcarte.dateEdit.text(), self.showpopcarte.lineEdit_2.text())
+        self.dictcarte = vars(carte)
+        numero = QtGui.QStandardItem(self.dictcarte["noCarte"])
+        expiration = QtGui.QStandardItem(self.dictcarte["expiration"])
+        codesecret = QtGui.QStandardItem(self.dictcarte["codecarte"])
+        item = (numero, expiration, codesecret)
+        self.model3.appendRow(item)
+        self.showpopcarte.close()
 
 
 if __name__ == "__main__":

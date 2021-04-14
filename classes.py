@@ -58,9 +58,9 @@ class Client(Personne):
 
 class CarteCredit:
     "Carte de crédit"
-    def __init__(self, noCarte, Expiration, codecarte):
+    def __init__(self, noCarte, expiration, codecarte):
             self.noCarte = noCarte
-            self.expiration = Expiration
+            self.expiration = expiration
             self.codecarte = codecarte
 
 class Acteur(Personne):

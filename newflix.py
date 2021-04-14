@@ -80,8 +80,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def saveclient(self):                   # Sauvegarde le dictionnaire des usagers dans le fichier .json des clients
         try:
-            with open("clients.json", "w") as f:
-                data2 = json.dump(self.dictclient, f)
+            with open("testclients.json", "w") as f:
+                data = json.dump(self.dictclient,f)
         except Exception:
             pass
 
@@ -356,7 +356,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.showpopusager.comboBox_2.setCurrentIndex(index2))  #Affiche l'index correspondant au int
 
     def modifuser(self):
-        changeusager = next( #va chercher le même usager et le changer par les informations ci basse
+        changeusager = next( #va chercher le même usager et le change par les informations ci bas
             item for item in self.dictuser if item['codeutilisateur'] == self.showpopusager.lineEdit_3.text())
         changeusager['nom'] = self.showpopusager.lineEdit.text()
         changeusager['prenom'] = self.showpopusager.lineEdit_2.text()
@@ -475,6 +475,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         codesecret = QtGui.QStandardItem(self.dictcarte["codecarte"])
         item = (numero, expiration, codesecret)
         self.model3.appendRow(item)
+        self.dataclient["cartes"].append(self.dictcarte)
         self.showpopcarte.close()
 
     def savemodifcustomer(self):
@@ -486,17 +487,18 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setWindowTitle("Erreur")
             msg.exec_()
         else:
-            self.dataclient["cartes"].append(self.dictcarte)
-            """changeusager = next(  # va chercher le même client et le change par les informations ci bas
-                item for item in self.dictclient if item['id'] == self.dataclient["id"])
+            #self.dataclient["cartes"].append(self.dictcarte)
+            changeusager = next(  # va chercher le même client et le change par les informations ci bas
+                item for item in self.dictclient if item["id"] == self.dataclient["id"])
             changeusager['prenom'] = self.popupcustomer.lineEdit.text()
             changeusager['nom'] = self.popupcustomer.lineEdit_2.text()
             changeusager['sexe'] = self.popupcustomer.comboBox.currentText()
             changeusager['dateinscription'] = self.popupcustomer.dateEdit.text()
             changeusager['courriel'] = self.popupcustomer.lineEdit_3.text()
-            changeusager['motdepasse'] = self.popupcustomer.lineEdit_3.currentText()"""
-            #self.modifwindow()
-            #self.popupcustomer.close()
+            changeusager['motdepasse'] = self.popupcustomer.lineEdit_5.text()
+            print(self.dictclient)
+            self.modifwindow()
+            self.popupcustomer.close()
             self.saveclient()
 
 if __name__ == "__main__":

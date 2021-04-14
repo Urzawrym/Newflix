@@ -475,8 +475,9 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         codesecret = QtGui.QStandardItem(self.dictcarte["codecarte"])
         item = (numero, expiration, codesecret)
         self.model3.appendRow(item)
+        self.dataclient["cartes"].append(self.dictcarte)
+        self.saveclient()
         self.showpopcarte.close()
-
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

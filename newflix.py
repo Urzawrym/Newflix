@@ -415,7 +415,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def popupclient(self):
         self.popupcustomer = FormClient()
         self.popupcustomer.show()
-        self.popupcustomer.pushButton.clicked.connect(self.savecustomer)
+        #self.popupcustomer.pushButton.clicked.connect(self.savecustomer)
         self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
         self.popupcustomer.pushButton_3.clicked.connect(self.ajoutercarte)
         self.popupcustomer.pushButton_4.clicked.connect(self.suppcarte)
@@ -428,8 +428,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         for l in self.dictclient:  #Je fais une boucle pour aller chercher le prochain chiffre disponible pour l'ID
             while identifiant == l["identifiant"]:
                 identifiant = identifiant+1
-
-        self.cartes = []
+        print(identifiant)
+        """self.cartes = []
         client=Client(identifiant, self.popupcustomer.lineEdit.text(), self.popupcustomer.lineEdit_2.text(),
                  self.popupcustomer.comboBox.currentText(),self.popupcustomer.dateEdit.text(),
                  self.popupcustomer.lineEdit_3.text(), self.popupcustomer.lineEdit_5.text(), self.cartes)
@@ -476,7 +476,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.mainw.treeView.setCurrentIndex(self.treeViewModel.index(0, 0))
             self.dictclient.append(self.dataclient)
             self.saveclient()
-            self.popupcustomer.close()
+            self.popupcustomer.close()"""
 
     def modifcustomer(self):
         self.donneesclient = self.mainw.treeView.selectedIndexes()[0]

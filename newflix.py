@@ -422,19 +422,19 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.model3 = QtGui.QStandardItemModel()
         self.popupcustomer.treeView.setModel(self.model3)  # Active le modèle
         self.model3.setHorizontalHeaderLabels(['Numéro de carte', 'Date Expiration', 'Code Carte'])
+        identifiant = 1
+        for l in self.dictclient:  # Je fais une boucle pour aller chercher le prochain chiffre disponible pour l'ID
+            while identifiant == l["identifiant"]:
+                identifiant = identifiant + 1
+
+        client = Client(identifiant, self.popupcustomer.lineEdit.text(), self.popupcustomer.lineEdit_2.text(),
+                        self.popupcustomer.comboBox.currentText(), self.popupcustomer.dateEdit.text(),
+                        self.popupcustomer.lineEdit_3.text(), self.popupcustomer.lineEdit_5.text(), [])
+        self.dataclient = vars(client)
+
 
     def savecustomer(self):
-        identifiant = 1
-        for l in self.dictclient:  #Je fais une boucle pour aller chercher le prochain chiffre disponible pour l'ID
-            while identifiant == l["identifiant"]:
-                identifiant = identifiant+1
 
-
-        self.cartes = []
-        client=Client(identifiant, self.popupcustomer.lineEdit.text(), self.popupcustomer.lineEdit_2.text(),
-                 self.popupcustomer.comboBox.currentText(),self.popupcustomer.dateEdit.text(),
-                 self.popupcustomer.lineEdit_3.text(), self.popupcustomer.lineEdit_5.text(), self.cartes)
-        self.dataclient = vars(client)
 
         """if self.popupcustomer.lineEdit.text() == "" or self.popupcustomer.lineEdit_2.text() == "" or \
                 self.popupcustomer.lineEdit_3.text() == "" or self.popupcustomer.lineEdit_5.text() == "":
@@ -522,16 +522,24 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.showpopcarte.pushButton_2.clicked.connect(self.showpopcarte.close)
 
     def savecarte(self):
-        carte = CarteCredit(self.showpopcarte.lineEdit.text(),
-                            self.showpopcarte.dateEdit.text(), self.showpopcarte.lineEdit_2.text())
-        self.dictcarte = vars(carte)
-        numero = QtGui.QStandardItem(self.dictcarte["noCarte"])
-        expiration = QtGui.QStandardItem(self.dictcarte["expiration"])
-        codesecret = QtGui.QStandardItem(self.dictcarte["codecarte"])
-        item = (numero, expiration, codesecret)
-        self.model3.appendRow(item)
-        self.dataclient["cartes"].append(self.dictcarte)
-        self.showpopcarte.close()
+        if self.showpopcarte.lineEdit.text() == "" or self.showpopcarte.lineEdit_2.text() == "":
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Veuillez compléter les informations manquantes")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+        else:
+            carte = CarteCredit(self.showpopcarte.lineEdit.text(),
+                                self.showpopcarte.dateEdit.text(), self.showpopcarte.lineEdit_2.text())
+            self.dictcarte = vars(carte)
+            numero = QtGui.QStandardItem(self.dictcarte["noCarte"])
+            expiration = QtGui.QStandardItem(self.dictcarte["expiration"])
+            codesecret = QtGui.QStandardItem(self.dictcarte["codecarte"])
+            item = (numero, expiration, codesecret)
+            self.model3.appendRow(item)
+            self.dataclient["cartes"].append(self.dictcarte)
+            self.showpopcarte.close()
 
 
     def suppcarte(self):

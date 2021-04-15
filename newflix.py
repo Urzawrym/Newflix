@@ -181,7 +181,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.mainw.treeView_2.setAlternatingRowColors(True)
 
         for b in self.dictclient:
-            id = QtGui.QStandardItem(b["identifiant"])
+            id = QtGui.QStandardItem(str(b["identifiant"]))
             nom = QtGui.QStandardItem(b["nom"])
             prenom = QtGui.QStandardItem(b["prenom"])
             sexe = QtGui.QStandardItem(b["sexe"])
@@ -415,7 +415,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def popupclient(self):
         self.popupcustomer = FormClient()
         self.popupcustomer.show()
-        #self.popupcustomer.pushButton.clicked.connect(self.savecustomer)
+        self.popupcustomer.pushButton.clicked.connect(self.savecustomer)
         self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
         self.popupcustomer.pushButton_3.clicked.connect(self.ajoutercarte)
         self.popupcustomer.pushButton_4.clicked.connect(self.suppcarte)
@@ -428,14 +428,15 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         for l in self.dictclient:  #Je fais une boucle pour aller chercher le prochain chiffre disponible pour l'ID
             while identifiant == l["identifiant"]:
                 identifiant = identifiant+1
-        print(identifiant)
-        """self.cartes = []
+
+
+        self.cartes = []
         client=Client(identifiant, self.popupcustomer.lineEdit.text(), self.popupcustomer.lineEdit_2.text(),
                  self.popupcustomer.comboBox.currentText(),self.popupcustomer.dateEdit.text(),
                  self.popupcustomer.lineEdit_3.text(), self.popupcustomer.lineEdit_5.text(), self.cartes)
         self.dataclient = vars(client)
 
-        if self.popupcustomer.lineEdit.text() == "" or self.popupcustomer.lineEdit_2.text() == "" or \
+        """if self.popupcustomer.lineEdit.text() == "" or self.popupcustomer.lineEdit_2.text() == "" or \
                 self.popupcustomer.lineEdit_3.text() == "" or self.popupcustomer.lineEdit_5.text() == "":
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
@@ -484,8 +485,9 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.donneesclient = self.donneesclient.parent()
 
         for dict in self.dictclient :
-            if dict["identifiant"] == self.donneesclient.data():
+            if str(dict["identifiant"]) == self.donneesclient.data():
                 self.dataclient = dict
+
         self.popupcustomer = FormClient()
         self.popupcustomer.show()
         self.popupcustomer.pushButton.clicked.connect(self.savemodifcustomer)
@@ -504,7 +506,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         index = self.popupcustomer.comboBox.findText(self.dataclient["sexe"], QtCore.Qt.MatchFlag.MatchFixedString)
         date = QtCore.QDate.fromString(self.dataclient["dateinscription"], "dd-MM-yyyy")
 
-        self.popupcustomer.setWindowTitle(self.dataclient["identifiant"])
+        self.popupcustomer.setWindowTitle(str(self.dataclient["identifiant"]))
         self.popupcustomer.lineEdit.setText(self.dataclient["nom"])
         self.popupcustomer.lineEdit_2.setText(self.dataclient["prenom"])
         self.popupcustomer.comboBox.setCurrentIndex(index)

@@ -419,6 +419,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
         self.popupcustomer.pushButton_3.clicked.connect(self.ajoutercarte)
         self.popupcustomer.pushButton_4.clicked.connect(self.suppcarte)
+
         self.model3 = QtGui.QStandardItemModel()
         self.popupcustomer.treeView.setModel(self.model3)  # Active le modèle
         self.model3.setHorizontalHeaderLabels(['Numéro de carte', 'Date Expiration', 'Code Carte'])
@@ -431,12 +432,10 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                         self.popupcustomer.comboBox.currentText(), self.popupcustomer.dateEdit.text(),
                         self.popupcustomer.lineEdit_3.text(), self.popupcustomer.lineEdit_5.text(), [])
         self.dataclient = vars(client)
-
+        self.popupcustomer.setWindowTitle(str(identifiant))
 
     def savecustomer(self):
-
-
-        """if self.popupcustomer.lineEdit.text() == "" or self.popupcustomer.lineEdit_2.text() == "" or \
+        if self.popupcustomer.lineEdit.text() == "" or self.popupcustomer.lineEdit_2.text() == "" or \
                 self.popupcustomer.lineEdit_3.text() == "" or self.popupcustomer.lineEdit_5.text() == "":
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
@@ -452,7 +451,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setWindowTitle("Erreur")
             msg.exec_()
         else:
-            id = QtGui.QStandardItem(self.dataclient["identifiant"])
+            id = QtGui.QStandardItem(str(self.dataclient["identifiant"]))
             nom = QtGui.QStandardItem(self.dataclient["nom"])
             prenom = QtGui.QStandardItem(self.dataclient["prenom"])
             sexe = QtGui.QStandardItem(self.dataclient["sexe"])
@@ -477,7 +476,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.mainw.treeView.setCurrentIndex(self.treeViewModel.index(0, 0))
             self.dictclient.append(self.dataclient)
             self.saveclient()
-            self.popupcustomer.close()"""
+            self.popupcustomer.close()
 
     def modifcustomer(self):
         self.donneesclient = self.mainw.treeView.selectedIndexes()[0]

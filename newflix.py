@@ -444,6 +444,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupcustomer.pushButton.clicked.connect(self.savemodifcustomer)
         self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
         self.popupcustomer.pushButton_3.clicked.connect(self.ajoutercarte)
+        self.popupcustomer.pushButton_4.clicked.connect(self.suppcarte)
         self.model3 = QtGui.QStandardItemModel()
         self.popupcustomer.treeView.setModel(self.model3)  # Active le modèle
         self.model3.setHorizontalHeaderLabels(['Numéro de carte', 'Date Expiration', 'Code Carte'])
@@ -457,8 +458,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         date = QtCore.QDate.fromString(self.dataclient["dateinscription"], "dd-MM-yyyy")
 
         self.popupcustomer.setWindowTitle(self.dataclient["id"])
-        self.popupcustomer.lineEdit.setText(self.dataclient["prenom"])
-        self.popupcustomer.lineEdit_2.setText(self.dataclient["nom"])
+        self.popupcustomer.lineEdit.setText(self.dataclient["nom"])
+        self.popupcustomer.lineEdit_2.setText(self.dataclient["prenom"])
         self.popupcustomer.comboBox.setCurrentIndex(index)
         self.popupcustomer.dateEdit.setDate(date)
         self.popupcustomer.lineEdit_3.setText(self.dataclient["courriel"])
@@ -483,6 +484,44 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.dataclient["cartes"].append(self.dictcarte)
         self.showpopcarte.close()
 
+
+    def suppcarte(self):
+        self.datacarte = [f.data() for f in self.popupcustomer.treeView.selectedIndexes()]
+        if self.datacarte == [] :
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Veuillez choisir une carte à supprimer")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+        else:
+            box = QtWidgets.QMessageBox()
+            box.setIcon(QtWidgets.QMessageBox.Question)
+            box.setWindowTitle('Confirmation')
+            box.setText('Êtes vous sûr de vouloir supprimer cette carte de crédit?')
+            box.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+            buttonY = box.button(QtWidgets.QMessageBox.Yes)
+            buttonY.setText('Oui')
+            buttonN = box.button(QtWidgets.QMessageBox.No)
+            buttonN.setText('Non')
+            box.exec_()
+
+            if box.clickedButton() == buttonY:
+                self.deletecarte()
+            elif box.clickedButton() == buttonN:
+                pass
+
+    def deletecarte(self):
+        indexes = self.popupcustomer.treeView.selectedIndexes()
+        donnees = [f.data() for f in self.popupcustomer.treeView.selectedIndexes()]
+        if indexes:
+            index = indexes[0]  # L'index correspond à la liste des items de la rangée
+            self.model3.removeRow(index.row())  # Enlève l'item
+            self.dataclient["cartes"] = [element for element in self.dataclient["cartes"] if
+                                 element.get('noCarte', '') != donnees[0]]
+            print(self.dataclient)
+
+
     def savemodifcustomer(self):
         if self.popupcustomer.lineEdit_3.text() != self.dataclient["courriel"] and \
                 any(j["courriel"] == self.popupcustomer.lineEdit_3.text() for j in self.dictclient):
@@ -495,8 +534,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         else:
             changeusager = next(  # va chercher le même client et le change par les informations ci bas
                 item for item in self.dictclient if item["id"] == self.dataclient["id"])
-            changeusager['prenom'] = self.popupcustomer.lineEdit.text()
-            changeusager['nom'] = self.popupcustomer.lineEdit_2.text()
+            changeusager['nom'] = self.popupcustomer.lineEdit.text()
+            changeusager['prenom'] = self.popupcustomer.lineEdit_2.text()
             changeusager['sexe'] = self.popupcustomer.comboBox.currentText()
             changeusager['dateinscription'] = self.popupcustomer.dateEdit.text()
             changeusager['courriel'] = self.popupcustomer.lineEdit_3.text()

@@ -433,7 +433,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         client=Client(identifiant, self.popupcustomer.lineEdit.text(), self.popupcustomer.lineEdit_2.text(),
                  self.popupcustomer.comboBox.currentText(),self.popupcustomer.dateEdit.text(),
                  self.popupcustomer.lineEdit_3.text(), self.popupcustomer.lineEdit_5.text(), self.cartes)
-        self.dictcustomer = vars(client)
+        self.dataclient = vars(client)
 
         if self.popupcustomer.lineEdit.text() == "" or self.popupcustomer.lineEdit_2.text() == "" or \
                 self.popupcustomer.lineEdit_3.text() == "" or self.popupcustomer.lineEdit_5.text() == "":
@@ -451,16 +451,16 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setWindowTitle("Erreur")
             msg.exec_()
         else:
-            id = QtGui.QStandardItem(self.dictcustomer["identifiant"])
-            nom = QtGui.QStandardItem(self.dictcustomer["nom"])
-            prenom = QtGui.QStandardItem(self.dictcustomer["prenom"])
-            sexe = QtGui.QStandardItem(self.dictcustomer["sexe"])
-            date = QtGui.QStandardItem(self.dictcustomer["dateinscription"])
-            courriel = QtGui.QStandardItem(self.dictcustomer["courriel"])
-            password = QtGui.QStandardItem(self.dictcustomer["motdepasse"])
+            id = QtGui.QStandardItem(self.dataclient["identifiant"])
+            nom = QtGui.QStandardItem(self.dataclient["nom"])
+            prenom = QtGui.QStandardItem(self.dataclient["prenom"])
+            sexe = QtGui.QStandardItem(self.dataclient["sexe"])
+            date = QtGui.QStandardItem(self.dataclient["dateinscription"])
+            courriel = QtGui.QStandardItem(self.dataclient["courriel"])
+            password = QtGui.QStandardItem(self.dataclient["motdepasse"])
             item = (id, nom, prenom, sexe, date, courriel, password)
             self.treeViewModel.appendRow(item)
-            for dict in self.dictcustomer["cartes"]:
+            for dict in self.dataclient["cartes"]:
                 vide1 = QtGui.QStandardItem("*****")
                 vide2 = QtGui.QStandardItem("*****")
                 vide3 = QtGui.QStandardItem("*****")
@@ -468,13 +468,13 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 vide5 = QtGui.QStandardItem("*****")
                 vide6 = QtGui.QStandardItem("*****")
                 vide7 = QtGui.QStandardItem("*****")
-                numero = QtGui.QStandardItem(self.dict["noCarte"])
-                expiration = QtGui.QStandardItem(self.dict["expiration"])
-                codecarte = QtGui.QStandardItem(self.dict["codecarte"])
+                numero = QtGui.QStandardItem(dict["noCarte"])
+                expiration = QtGui.QStandardItem(dict["expiration"])
+                codecarte = QtGui.QStandardItem(dict["codecarte"])
                 childitem = (vide1, vide2, vide3, vide4, vide5, vide6, vide7, numero, expiration, codecarte)
                 id.appendRow(childitem)
             self.mainw.treeView.setCurrentIndex(self.treeViewModel.index(0, 0))
-            self.dictclient.append(self.dictcustomer)
+            self.dictclient.append(self.dataclient)
             self.saveclient()
             self.popupcustomer.close()
 

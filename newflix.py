@@ -427,11 +427,10 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         for l in self.dictclient:  # Je fais une boucle pour aller chercher le prochain chiffre disponible pour l'ID
             while identifiant == l["identifiant"]:
                 identifiant = identifiant + 1
-
-        client = Client(identifiant, self.popupcustomer.lineEdit.text(), self.popupcustomer.lineEdit_2.text(),
+        self.client = Client(identifiant, self.popupcustomer.lineEdit.text(), self.popupcustomer.lineEdit_2.text(),
                         self.popupcustomer.comboBox.currentText(), self.popupcustomer.dateEdit.text(),
                         self.popupcustomer.lineEdit_3.text(), self.popupcustomer.lineEdit_5.text(), [])
-        self.dataclient = vars(client)
+        self.dataclient = vars(self.client)
         self.popupcustomer.setWindowTitle(str(identifiant))
 
     def savecustomer(self):
@@ -439,11 +438,11 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         for l in self.dictclient:  # Je fais une boucle pour aller chercher le prochain chiffre disponible pour l'ID
             while identifiant == l["identifiant"]:
                 identifiant = identifiant + 1
-
-        client = Client(identifiant, self.popupcustomer.lineEdit.text(), self.popupcustomer.lineEdit_2.text(),
+        updatedclient = Client(identifiant, self.popupcustomer.lineEdit.text(), self.popupcustomer.lineEdit_2.text(),
                         self.popupcustomer.comboBox.currentText(), self.popupcustomer.dateEdit.text(),
                         self.popupcustomer.lineEdit_3.text(), self.popupcustomer.lineEdit_5.text(), [])
-        self.dataclient = vars(client)
+        self.updateddataclient = vars(updatedclient)
+        self.updateddataclient["cartes"].append(self.dataclient["cartes"])
 
         if self.popupcustomer.lineEdit.text() == "" or self.popupcustomer.lineEdit_2.text() == "" or \
                 self.popupcustomer.lineEdit_3.text() == "" or self.popupcustomer.lineEdit_5.text() == "":
@@ -461,36 +460,32 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setWindowTitle("Erreur")
             msg.exec_()
         else:
-            self.validsavecustomer()
-
-    def validsavecustomer(self):
-        print(self.dataclient)
-        """id = QtGui.QStandardItem(str(self.dataclient["identifiant"]))
-        nom = QtGui.QStandardItem(self.dataclient["nom"])
-        prenom = QtGui.QStandardItem(self.dataclient["prenom"])
-        sexe = QtGui.QStandardItem(self.dataclient["sexe"])
-        date = QtGui.QStandardItem(self.dataclient["dateinscription"])
-        courriel = QtGui.QStandardItem(self.dataclient["courriel"])
-        password = QtGui.QStandardItem(self.dataclient["motdepasse"])
-        item = (id, nom, prenom, sexe, date, courriel, password)
-        self.treeViewModel.appendRow(item)
-        for dict in self.dataclient["cartes"]:
-            vide1 = QtGui.QStandardItem("*****")
-            vide2 = QtGui.QStandardItem("*****")
-            vide3 = QtGui.QStandardItem("*****")
-            vide4 = QtGui.QStandardItem("*****")
-            vide5 = QtGui.QStandardItem("*****")
-            vide6 = QtGui.QStandardItem("*****")
-            vide7 = QtGui.QStandardItem("*****")
-            numero = QtGui.QStandardItem(dict["noCarte"])
-            expiration = QtGui.QStandardItem(dict["expiration"])
-            codecarte = QtGui.QStandardItem(dict["codecarte"])
-            childitem = (vide1, vide2, vide3, vide4, vide5, vide6, vide7, numero, expiration, codecarte)
-            id.appendRow(childitem)
-        self.mainw.treeView.setCurrentIndex(self.treeViewModel.index(0, 0))
-        self.dictclient.append(self.dataclient)
-        self.saveclient()
-        self.popupcustomer.close()"""
+            id = QtGui.QStandardItem(str(self.updateddataclient["identifiant"]))
+            nom = QtGui.QStandardItem(self.updateddataclient["nom"])
+            prenom = QtGui.QStandardItem(self.updateddataclient["prenom"])
+            sexe = QtGui.QStandardItem(self.updateddataclient["sexe"])
+            date = QtGui.QStandardItem(self.updateddataclient["dateinscription"])
+            courriel = QtGui.QStandardItem(self.updateddataclient["courriel"])
+            password = QtGui.QStandardItem(self.updateddataclient["motdepasse"])
+            item = (id, nom, prenom, sexe, date, courriel, password)
+            self.treeViewModel.appendRow(item)
+            for dict in self.updateddataclient["cartes"]:
+                vide1 = QtGui.QStandardItem("*****")
+                vide2 = QtGui.QStandardItem("*****")
+                vide3 = QtGui.QStandardItem("*****")
+                vide4 = QtGui.QStandardItem("*****")
+                vide5 = QtGui.QStandardItem("*****")
+                vide6 = QtGui.QStandardItem("*****")
+                vide7 = QtGui.QStandardItem("*****")
+                numero = QtGui.QStandardItem(dict["noCarte"])
+                expiration = QtGui.QStandardItem(dict["expiration"])
+                codecarte = QtGui.QStandardItem(dict["codecarte"])
+                childitem = (vide1, vide2, vide3, vide4, vide5, vide6, vide7, numero, expiration, codecarte)
+                id.appendRow(childitem)
+            self.mainw.treeView.setCurrentIndex(self.treeViewModel.index(0, 0))
+            self.dictclient.append(self.updateddataclient)
+            self.saveclient()
+            self.popupcustomer.close()
 
     def modifcustomer(self):
         self.donneesclient = self.mainw.treeView.selectedIndexes()[0]

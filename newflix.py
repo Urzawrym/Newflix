@@ -49,6 +49,7 @@ class FormClient(QtWidgets.QDialog, Ui_FormCustomer): #Init. popupcostumer.py. F
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
 
+
 class Popcarte(QtWidgets.QDialog, Ui_Carte):
     def __init__(self):
         QtWidgets.QDialog.__init__(self)
@@ -180,7 +181,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.mainw.treeView_2.setAlternatingRowColors(True)
 
         for b in self.dictclient:
-            id = QtGui.QStandardItem(b["id"])
+            id = QtGui.QStandardItem(b["identifiant"])
             nom = QtGui.QStandardItem(b["nom"])
             prenom = QtGui.QStandardItem(b["prenom"])
             sexe = QtGui.QStandardItem(b["sexe"])
@@ -414,22 +415,68 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def popupclient(self):
         self.popupcustomer = FormClient()
         self.popupcustomer.show()
-        #self.popupcustomer.pushButton.clicked.connect(self.savecustomer)
+        self.popupcustomer.pushButton.clicked.connect(self.savecustomer)
         self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
+        self.popupcustomer.pushButton_3.clicked.connect(self.ajoutercarte)
+        self.popupcustomer.pushButton_4.clicked.connect(self.suppcarte)
         self.model3 = QtGui.QStandardItemModel()
         self.popupcustomer.treeView.setModel(self.model3)  # Active le modèle
         self.model3.setHorizontalHeaderLabels(['Numéro de carte', 'Date Expiration', 'Code Carte'])
 
+    def savecustomer(self):
+        identifiant = 1
+        for l in self.dictclient:  #Je fais une boucle pour aller chercher le prochain chiffre disponible pour l'ID
+            while identifiant == l["identifiant"]:
+                identifiant = identifiant+1
 
+        self.cartes = []
+        client=Client(identifiant, self.popupcustomer.lineEdit.text(), self.popupcustomer.lineEdit_2.text(),
+                 self.popupcustomer.comboBox.currentText(),self.popupcustomer.dateEdit.text(),
+                 self.popupcustomer.lineEdit_3.text(), self.popupcustomer.lineEdit_5.text(), self.cartes)
+        self.dictcustomer = vars(client)
 
-    """def savecustomer(self):
-        client=Client(self.popupcustomer.lineEdit.tex(),
-                      self.popupcustomer.lineEdit_2.text(),
-                      self.popupcustomer.comboBox.currentText(),
-                      self.popupcustomer.dateEdit.text(),
-                      self.popupcustomer.lineEdit_3.text(),
-                      self.popupcustomer.lineEdit_5.text(),
-                      ["test","test2"]"""
+        if self.popupcustomer.lineEdit.text() == "" or self.popupcustomer.lineEdit_2.text() == "" or \
+                self.popupcustomer.lineEdit_3.text() == "" or self.popupcustomer.lineEdit_5.text() == "":
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Veuillez compléter les informations manquantes")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+        elif any(d["courriel"] == self.popupcustomer.lineEdit_3.text() for d in self.dictclient):
+            msg = QtWidgets.QMessageBox()  # Cherche si le code est déjà dans le dictuser
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Ce courriel est déjà utilisé")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+        else:
+            id = QtGui.QStandardItem(self.dictcustomer["identifiant"])
+            nom = QtGui.QStandardItem(self.dictcustomer["nom"])
+            prenom = QtGui.QStandardItem(self.dictcustomer["prenom"])
+            sexe = QtGui.QStandardItem(self.dictcustomer["sexe"])
+            date = QtGui.QStandardItem(self.dictcustomer["dateinscription"])
+            courriel = QtGui.QStandardItem(self.dictcustomer["courriel"])
+            password = QtGui.QStandardItem(self.dictcustomer["motdepasse"])
+            item = (id, nom, prenom, sexe, date, courriel, password)
+            self.treeViewModel.appendRow(item)
+            for dict in self.dictcustomer["cartes"]:
+                vide1 = QtGui.QStandardItem("*****")
+                vide2 = QtGui.QStandardItem("*****")
+                vide3 = QtGui.QStandardItem("*****")
+                vide4 = QtGui.QStandardItem("*****")
+                vide5 = QtGui.QStandardItem("*****")
+                vide6 = QtGui.QStandardItem("*****")
+                vide7 = QtGui.QStandardItem("*****")
+                numero = QtGui.QStandardItem(self.dict["noCarte"])
+                expiration = QtGui.QStandardItem(self.dict["expiration"])
+                codecarte = QtGui.QStandardItem(self.dict["codecarte"])
+                childitem = (vide1, vide2, vide3, vide4, vide5, vide6, vide7, numero, expiration, codecarte)
+                id.appendRow(childitem)
+            self.mainw.treeView.setCurrentIndex(self.treeViewModel.index(0, 0))
+            self.dictclient.append(self.dictcustomer)
+            self.saveclient()
+            self.popupcustomer.close()
 
     def modifcustomer(self):
         self.donneesclient = self.mainw.treeView.selectedIndexes()[0]
@@ -437,7 +484,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.donneesclient = self.donneesclient.parent()
 
         for dict in self.dictclient :
-            if dict["id"] == self.donneesclient.data():
+            if dict["identifiant"] == self.donneesclient.data():
                 self.dataclient = dict
         self.popupcustomer = FormClient()
         self.popupcustomer.show()
@@ -457,7 +504,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         index = self.popupcustomer.comboBox.findText(self.dataclient["sexe"], QtCore.Qt.MatchFlag.MatchFixedString)
         date = QtCore.QDate.fromString(self.dataclient["dateinscription"], "dd-MM-yyyy")
 
-        self.popupcustomer.setWindowTitle(self.dataclient["id"])
+        self.popupcustomer.setWindowTitle(self.dataclient["identifiant"])
         self.popupcustomer.lineEdit.setText(self.dataclient["nom"])
         self.popupcustomer.lineEdit_2.setText(self.dataclient["prenom"])
         self.popupcustomer.comboBox.setCurrentIndex(index)
@@ -490,7 +537,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         if self.datacarte == [] :
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
-            msg.setText("Veuillez choisir une carte à supprimer")
+            msg.setText("Veuillez sélectionner une carte à supprimer")
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
@@ -519,7 +566,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.model3.removeRow(index.row())  # Enlève l'item
             self.dataclient["cartes"] = [element for element in self.dataclient["cartes"] if
                                  element.get('noCarte', '') != donnees[0]]
-            print(self.dataclient)
+
 
 
     def savemodifcustomer(self):
@@ -533,7 +580,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.exec_()
         else:
             changeusager = next(  # va chercher le même client et le change par les informations ci bas
-                item for item in self.dictclient if item["id"] == self.dataclient["id"])
+                item for item in self.dictclient if item["identifiant"] == self.dataclient["identifiant"])
             changeusager['nom'] = self.popupcustomer.lineEdit.text()
             changeusager['prenom'] = self.popupcustomer.lineEdit_2.text()
             changeusager['sexe'] = self.popupcustomer.comboBox.currentText()

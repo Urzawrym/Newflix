@@ -58,7 +58,7 @@ class CarteCredit:
             self.codecarte = codecarte
 
 class Acteur(Personne):
-    def __init__(self, nom, prenom, sexe, film, nompersonnage, debutemploi, finemploi, cachet):
+    def __init__(self, nom, prenom, sexe, nompersonnage, debutemploi, finemploi, cachet):
         super().__init__(nom, prenom, sexe)
         self.film = film
         self.nompersonnage = nompersonnage

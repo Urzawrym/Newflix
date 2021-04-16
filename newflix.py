@@ -678,7 +678,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupfilm.pushButton_2.clicked.connect(self.popupfilm.close)
         self.popupfilm.pushButton_3.clicked.connect(self.popupcategorie)
         self.popupfilm.pushButton_4.clicked.connect(self.suppcategorie)
-        #self.popupfilm.pushButton_5.clicked.connect(self.popacteur)
+        self.popupfilm.pushButton_5.clicked.connect(self.popacteur)
         #self.popupfilm.pushButton_6.clicked.connect(self.suppacteur)
         self.model4 = QtGui.QStandardItemModel()
         self.popupfilm.treeView.setModel(self.model4)
@@ -770,6 +770,33 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.model4.removeRow(index.row())  # Enlève l'item
             self.datafilm["categories"] = [element for element in self.datafilm["categories"] if
                                             element.get('nom', '') != donnees[0]]
+
+    def popacteur(self):
+        self.popupacteur = Popacteur()
+        self.popupacteur.show()
+        self.popupacteur.lineEdit.setFocus()
+        self.popupacteur.pushButton.clicked.connect(self.saveacteur)
+        self.popupacteur.pushButton_2.clicked.connect(self.popupacteur.close)
+
+    def saveacteur(self):
+        if self.popupacteur.lineEdit.text() == "" or self.popupacteur.lineEdit_2.text() == "" or \
+                self.popupacteur.lineEdit_3.text() == "":
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Veuillez compléter les informations manquantes")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+        else:
+            acteur = Acteur(self.popupacteur.lineEdit.text(), self.popupacteur.lineEdit_2.text(),
+                            self.popupacteur.comboBox.currentText(), self.popupacteur.dateEdit.text(), self.popupacteur.dateEdit_2.text(), self.popupacteur.lineEdit_3.text())
+            self.dictcat = vars(cat)
+            nomcat = QtGui.QStandardItem(self.dictcat["nom"])
+            descriptioncat = QtGui.QStandardItem(self.dictcat["description"])
+            item = (nomcat, descriptioncat)
+            self.model4.appendRow(item)
+            self.datafilm["categories"].append(self.dictcat)
+            self.showpopcat.close()
 
     def suppfilm(self):
         self.deletefilm = self.mainw.treeView_2.selectedIndexes()[0]

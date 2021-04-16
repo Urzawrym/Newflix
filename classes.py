@@ -75,6 +75,6 @@ class Film:
         self.acteurs = []
 
 class Categoriefilm:
-    def __init__(self, nom, descriptioncat):
+    def __init__(self, nom, description):
         self.nom = nom
-        self.descriptioncat = descriptioncat
+        self.description = description

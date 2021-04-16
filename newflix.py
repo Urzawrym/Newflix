@@ -772,15 +772,15 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                                             element.get('nom', '') != donnees[0]]
 
     def popacteur(self):
-        self.popupacteur = Popacteur()
-        self.popupacteur.show()
-        self.popupacteur.lineEdit.setFocus()
-        self.popupacteur.pushButton.clicked.connect(self.saveacteur)
-        self.popupacteur.pushButton_2.clicked.connect(self.popupacteur.close)
+        self.showpopupacteur = Popacteur()
+        self.showpopupacteur.show()
+        self.showpopupacteur.lineEdit.setFocus()
+        self.showpopupacteur.pushButton.clicked.connect(self.saveacteur)
+        self.showpopupacteur.pushButton_2.clicked.connect(self.showpopupacteur.close)
 
     def saveacteur(self):
-        if self.popupacteur.lineEdit.text() == "" or self.popupacteur.lineEdit_2.text() == "" or \
-                self.popupacteur.lineEdit_3.text() == "":
+        if self.showpopupacteur.lineEdit.text() == "" or self.showpopupacteur.lineEdit_2.text() == "" or \
+                self.showpopupacteur.lineEdit_3.text() == "":
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
             msg.setText("Veuillez compléter les informations manquantes")
@@ -788,15 +788,22 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setWindowTitle("Erreur")
             msg.exec_()
         else:
-            acteur = Acteur(self.popupacteur.lineEdit.text(), self.popupacteur.lineEdit_2.text(),
-                            self.popupacteur.comboBox.currentText(), self.popupacteur.dateEdit.text(), self.popupacteur.dateEdit_2.text(), self.popupacteur.lineEdit_3.text())
-            self.dictcat = vars(cat)
-            nomcat = QtGui.QStandardItem(self.dictcat["nom"])
-            descriptioncat = QtGui.QStandardItem(self.dictcat["description"])
-            item = (nomcat, descriptioncat)
-            self.model4.appendRow(item)
-            self.datafilm["categories"].append(self.dictcat)
-            self.showpopcat.close()
+            acteur = Acteur(self.showpopupacteur.lineEdit.text(), self.showpopupacteur.lineEdit_2.text(),
+                            self.showpopupacteur.comboBox.currentText(),self.showpopupacteur.lineEdit_4.text(),
+                            self.showpopupacteur.dateEdit.text(), self.showpopupacteur.dateEdit_2.text(),
+                            self.showpopupacteur.lineEdit_3.text())
+            self.dictacteur = vars(acteur)
+            nom = QtGui.QStandardItem(self.dictacteur["nom"])
+            prenom = QtGui.QStandardItem(self.dictacteur["prenom"])
+            sexe = QtGui.QStandardItem(self.dictacteur["sexe"])
+            nomperso = QtGui.QStandardItem(self.dictacteur["nompersonnage"])
+            debutemploi = QtGui.QStandardItem(self.dictacteur["debutemploi"])
+            finemploi = QtGui.QStandardItem(self.dictacteur["finemploi"])
+            cachet = QtGui.QStandardItem(self.dictacteur["cachet"])
+            item = (nom, prenom, sexe, nomperso, debutemploi, finemploi, cachet)
+            self.model5.appendRow(item)
+            self.datafilm["acteurs"].append(self.dictacteur)
+            self.showpopupacteur.close()
 
     def suppfilm(self):
         self.deletefilm = self.mainw.treeView_2.selectedIndexes()[0]

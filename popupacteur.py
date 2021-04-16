@@ -62,6 +62,12 @@ class Ui_Acteur(object):
         self.pushButton_2 = QtWidgets.QPushButton(Dialog)
         self.pushButton_2.setGeometry(QtCore.QRect(310, 160, 131, 31))
         self.pushButton_2.setObjectName("pushButton_2")
+        self.label_7 = QtWidgets.QLabel(Dialog)
+        self.label_7.setGeometry(QtCore.QRect(320, 10, 111, 16))
+        self.label_7.setObjectName("label_7")
+        self.lineEdit_4 = QtWidgets.QLineEdit(Dialog)
+        self.lineEdit_4.setGeometry(QtCore.QRect(320, 40, 113, 20))
+        self.lineEdit_4.setObjectName("lineEdit_4")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -80,6 +86,8 @@ class Ui_Acteur(object):
         self.label_6.setText(_translate("Dialog", "Cachet ($) :"))
         self.pushButton.setText(_translate("Dialog", "Sauvegarder"))
         self.pushButton_2.setText(_translate("Dialog", "Annuler"))
+        self.label_7.setText(_translate("Dialog", "Nom du personnage :"))
+
 
 if __name__ == "__main__":
     import sys

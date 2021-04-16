@@ -669,7 +669,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.donneesfilm = self.donneesfilm.parent()
 
         for dict in self.dictmovie :
-            if dict["nom"] == self.donneesfilm.data()
+            if dict["nom"] == self.donneesfilm.data():
                 self.datafilm = dict
 
         self.popupfilm = Popfilm()
@@ -683,7 +683,32 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.model4 = QtGui.QStandardItemModel()
         self.popupfilm.treeView.setModel(self.model4)
         self.model4.setHorizontalHeaderLabels(["Nom de catérogie", "Description de la catégorie"])
+        for m in self.datafilm["categories"]:
+            nom = QtGui.QStandardItem(m["nom"])
+            description = QtGui.QStandardItem(m["description"])
+            item = (nom, description)
+            self.model4.appendRow(item)
 
+        time = QtCore.QTime.fromString(self.datafilm["duree"])
+        self.popupfilm.lineEdit.setText(self.datafilm["nom"])
+        self.popupfilm.lineEdit.setEnabled(False)
+        self.popupfilm.lineEdit_2.setText(self.datafilm["description"])
+        self.popupfilm.timeEdit.setTime(time)
+
+        self.model5 = QtGui.QStandardItemModel()
+        self.popupfilm.treeView_2.setModel(self.model5)
+        self.model5.setHorizontalHeaderLabels(["Nom", "Prénom", "Sexe", "Personnage", "Début de l'emploi", "Fin de l'emploi", "Cachet"])
+
+        for n in self.datafilm["acteurs"] :
+            nomacteur = QtGui.QStandardItem(n["nom"])
+            prenomacteur = QtGui.QStandardItem(n["prenom"])
+            sexe = QtGui.QStandardItem(n["sexe"])
+            nomperso = QtGui.QStandardItem(n["nompersonnage"])
+            debutemploi = QtGui.QStandardItem(n["debutemploi"])
+            finemploi = QtGui.QStandardItem(n["finemploi"])
+            cachet = QtGui.QStandardItem(n["cachet"])
+            item2 = (nomacteur, prenomacteur, sexe, nomperso, debutemploi, finemploi, cachet)
+            self.model5.appendRow(item2)
 
     def suppfilm(self):
         self.deletefilm = self.mainw.treeView_2.selectedIndexes()[0]

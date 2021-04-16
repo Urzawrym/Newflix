@@ -43,9 +43,9 @@ class MainFrame(QWidget):
         #self.MyTreeView.sortByColumn(1, Qt.DescendingOrder)
 
     def Testdata(self):
-        with open("clients.json", "r") as f:
+        with open("../clients.json", "r") as f:
             datatest = json.load(f)
-        with open("films.json", "r") as f:
+        with open("../films.json", "r") as f:
             datafilm = json.load(f)
 
             for g in datafilm:

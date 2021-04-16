@@ -1,16 +1,15 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
 import json
 import sys
-from cryptography.fernet import Fernet  #Importe le module pour l'encryption
 from mainwindow import *                #Importe l'affichage de la fenêtre principale
 from gestionusers import *              #Importe l'affichage de la fenêtre gestion usager
 from popupuser import *                 #Importe le formulaire de création/modification d'usager
 from popupcustomer import *             #Importe le formulaire de création/modification de client
-from logindialog import *               #Importe la fenêtre de connexion du démarrage du logiciel
+from exercices.logindialog import *               #Importe la fenêtre de connexion du démarrage du logiciel
 from classes import *                   #Importe les classes Personnes, Employés, Clients, Cartes crédits, Films,
 from popcard import *                   #Categorie avec toute la gestion des héritages entre les classes, tel que
-                                        #demandé dans la mise en situation
-
+from popupacteur import *               #demandé dans la mise en situation
+from popupcat import *
+from popupmovie import *
 
 
 """key = Fernet.generate_key()
@@ -49,18 +48,35 @@ class FormClient(QtWidgets.QDialog, Ui_FormCustomer): #Init. popupcostumer.py. F
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
 
-
-class Popcarte(QtWidgets.QDialog, Ui_Carte):
+class Popcarte(QtWidgets.QDialog, Ui_Carte):  #Init. popupcarte.py. Fenêtre pour ajouter une carte de crédit
     def __init__(self):
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
+
+class Popfilm(QtWidgets.QDialog, Ui_Film): #Init. popupmovie.py. Fenêtre pour créer/modifier un film
+    def __init__(self):
+        QtWidgets.QDialog.__init__(self)
+        self.setupUi(self)
+
+class Popcategorie(QtWidgets.QDialog, Ui_Cat): #Init. popupcat.py. Fenêtre pour ajouter une catégorie
+    def __init__(self):
+        QtWidgets.QDialog.__init__(self)
+        self.setupUi(self)
+
+class Popacteur(QtWidgets.QDialog, Ui_Acteur): #Init. popupacteur.py. Fenêtre pour ajouter un acteur
+    def __init__(self):
+        QtWidgets.QDialog.__init__(self)
+        self.setupUi(self)
+
+################## C'est dans cette classe que l'action se passe, toutes les modifications visuelles ##################
+################## et les interactions avec l'utilisateur vont se faire à partir d'ici.              ##################
 
 class Controller: #C'est dans cette classe que l'action se passe, toutes les modifications visuelles et les
                   #les interactions avec l'utilisateur vont se faire à partir d'ici.
 
     def loaduser(self):                     # Ouvre la liste de dictionnaires contenant les identifiants usagers
         try:
-            with open("testuser.json","r") as f:
+            with open("users.json","r") as f:
                 self.dictuser = json.load(f)
         except Exception:
             pass
@@ -160,7 +176,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.mainw.pushButton_2.clicked.connect(self.modifcustomer)
         self.mainw.pushButton_3.clicked.connect(self.suppclient)
         self.mainw.pushButton_4.clicked.connect(self.suppfilm)
-        self.mainw.pushButton_5.clicked.connect(self.suppfilm)
+        self.mainw.pushButton_5.clicked.connect(self.modiffilm)
         self.mainw.pushButton_6.clicked.connect(self.suppfilm)
         self.treeViewModel = QtGui.QStandardItemModel()
         self.mainw.treeView.setModel(self.treeViewModel)
@@ -646,6 +662,28 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.dictclient = [element for element in self.dictclient if
                              element.get('identifiant', '') != int(donnees[0])]
             self.saveclient()
+
+    def modiffilm(self):
+        self.donneesfilm = self.mainw.treeView_2.selectedIndexes()[0]
+        while self.donneesfilm.data() == "*****":
+            self.donneesfilm = self.donneesfilm.parent()
+
+        for dict in self.dictmovie :
+            if dict["nom"] == self.donneesfilm.data()
+                self.datafilm = dict
+
+        self.popupfilm = Popfilm()
+        self.popupfilm.show()
+        #self.popupfilm.pushButton.clicked.connect(self.savemodifmovie)
+        self.popupfilm.pushButton_2.clicked.connect(self.popupfilm.close)
+        #self.popupfilm.pushButton_3.clicked.connect(self.popupcategorie)
+        #self.popupfilm.pushButton_4.clicked.connect(self.suppcategorie)
+        #self.popupfilm.pushButton_5.clicked.connect(self.popacteur)
+        #self.popupfilm.pushButton_6.clicked.connect(self.suppacteur)
+        self.model4 = QtGui.QStandardItemModel()
+        self.popupfilm.treeView.setModel(self.model4)
+        self.model4.setHorizontalHeaderLabels(["Nom de catérogie", "Description de la catégorie"])
+
 
     def suppfilm(self):
         self.deletefilm = self.mainw.treeView_2.selectedIndexes()[0]

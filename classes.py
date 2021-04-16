@@ -67,11 +67,12 @@ class Acteur(Personne):
         self.cachet = cachet
 
 class Film:
-    def __init__(self, nom, duree, descriptionfilm, categorie):
+    def __init__(self, nom, duree, descriptionfilm, categorie, acteurs):
         self.nom = nom
         self.duree = duree
         self.description = descriptionfilm
         self.categorie = []
+        self.acteurs = []
 
 class Categoriefilm:
     def __init__(self, nom, descriptioncat):

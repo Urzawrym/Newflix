@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QTreeWidgetItem
 from PyQt5 import QtCore
 import sys
-import treewidgetwindow as treewidget
+from exercices import treewidgetwindow as treewidget
 
 
 class widgetwindow(QMainWindow):

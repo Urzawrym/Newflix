@@ -14,14 +14,14 @@ class controller:
 
     def loadclient(self):                   # Ouvre la liste de dictionnaires contenant les informations des clients
         try:
-            with open("clients.json","r") as f:
+            with open("../clients.json", "r") as f:
                 self.dictclient = json.load(f)
         except Exception:
             pass
 
     def saveclient(self):                   # Sauvegarde le dictionnaire des usagers dans le fichier .json des clients
         try:
-            with open("clients.json","w") as f:
+            with open("../clients.json", "w") as f:
                 data2 = json.dump(self.dictclient, f)
         except Exception:
             pass

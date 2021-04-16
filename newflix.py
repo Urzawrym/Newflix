@@ -158,7 +158,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.mainw.actionQuitter.triggered.connect(self.closeall)  # Trigger la fonction fermeture du logiciel
         self.mainw.pushButton.clicked.connect(self.popupclient)
         self.mainw.pushButton_2.clicked.connect(self.modifcustomer)
-        #self.mainw.pushButton_3.clicked.connect(self.suppclient)
+        self.mainw.pushButton_3.clicked.connect(self.suppclient)
         #self.mainw.pushButton_4.clicked.connect(self.popupfilm)
         #self.mainw.pushButton_5.clicked.connect(self.modiffilm)
         #self.mainw.pushButton_6.clicked.connect(self.suppfilm)
@@ -419,7 +419,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
         self.popupcustomer.pushButton_3.clicked.connect(self.ajoutercarte)
         self.popupcustomer.pushButton_4.clicked.connect(self.suppcarte)
-
         self.model3 = QtGui.QStandardItemModel()
         self.popupcustomer.treeView.setModel(self.model3)  # Active le modèle
         self.model3.setHorizontalHeaderLabels(['Numéro de carte', 'Date Expiration', 'Code Carte'])
@@ -459,7 +458,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setWindowTitle("Erreur")
             msg.exec_()
         else:
-
             identifiant = QtGui.QStandardItem(str(self.updateddataclient["identifiant"]))
             nom = QtGui.QStandardItem(self.updateddataclient["nom"])
             prenom = QtGui.QStandardItem(self.updateddataclient["prenom"])
@@ -612,6 +610,43 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 self.mainw.actionGestion.setVisible(False)
             self.popupcustomer.close()
             self.saveclient()
+
+    def suppclient(self):
+        self.deleteclient = self.mainw.treeView.selectedIndexes()[0]
+        if self.deleteclient.data() == "*****":
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Veuillez sélectionner directement l'usager à supprimer")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+        else:
+            box = QtWidgets.QMessageBox()
+            box.setIcon(QtWidgets.QMessageBox.Question)
+            box.setWindowTitle('Confirmation')
+            box.setText('Êtes vous sûr de vouloir supprimer ce client?')
+            box.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+            buttonY = box.button(QtWidgets.QMessageBox.Yes)
+            buttonY.setText('Oui')
+            buttonN = box.button(QtWidgets.QMessageBox.No)
+            buttonN.setText('Non')
+            box.exec_()
+
+            if box.clickedButton() == buttonY:
+                self.yesdeletecustomer()
+            elif box.clickedButton() == buttonN:
+                pass
+
+    def yesdeletecustomer(self):
+        indexes = self.mainw.treeView.selectedIndexes()
+        donnees = [f.data() for f in self.mainw.treeView.selectedIndexes()]
+        if indexes:
+            index = indexes[0]  # L'index correspond à la liste des items de la rangée
+            self.treeViewModel.removeRow(index.row())  # Enlève l'item
+            self.dictclient = [element for element in self.dictclient if
+                             element.get('identifiant', '') != int(donnees[0])]
+            self.saveclient()
+
 
 
 if __name__ == "__main__":

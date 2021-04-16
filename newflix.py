@@ -677,7 +677,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         #self.popupfilm.pushButton.clicked.connect(self.savemodifmovie)
         self.popupfilm.pushButton_2.clicked.connect(self.popupfilm.close)
         self.popupfilm.pushButton_3.clicked.connect(self.popupcategorie)
-        #self.popupfilm.pushButton_4.clicked.connect(self.suppcategorie)
+        self.popupfilm.pushButton_4.clicked.connect(self.suppcategorie)
         #self.popupfilm.pushButton_5.clicked.connect(self.popacteur)
         #self.popupfilm.pushButton_6.clicked.connect(self.suppacteur)
         self.model4 = QtGui.QStandardItemModel()
@@ -735,6 +735,41 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.model4.appendRow(item)
             self.datafilm["categories"].append(self.dictcat)
             self.showpopcat.close()
+
+    def suppcategorie(self):
+        self.datacat = [f.data() for f in self.popupfilm.treeView.selectedIndexes()]
+        if self.datacat == []:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Veuillez sélectionner une catégorie à supprimer")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+        else:
+            box = QtWidgets.QMessageBox()
+            box.setIcon(QtWidgets.QMessageBox.Question)
+            box.setWindowTitle('Confirmation')
+            box.setText('Êtes vous sûr de vouloir supprimer cette catégorie?')
+            box.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+            buttonY = box.button(QtWidgets.QMessageBox.Yes)
+            buttonY.setText('Oui')
+            buttonN = box.button(QtWidgets.QMessageBox.No)
+            buttonN.setText('Non')
+            box.exec_()
+
+            if box.clickedButton() == buttonY:
+                self.deletecat()
+            elif box.clickedButton() == buttonN:
+                pass
+
+    def deletecat(self):
+        indexes = self.popupfilm.treeView.selectedIndexes()
+        donnees = [f.data() for f in self.popupfilm.treeView.selectedIndexes()]
+        if indexes:
+            index = indexes[0]  # L'index correspond à la liste des items de la rangée
+            self.model4.removeRow(index.row())  # Enlève l'item
+            self.datafilm["categories"] = [element for element in self.datafilm["categories"] if
+                                            element.get('nom', '') != donnees[0]]
 
     def suppfilm(self):
         self.deletefilm = self.mainw.treeView_2.selectedIndexes()[0]

@@ -161,7 +161,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.mainw.pushButton_3.clicked.connect(self.suppclient)
         #self.mainw.pushButton_4.clicked.connect(self.popupfilm)
         #self.mainw.pushButton_5.clicked.connect(self.modiffilm)
-        #self.mainw.pushButton_6.clicked.connect(self.suppfilm)
+        self.mainw.pushButton_6.clicked.connect(self.suppfilm)
         self.treeViewModel = QtGui.QStandardItemModel()
         self.mainw.treeView.setModel(self.treeViewModel)
         self.mainw.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
@@ -647,7 +647,42 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                              element.get('identifiant', '') != int(donnees[0])]
             self.saveclient()
 
+    def suppfilm(self):
+        self.deletefilm = self.mainw.treeView_2.selectedIndexes()[0]
+        print(self.deletefilm.data())
+        if self.deletefilm.data() == "*****":
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Veuillez sélectionner directement le film à supprimer")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+        else:
+            box = QtWidgets.QMessageBox()
+            box.setIcon(QtWidgets.QMessageBox.Question)
+            box.setWindowTitle('Confirmation')
+            box.setText('Êtes vous sûr de vouloir supprimer ce film?')
+            box.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+            buttonY = box.button(QtWidgets.QMessageBox.Yes)
+            buttonY.setText('Oui')
+            buttonN = box.button(QtWidgets.QMessageBox.No)
+            buttonN.setText('Non')
+            box.exec_()
 
+            if box.clickedButton() == buttonY:
+                self.yesdeletemovie()
+            elif box.clickedButton() == buttonN:
+                pass
+
+    def yesdeletemovie(self):
+        indexes = self.mainw.treeView_2.selectedIndexes()
+        donnees = [f.data() for f in self.mainw.treeView_2.selectedIndexes()]
+        if indexes:
+            index = indexes[0]  # L'index correspond à la liste des items de la rangée
+            self.mainw.treeViewModel_2.removeRow(index.row())  # Enlève l'item
+            self.dictmovie = [element for element in self.dictmovie if
+                             element.get('nom', '') != donnees[0]]
+            self.savefilm()
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

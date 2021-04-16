@@ -679,7 +679,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupfilm.pushButton_3.clicked.connect(self.popupcategorie)
         self.popupfilm.pushButton_4.clicked.connect(self.suppcategorie)
         self.popupfilm.pushButton_5.clicked.connect(self.popacteur)
-        #self.popupfilm.pushButton_6.clicked.connect(self.suppacteur)
+        self.popupfilm.pushButton_6.clicked.connect(self.suppacteur)
         self.model4 = QtGui.QStandardItemModel()
         self.popupfilm.treeView.setModel(self.model4)
         self.model4.setHorizontalHeaderLabels(["Nom de catégorie", "Description de la catégorie"])
@@ -804,6 +804,41 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.model5.appendRow(item)
             self.datafilm["acteurs"].append(self.dictacteur)
             self.showpopupacteur.close()
+
+    def suppacteur(self):
+        self.dataacteur = [f.data() for f in self.popupfilm.treeView_2.selectedIndexes()]
+        if self.dataacteur == []:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Veuillez sélectionner un acteur à supprimer")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+        else:
+            box = QtWidgets.QMessageBox()
+            box.setIcon(QtWidgets.QMessageBox.Question)
+            box.setWindowTitle('Confirmation')
+            box.setText('Êtes vous sûr de vouloir supprimer cet acteur?')
+            box.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+            buttonY = box.button(QtWidgets.QMessageBox.Yes)
+            buttonY.setText('Oui')
+            buttonN = box.button(QtWidgets.QMessageBox.No)
+            buttonN.setText('Non')
+            box.exec_()
+
+            if box.clickedButton() == buttonY:
+                self.deleteacteur()
+            elif box.clickedButton() == buttonN:
+                pass
+
+    def deleteacteur(self):
+        indexes = self.popupfilm.treeView_2.selectedIndexes()
+        donnees = [f.data() for f in self.popupfilm.treeView_2.selectedIndexes()]
+        if indexes:
+            index = indexes[0]  # L'index correspond à la liste des items de la rangée
+            self.model5.removeRow(index.row())  # Enlève l'item
+            self.datafilm["acteurs"] = [element for element in self.datafilm["acteurs"] if
+                                           element.get('nompersonnage', '') != donnees[3]]
 
     def suppfilm(self):
         self.deletefilm = self.mainw.treeView_2.selectedIndexes()[0]

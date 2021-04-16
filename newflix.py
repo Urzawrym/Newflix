@@ -159,8 +159,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.mainw.pushButton.clicked.connect(self.popupclient)
         self.mainw.pushButton_2.clicked.connect(self.modifcustomer)
         self.mainw.pushButton_3.clicked.connect(self.suppclient)
-        #self.mainw.pushButton_4.clicked.connect(self.popupfilm)
-        #self.mainw.pushButton_5.clicked.connect(self.modiffilm)
+        self.mainw.pushButton_4.clicked.connect(self.suppfilm)
+        self.mainw.pushButton_5.clicked.connect(self.suppfilm)
         self.mainw.pushButton_6.clicked.connect(self.suppfilm)
         self.treeViewModel = QtGui.QStandardItemModel()
         self.mainw.treeView.setModel(self.treeViewModel)
@@ -649,7 +649,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def suppfilm(self):
         self.deletefilm = self.mainw.treeView_2.selectedIndexes()[0]
-        print(self.deletefilm.data())
         if self.deletefilm.data() == "*****":
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
@@ -677,9 +676,10 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def yesdeletemovie(self):
         indexes = self.mainw.treeView_2.selectedIndexes()
         donnees = [f.data() for f in self.mainw.treeView_2.selectedIndexes()]
+
         if indexes:
             index = indexes[0]  # L'index correspond à la liste des items de la rangée
-            self.mainw.treeViewModel_2.removeRow(index.row())  # Enlève l'item
+            self.treeViewModel2.removeRow(index.row())  # Enlève l'item
             self.dictmovie = [element for element in self.dictmovie if
                              element.get('nom', '') != donnees[0]]
             self.savefilm()

@@ -676,7 +676,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupfilm.show()
         #self.popupfilm.pushButton.clicked.connect(self.savemodifmovie)
         self.popupfilm.pushButton_2.clicked.connect(self.popupfilm.close)
-        #self.popupfilm.pushButton_3.clicked.connect(self.popupcategorie)
+        self.popupfilm.pushButton_3.clicked.connect(self.popupcategorie)
         #self.popupfilm.pushButton_4.clicked.connect(self.suppcategorie)
         #self.popupfilm.pushButton_5.clicked.connect(self.popacteur)
         #self.popupfilm.pushButton_6.clicked.connect(self.suppacteur)
@@ -697,7 +697,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
         self.model5 = QtGui.QStandardItemModel()
         self.popupfilm.treeView_2.setModel(self.model5)
-        self.model5.setHorizontalHeaderLabels(["Nom", "Prénom", "Sexe", "Personnage", "Début de l'emploi", "Fin de l'emploi", "Cachet"])
+        self.model5.setHorizontalHeaderLabels(["Nom", "Prénom", "Sexe", "Personnage", "Début de l'emploi",
+                                               "Fin de l'emploi", "Cachet"])
 
         for n in self.datafilm["acteurs"] :
             nomacteur = QtGui.QStandardItem(n["nom"])
@@ -709,6 +710,31 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             cachet = QtGui.QStandardItem(n["cachet"])
             item2 = (nomacteur, prenomacteur, sexe, nomperso, debutemploi, finemploi, cachet)
             self.model5.appendRow(item2)
+
+    def popupcategorie(self):
+        self.showpopcat = Popcategorie()
+        self.showpopcat.show()
+        self.showpopcat.lineEdit.setFocus()
+        self.showpopcat.pushButton.clicked.connect(self.savecat)
+        self.showpopcat.pushButton_2.clicked.connect(self.showpopcat.close)
+
+    def savecat(self):
+        if self.showpopcat.lineEdit.text() == "" or self.showpopcat.lineEdit_2.text() == "":
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Veuillez compléter les informations manquantes")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+        else :
+            categorie = Categoriefilm(self.showpopcat.lineEdit.text(), self.showpopcat.lineEdit_2.text())
+            self.dictcat = vars(categorie)
+            nom = QtGui.QStandardItem(self.dictcat["nom"])
+            descriptioncat = QtGui.QStandardItem(self.dictcat["description"])
+            item = (nom, descriptioncat)
+            self.model4.appendRow(item)
+            self.datafilm["categories"].append(self.dictcat)
+            self.showpopcat.close()
 
     def suppfilm(self):
         self.deletefilm = self.mainw.treeView_2.selectedIndexes()[0]

@@ -276,6 +276,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def showgestuser(self):
         self.showgest = GestUser()  #Importe la fenêtre de gestion des usagers
+        self.showgest.setWindowModality(QtCore.Qt.ApplicationModal)
         self.showgest.show()
         self.showgest.setWindowTitle("Gestion des utilisateurs")
         self.showgest.pushButton.clicked.connect(self.showpopuser) #Ouvre le formulaire d'usager si on appuie
@@ -310,6 +311,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def showpopuser(self): #Ouvre le formulaire pour créer un nouvel employé ou le modifier
         self.showpopusager = FormUsager()  #Importe la fenêtre de formulaire de l'usager
+        self.showpopusager.setWindowModality(QtCore.Qt.ApplicationModal)
         self.showpopusager.show()        #L'affiche
         self.showpopusager.setWindowTitle("Ajout d'un nouvel utilisateur")
         self.showpopusager.pushButton.clicked.connect(self.savinguser) #Active le test de sauvegarde si bouton utilisé
@@ -377,6 +379,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.exec_()
         else:
             self.showpopusager = FormUsager()
+            self.showpopusager.setWindowModality(QtCore.Qt.ApplicationModal)
             self.showpopusager.show()
             self.showpopusager.setWindowTitle("Modification d'un utilisateur")
             self.showpopusager.pushButton.clicked.connect(self.modifuser)
@@ -455,6 +458,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def popupclient(self):
         self.popupcustomer = FormClient()
+        self.popupcustomer.setWindowModality(QtCore.Qt.ApplicationModal)
         self.popupcustomer.show()
         self.popupcustomer.setWindowTitle("Ajout d'un nouveau client")
         self.popupcustomer.pushButton.clicked.connect(self.savecustomer)
@@ -544,6 +548,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 self.dataclient = dict
 
         self.popupcustomer = FormClient()
+        self.popupcustomer.setWindowModality(QtCore.Qt.ApplicationModal)
         self.popupcustomer.show()
         self.popupcustomer.setWindowTitle("Modification d'un client")
         self.popupcustomer.pushButton.clicked.connect(self.savemodifcustomer)
@@ -572,6 +577,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def ajoutercarte(self):
         self.showpopcarte = Popcarte()
+        self.showpopcarte.setWindowModality(QtCore.Qt.ApplicationModal)
         self.showpopcarte.show()
         self.showpopcarte.setWindowTitle("Ajout d'une carte de crédit")
         self.showpopcarte.lineEdit.setFocus()
@@ -703,6 +709,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def popupfilm(self):
         self.popupfilm = Popfilm()
+        self.popupfilm.setWindowModality(QtCore.Qt.ApplicationModal)
         self.popupfilm.show()
         self.popupfilm.setWindowTitle("Ajout d'un nouveau film")
         self.popupfilm.pushButton.clicked.connect(self.savemovie)
@@ -790,6 +797,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 self.datafilm = dict
 
         self.popupfilm = Popfilm()
+        self.popupfilm.setWindowModality(QtCore.Qt.ApplicationModal)
         self.popupfilm.show()
         self.popupfilm.setWindowTitle("Modification d'un film")
         self.popupfilm.pushButton.clicked.connect(self.savemodifmovie)
@@ -831,6 +839,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def popupcategorie(self):
         self.showpopcat = Popcategorie()
+        self.showpopcat.setWindowModality(QtCore.Qt.ApplicationModal)
         self.showpopcat.show()
         self.showpopcat.setWindowTitle("Ajout d'une nouvelle catégorie")
         self.showpopcat.lineEdit.setFocus()
@@ -892,6 +901,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def popacteur(self):
         self.showpopupacteur = Popacteur()
+        self.showpopupacteur.setWindowModality(QtCore.Qt.ApplicationModal)
         self.showpopupacteur.show()
         self.showpopupacteur.setWindowTitle("Ajout d'un nouvel acteur")
 

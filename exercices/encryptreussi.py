@@ -3,8 +3,8 @@ from cryptography.fernet import Fernet
 
 users = [{"name": "Scott", "website": "stackabuse.com", "from": "Nebraska"}, {"name": "Larry", "website": "google.com", "from": "Michigan"}, {"name": "Tim", "website": "apple.com", "from": "Alabama"}]
 
-with open('exemple.json', 'w') as json_file:
-    json.dump(users, json_file)
+#with open('exemple.json', 'w') as json_file:
+    #json.dump(users, json_file)
 
 #this generates a key and opens a file 'key.key' and writes the key there
 key = Fernet.generate_key()

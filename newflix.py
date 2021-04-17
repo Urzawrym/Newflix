@@ -1,5 +1,6 @@
 import json
 import sys
+from cryptography.fernet import Fernet
 from mainwindow import *                #Importe l'affichage de la fenêtre principale
 from gestionusers import *              #Importe l'affichage de la fenêtre gestion usager
 from popupuser import *                 #Importe le formulaire de création/modification d'usager
@@ -12,14 +13,14 @@ from popupcat import *
 from popupmovie import *
 
 
-"""key = Fernet.generate_key()
+key = Fernet.generate_key()
 file = open('key.key','wb')
 file.write(key)
 file.close()
 
 file = open('key.key','rb')
 key = file.read()
-file.close()"""
+file.close()
 ################## Aucune classe provenant de QT Designer n'est modifiée. Ici on créé les classes ##################
 ################## localement qui importent et initialisent les classes provenant de QT Designer. ##################
 
@@ -76,14 +77,16 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def loaduser(self):                     # Ouvre la liste de dictionnaires contenant les identifiants usagers
         try:
-            with open("users.json","r") as f:
-                self.dictuser = json.load(f)
+            with open("userscrypt.json","rb") as f:
+                fernet = Fernet(key)
+                self.dictusercrypt = json.load(f)
+                self.dictuser = fernet.decrypt(self.dictusercrypt).decode("utf-8")
         except Exception:
             pass
 
     def saveuser(self):                     # Sauvegarde le dictionnaire des usagers dans le fichier .json des usagers
         try:
-            with open("users.json", "w") as f:
+            with open("userscrypt.json", "wb") as f:
                 data = json.dump(self.dictuser,f)
         except Exception:
             pass

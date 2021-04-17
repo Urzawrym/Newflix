@@ -161,8 +161,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             pass
 
     def mainwindow(self):
-        #self.loadclient() #Charge la liste des client provenant du fichier json dans la variable self.dictclient
-        #self.loadfilm()   #Charge la liste des films provenant du fichier json dans la variable self.dictmovie
         self.connex.lineEdit.clear()  # Vide la ligne usager de la fenêtre de connexion
         self.connex.lineEdit_2.clear()  # Vide la ligne mot de passe de la fenêtre de connexion
         self.connex.lineEdit.setFocus()  # Met le focus sur la ligne usager de la fenêtre de connexion
@@ -632,7 +630,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         if self.deleteclient.data() == "*****":
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
-            msg.setText("Veuillez sélectionner directement l'usager à supprimer")
+            msg.setText("Veuillez sélectionner directement le client à supprimer")
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
@@ -682,7 +680,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.movie = Film(self.popupfilm.lineEdit.text(), self.popupfilm.timeEdit.text(),
                           self.popupfilm.lineEdit_2.text(), [], [])
         self.datafilm = vars(self.movie)
-        print(self.datafilm)
+
 
     def savemovie(self):
         updatedfilm = Film(self.popupfilm.lineEdit.text(), self.popupfilm.timeEdit.text(),
@@ -918,18 +916,20 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                                            element.get('nompersonnage', '') != donnees[3]]
 
     def savemodifmovie(self):
-            changefilm = next(  # va chercher le même client et le change par les informations ci bas
-                item for item in self.dictmovie if item["nom"] == self.datafilm["nom"])
-            changefilm["nom"] = self.popupfilm.lineEdit.text()
-            changefilm["duree"] = self.popupfilm.timeEdit.text()
-            changefilm["description"] = self.popupfilm.lineEdit_2.text()
-            if self.statutlogin == "admin":
-                self.mainwindow()
-            else:
-                self.mainwindow()
-                self.mainw.actionGestion.setVisible(False)
-            self.popupfilm.close()
-            self.savefilm()
+        """changefilm = next(item for item in self.dictmovie if item["nom"] == self.datafilm["nom"])
+        changefilm["nom"] = self.popupfilm.lineEdit.text()
+        changefilm["duree"] = self.popupfilm.timeEdit.text()
+        changefilm["description"] = self.popupfilm.lineEdit_2.text()
+
+        if self.statutlogin == "admin":
+            self.mainwindow()
+        else:
+            self.mainwindow()
+            self.mainw.actionGestion.setVisible(False)
+        self.mainw.treeView_2.setCurrentIndex(self.treeViewModel2.index(0, 0))
+        #self.savefilm()
+        self.popupfilm.close()"""
+
 
     def suppfilm(self):
         self.deletefilm = self.mainw.treeView_2.selectedIndexes()[0]

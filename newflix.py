@@ -167,6 +167,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.connex.hide()  # Cache la fenêtre de connexion
         self.mainw = FenPrinci()
         self.mainw.show()
+        self.mainw.setWindowTitle("Newflix")
         self.mainw.actionGestion.triggered.connect(self.showgestuser)  # Dans la fen. principale, trigger la gestion users
         self.mainw.actionDeconnexion.triggered.connect(self.logout)  # Trigger la fonction déconnexion du logiciel
         self.mainw.actionQuitter.triggered.connect(self.closeall)  # Trigger la fonction fermeture du logiciel
@@ -275,6 +276,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def showgestuser(self):
         self.showgest = GestUser()  #Importe la fenêtre de gestion des usagers
+        self.showgest.show()
+        self.showgest.setWindowTitle("Gestion des utilisateurs")
         self.showgest.pushButton.clicked.connect(self.showpopuser) #Ouvre le formulaire d'usager si on appuie
         self.showgest.pushButton_2.clicked.connect(self.modifpopup) #Ouvre le formulaire pour modifier l'usager
         self.showgest.pushButton_3.clicked.connect(self.deleteuser) #Envoie vers la fonction supprimer usager
@@ -285,7 +288,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.model.setHorizontalHeaderLabels(['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager',
                                               'Mot de passe', 'Type Acces'])
         self.showgest.treeView.setModel(self.model)  # Active le modèle
-        self.showgest.show()  # Affiche le tableau
         try:  # Défini un try avant de démarrer la boucle
             for c in (self.dictuser):  # Pour chaque dictionnaire dans la liste, on créé une ligne avec les informations ci bas
                 self.model.appendRow([QtGui.QStandardItem(c['nom']),   #Ajoute chaque information dans les colonnes.
@@ -309,6 +311,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def showpopuser(self): #Ouvre le formulaire pour créer un nouvel employé ou le modifier
         self.showpopusager = FormUsager()  #Importe la fenêtre de formulaire de l'usager
         self.showpopusager.show()        #L'affiche
+        self.showpopusager.setWindowTitle("Ajout d'un nouvel utilisateur")
         self.showpopusager.pushButton.clicked.connect(self.savinguser) #Active le test de sauvegarde si bouton utilisé
         self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close) #Ferme la fenêtre sans sauvegarder
 
@@ -369,6 +372,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         else:
             self.showpopusager = FormUsager()
             self.showpopusager.show()
+            self.showpopusager.setWindowTitle("Modification d'un utilisateur")
             self.showpopusager.pushButton.clicked.connect(self.modifuser)
             self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close)
             index = self.showpopusager.comboBox.findText(self.donnees[2],QtCore.Qt.MatchFlag.MatchFixedString)  # Converti en int
@@ -438,6 +442,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def popupclient(self):
         self.popupcustomer = FormClient()
         self.popupcustomer.show()
+        self.popupcustomer.setWindowTitle("Ajout d'un nouveau client")
         self.popupcustomer.pushButton.clicked.connect(self.savecustomer)
         self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
         self.popupcustomer.pushButton_3.clicked.connect(self.ajoutercarte)
@@ -519,6 +524,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
         self.popupcustomer = FormClient()
         self.popupcustomer.show()
+        self.popupcustomer.setWindowTitle("Modification d'un client")
         self.popupcustomer.pushButton.clicked.connect(self.savemodifcustomer)
         self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
         self.popupcustomer.pushButton_3.clicked.connect(self.ajoutercarte)
@@ -546,6 +552,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def ajoutercarte(self):
         self.showpopcarte = Popcarte()
         self.showpopcarte.show()
+        self.showpopcarte.setWindowTitle("Ajout d'une carte de crédit")
         self.showpopcarte.lineEdit.setFocus()
         self.showpopcarte.pushButton.clicked.connect(self.savecarte)
         self.showpopcarte.pushButton_2.clicked.connect(self.showpopcarte.close)
@@ -669,6 +676,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def popupfilm(self):
         self.popupfilm = Popfilm()
         self.popupfilm.show()
+        self.popupfilm.setWindowTitle("Ajout d'un nouveau film")
         self.popupfilm.pushButton.clicked.connect(self.savemovie)
         self.popupfilm.pushButton_2.clicked.connect(self.popupfilm.close)
         self.popupfilm.pushButton_3.clicked.connect(self.popupcategorie)
@@ -755,6 +763,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
         self.popupfilm = Popfilm()
         self.popupfilm.show()
+        self.popupfilm.setWindowTitle("Modification d'un film")
         self.popupfilm.pushButton.clicked.connect(self.savemodifmovie)
         self.popupfilm.pushButton_2.clicked.connect(self.popupfilm.close)
         self.popupfilm.pushButton_3.clicked.connect(self.popupcategorie)
@@ -795,6 +804,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def popupcategorie(self):
         self.showpopcat = Popcategorie()
         self.showpopcat.show()
+        self.showpopcat.setWindowTitle("Ajout d'une nouvelle catégorie")
         self.showpopcat.lineEdit.setFocus()
         self.showpopcat.pushButton.clicked.connect(self.savecat)
         self.showpopcat.pushButton_2.clicked.connect(self.showpopcat.close)
@@ -855,6 +865,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def popacteur(self):
         self.showpopupacteur = Popacteur()
         self.showpopupacteur.show()
+        self.showpopupacteur.setWindowTitle("Ajout d'un nouvel acteur")
         self.showpopupacteur.lineEdit.setFocus()
         self.showpopupacteur.pushButton.clicked.connect(self.saveacteur)
         self.showpopupacteur.pushButton_2.clicked.connect(self.showpopupacteur.close)

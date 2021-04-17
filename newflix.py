@@ -916,7 +916,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                                            element.get('nompersonnage', '') != donnees[3]]
 
     def savemodifmovie(self):
-        """changefilm = next(item for item in self.dictmovie if item["nom"] == self.datafilm["nom"])
+        changefilm = next(item for item in self.dictmovie if item["nom"] == self.datafilm["nom"])
         changefilm["nom"] = self.popupfilm.lineEdit.text()
         changefilm["duree"] = self.popupfilm.timeEdit.text()
         changefilm["description"] = self.popupfilm.lineEdit_2.text()
@@ -928,7 +928,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.mainw.actionGestion.setVisible(False)
         self.mainw.treeView_2.setCurrentIndex(self.treeViewModel2.index(0, 0))
         #self.savefilm()
-        self.popupfilm.close()"""
+        self.popupfilm.close()
 
 
     def suppfilm(self):

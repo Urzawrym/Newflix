@@ -70,7 +70,7 @@ class Film:
         self.nom = nom
         self.duree = duree
         self.description = descriptionfilm
-        self.categorie = []
+        self.categories = []
         self.acteurs = []
 
 class Categoriefilm:

@@ -682,6 +682,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.movie = Film(self.popupfilm.lineEdit.text(), self.popupfilm.timeEdit.text(),
                           self.popupfilm.lineEdit_2.text(), [], [])
         self.datafilm = vars(self.movie)
+        print(self.datafilm)
 
     def savemovie(self):
         updatedfilm = Film(self.popupfilm.lineEdit.text(), self.popupfilm.timeEdit.text(),
@@ -736,7 +737,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
             self.mainw.treeView_2.setCurrentIndex(self.treeViewModel2.index(0, 0))
             self.dictmovie.append(self.updateddatafilm)
-            self.savemovie()
+            self.savefilm()
             self.popupfilm.close()
 
     def modiffilm(self):

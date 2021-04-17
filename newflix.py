@@ -175,7 +175,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.mainw.pushButton.clicked.connect(self.popupclient)
         self.mainw.pushButton_2.clicked.connect(self.modifcustomer)
         self.mainw.pushButton_3.clicked.connect(self.suppclient)
-        self.mainw.pushButton_4.clicked.connect(self.savemovie)
+        #self.mainw.pushButton_4.clicked.connect(self.savemovie)
         self.mainw.pushButton_5.clicked.connect(self.modiffilm)
         self.mainw.pushButton_6.clicked.connect(self.suppfilm)
         self.treeViewModel = QtGui.QStandardItemModel()

@@ -278,6 +278,9 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.showgest.pushButton.clicked.connect(self.showpopuser) #Ouvre le formulaire d'usager si on appuie
         self.showgest.pushButton_2.clicked.connect(self.modifpopup) #Ouvre le formulaire pour modifier l'usager
         self.showgest.pushButton_3.clicked.connect(self.deleteuser) #Envoie vers la fonction supprimer usager
+        self.model3()
+
+    def model3(self):
         self.model = QtGui.QStandardItemModel()
         self.model.setHorizontalHeaderLabels(['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager',
                                               'Mot de passe', 'Type Acces'])
@@ -390,7 +393,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         changeusager['dateembauche'] = self.showpopusager.dateEdit.text()
         changeusager['password'] = self.showpopusager.lineEdit_5.text()
         changeusager['acces'] = self.showpopusager.comboBox_2.currentText()
-        self.showgestuser()
+        self.model3()
         self.showpopusager.close()
         self.saveuser()
 

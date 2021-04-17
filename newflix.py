@@ -175,7 +175,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.mainw.pushButton.clicked.connect(self.popupclient)
         self.mainw.pushButton_2.clicked.connect(self.modifcustomer)
         self.mainw.pushButton_3.clicked.connect(self.suppclient)
-        self.mainw.pushButton_4.clicked.connect(self.suppfilm)
+        self.mainw.pushButton_4.clicked.connect(self.savemovie)
         self.mainw.pushButton_5.clicked.connect(self.modiffilm)
         self.mainw.pushButton_6.clicked.connect(self.suppfilm)
         self.treeViewModel = QtGui.QStandardItemModel()
@@ -662,6 +662,54 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.dictclient = [element for element in self.dictclient if
                              element.get('identifiant', '') != int(donnees[0])]
             self.saveclient()
+
+    def savemovie(self):
+        updatedfilm = Film(self.popupfilm.lineEdit.text(), self.popupfilm.timeEdit.text(),
+                               self.popupfilm.lineEdit_2.text(), [] , [])
+        self.updateddatafilm = vars(updatedfilm)
+        self.updateddatafilm["categories"] = self.dataclient["categories"]
+        self.updateddatafilm["acteurs"] = self.dataclient["acteurs"]
+        if self.popupfilm.lineEdit.text() == "" or self.popupfilm.lineEdit_2.text() == "" :
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Veuillez compléter les informations manquantes")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+        elif any(d["nom"] == self.popupfilm.lineEdit.text() for d in self.dictmovie):
+            msg = QtWidgets.QMessageBox()  # Cherche si le code est déjà dans le dictuser
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Ce nom de film est déjà utilisé")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+        else:
+            """identifiant = QtGui.QStandardItem(str(self.updateddataclient["identifiant"]))
+            nom = QtGui.QStandardItem(self.updateddataclient["nom"])
+            prenom = QtGui.QStandardItem(self.updateddataclient["prenom"])
+            sexe = QtGui.QStandardItem(self.updateddataclient["sexe"])
+            date = QtGui.QStandardItem(self.updateddataclient["dateinscription"])
+            courriel = QtGui.QStandardItem(self.updateddataclient["courriel"])
+            password = QtGui.QStandardItem(self.updateddataclient["motdepasse"])
+            item = (identifiant, nom, prenom, sexe, date, courriel, password)
+            self.treeViewModel.appendRow(item)
+            for dict in self.updateddataclient["cartes"]:
+                vide1 = QtGui.QStandardItem("*****")
+                vide2 = QtGui.QStandardItem("*****")
+                vide3 = QtGui.QStandardItem("*****")
+                vide4 = QtGui.QStandardItem("*****")
+                vide5 = QtGui.QStandardItem("*****")
+                vide6 = QtGui.QStandardItem("*****")
+                vide7 = QtGui.QStandardItem("*****")
+                numero = QtGui.QStandardItem(dict["noCarte"])
+                expiration = QtGui.QStandardItem(dict["expiration"])
+                codecarte = QtGui.QStandardItem(dict["codecarte"])
+                childitem = (vide1, vide2, vide3, vide4, vide5, vide6, vide7, numero, expiration, codecarte)
+                identifiant.appendRow(childitem)
+            self.mainw.treeView.setCurrentIndex(self.treeViewModel.index(0, 0))
+            self.dictclient.append(self.updateddataclient)
+            self.saveclient()
+            self.popupcustomer.close()"""
 
     def modiffilm(self):
         self.donneesfilm = self.mainw.treeView_2.selectedIndexes()[0]

@@ -227,12 +227,12 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.treeViewModel2.appendRow(item2)
             self.mainw.treeView_2.setCurrentIndex(self.treeViewModel2.index(0, 0))
             for dict in g["categories"]:
-                vide1 = QtGui.QStandardItem("*****")
-                vide2 = QtGui.QStandardItem("*****")
-                vide3 = QtGui.QStandardItem("*****")
+                vide8 = QtGui.QStandardItem("*****")
+                vide9 = QtGui.QStandardItem("*****")
+                vide10 = QtGui.QStandardItem("*****")
                 nomcat = QtGui.QStandardItem(dict["nom"])
                 descriptioncat = QtGui.QStandardItem(dict["description"])
-                childitem2 = (vide1, vide2, vide3, nomcat, descriptioncat)
+                childitem2 = (vide8, vide9, vide10, nomcat, descriptioncat)
                 nom2.appendRow(childitem2)
 
             for dictact in g["acteurs"]:
@@ -250,7 +250,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 cachet = QtGui.QStandardItem(dictact["cachet"])
                 childfilm = (text1, text2, text3, text4, text5, nomacteur, prenomacteur, sexeacteur,
                              personnage, debutemploi, finemploi, cachet)
-                vide1.appendRow(childfilm)
+                vide8.appendRow(childfilm)
 
 
     def modifwindow(self):
@@ -916,20 +916,18 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                                            element.get('nompersonnage', '') != donnees[3]]
 
     def savemodifmovie(self):
-        changefilm = next(item for item in self.dictmovie if item["nom"] == self.datafilm["nom"])
+        changefilm = next(
+            item for item in self.dictmovie if item["nom"] == self.datafilm["nom"])
         changefilm["nom"] = self.popupfilm.lineEdit.text()
         changefilm["duree"] = self.popupfilm.timeEdit.text()
         changefilm["description"] = self.popupfilm.lineEdit_2.text()
-
         if self.statutlogin == "admin":
             self.mainwindow()
         else:
             self.mainwindow()
             self.mainw.actionGestion.setVisible(False)
-        self.mainw.treeView_2.setCurrentIndex(self.treeViewModel2.index(0, 0))
-        #self.savefilm()
         self.popupfilm.close()
-
+        self.savefilm()
 
     def suppfilm(self):
         self.deletefilm = self.mainw.treeView_2.selectedIndexes()[0]

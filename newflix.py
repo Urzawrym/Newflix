@@ -77,16 +77,14 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def loaduser(self):                     # Ouvre la liste de dictionnaires contenant les identifiants usagers
         try:
-            with open("userscrypt.json","rb") as f:
-                fernet = Fernet(key)
-                self.dictusercrypt = json.load(f)
-                self.dictuser = fernet.decrypt(self.dictusercrypt).decode("utf-8")
+            with open("users.json","rb") as f:
+                self.dictuser = json.load(f)
         except Exception:
             pass
 
     def saveuser(self):                     # Sauvegarde le dictionnaire des usagers dans le fichier .json des usagers
         try:
-            with open("userscrypt.json", "wb") as f:
+            with open("users.json", "wb") as f:
                 data = json.dump(self.dictuser,f)
         except Exception:
             pass
@@ -128,7 +126,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.loaduser()     #Charge la liste des utilisateurs provenant du fichier json dans la variable self.dictuser
         self.loadfilm()     #Charge la liste des films provenant du fichier json dans la variable self.dictmovie
         self.loadclient()   #Charge la liste des client provenant du fichier json dans la variable self.dictclient
-
         logged_in = False                 #par défaut la connexion est fausse avant le démarrer la boucle
         self.mesgexcept = ""   #Va servir pour l'exception du try
         try:   #Défini un try avant de démarrer la boucle

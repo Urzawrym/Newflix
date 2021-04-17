@@ -339,7 +339,13 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
-
+        elif len(self.showpopusager.lineEdit_5.text()) < 8:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Le mot de passe doit avoir 8 caractère minimum")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
         else:
             self.model.appendRow(
                     [QtGui.QStandardItem(self.dictemployee['nom']),
@@ -389,17 +395,25 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.showpopusager.comboBox_2.setCurrentIndex(index2))  #Affiche l'index correspondant au int
 
     def modifuser(self):
-        changeusager = next( #va chercher le même usager et le change par les informations ci bas
-            item for item in self.dictuser if item['codeutilisateur'] == self.showpopusager.lineEdit_3.text())
-        changeusager['nom'] = self.showpopusager.lineEdit.text()
-        changeusager['prenom'] = self.showpopusager.lineEdit_2.text()
-        changeusager['sexe'] = self.showpopusager.comboBox.currentText()
-        changeusager['dateembauche'] = self.showpopusager.dateEdit.text()
-        changeusager['password'] = self.showpopusager.lineEdit_5.text()
-        changeusager['acces'] = self.showpopusager.comboBox_2.currentText()
-        self.model3()
-        self.showpopusager.close()
-        self.saveuser()
+        if len(self.showpopusager.lineEdit_5.text()) < 8:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Le mot de passe doit avoir 8 caractère minimum")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+        else:
+            changeusager = next( #va chercher le même usager et le change par les informations ci bas
+                item for item in self.dictuser if item['codeutilisateur'] == self.showpopusager.lineEdit_3.text())
+            changeusager['nom'] = self.showpopusager.lineEdit.text()
+            changeusager['prenom'] = self.showpopusager.lineEdit_2.text()
+            changeusager['sexe'] = self.showpopusager.comboBox.currentText()
+            changeusager['dateembauche'] = self.showpopusager.dateEdit.text()
+            changeusager['password'] = self.showpopusager.lineEdit_5.text()
+            changeusager['acces'] = self.showpopusager.comboBox_2.currentText()
+            self.model3()
+            self.showpopusager.close()
+            self.saveuser()
 
 
     def deleteuser(self):
@@ -482,6 +496,13 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg = QtWidgets.QMessageBox()  # Cherche si le code est déjà dans le dictuser
             msg.setIcon(QtWidgets.QMessageBox.Warning)
             msg.setText("Ce courriel est déjà utilisé")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+        elif len(self.popupcustomer.lineEdit_5.text()) < 8:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Le mot de passe doit avoir 8 caractère minimum")
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
@@ -621,6 +642,13 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg = QtWidgets.QMessageBox() #Cherche si le courriel qui a changé est déjà dans le dictuser
             msg.setIcon(QtWidgets.QMessageBox.Warning)
             msg.setText("Ce courriel est déjà utilisé")
+            msg.setInformativeText('')
+            msg.setWindowTitle("Erreur")
+            msg.exec_()
+        elif len(self.popupcustomer.lineEdit_5.text()) < 8:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Le mot de passe doit avoir 8 caractère minimum")
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
@@ -866,6 +894,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.showpopupacteur = Popacteur()
         self.showpopupacteur.show()
         self.showpopupacteur.setWindowTitle("Ajout d'un nouvel acteur")
+
         self.showpopupacteur.lineEdit.setFocus()
         self.showpopupacteur.pushButton.clicked.connect(self.saveacteur)
         self.showpopupacteur.pushButton_2.clicked.connect(self.showpopupacteur.close)

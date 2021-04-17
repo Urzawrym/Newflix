@@ -84,7 +84,7 @@ class Ui_FormUser(object):
         self.label_3.setText(_translate("Form", "Prénom :"))
         self.label_4.setText(_translate("Form", "Sexe :"))
         self.comboBox.setItemText(0, _translate("Form", "Masculin"))
-        self.comboBox.setItemText(1, _translate("Form", "Féminin"))
+        self.comboBox.setItemText(1, _translate("Form", "Feminin"))
         self.comboBox.setItemText(2, _translate("Form", "Non défini"))
         self.label_5.setText(_translate("Form", "Date embauche :"))
         self.label_6.setText(_translate("Form", "Code utilisateur :"))

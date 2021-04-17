@@ -175,7 +175,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.mainw.pushButton.clicked.connect(self.popupclient)
         self.mainw.pushButton_2.clicked.connect(self.modifcustomer)
         self.mainw.pushButton_3.clicked.connect(self.suppclient)
-        #self.mainw.pushButton_4.clicked.connect(self.savemovie)
+        self.mainw.pushButton_4.clicked.connect(self.popupfilm)
         self.mainw.pushButton_5.clicked.connect(self.modiffilm)
         self.mainw.pushButton_6.clicked.connect(self.suppfilm)
         self.treeViewModel = QtGui.QStandardItemModel()
@@ -663,12 +663,32 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                              element.get('identifiant', '') != int(donnees[0])]
             self.saveclient()
 
+    def popupfilm(self):
+        self.popupfilm = Popfilm()
+        self.popupfilm.show()
+        self.popupfilm.pushButton.clicked.connect(self.savemovie)
+        self.popupfilm.pushButton_2.clicked.connect(self.popupfilm.close)
+        self.popupfilm.pushButton_3.clicked.connect(self.popupcategorie)
+        self.popupfilm.pushButton_4.clicked.connect(self.suppcategorie)
+        self.popupfilm.pushButton_5.clicked.connect(self.popacteur)
+        self.popupfilm.pushButton_6.clicked.connect(self.suppacteur)
+        self.model4 = QtGui.QStandardItemModel()
+        self.popupfilm.treeView.setModel(self.model4)
+        self.model4.setHorizontalHeaderLabels(["Nom de catégorie", "Description de la catégorie"])
+        self.model5 = QtGui.QStandardItemModel()
+        self.popupfilm.treeView_2.setModel(self.model5)
+        self.model5.setHorizontalHeaderLabels(["Nom", "Prénom", "Sexe", "Personnage", "Début de l'emploi",
+                                               "Fin de l'emploi", "Cachet"])
+        self.movie = Film(self.popupfilm.lineEdit.text(), self.popupfilm.timeEdit.text(),
+                          self.popupfilm.lineEdit_2.text(), [], [])
+        self.datafilm = vars(self.movie)
+
     def savemovie(self):
         updatedfilm = Film(self.popupfilm.lineEdit.text(), self.popupfilm.timeEdit.text(),
-                               self.popupfilm.lineEdit_2.text(), [] , [])
+                               self.popupfilm.lineEdit_2.text(), [], [])
         self.updateddatafilm = vars(updatedfilm)
-        self.updateddatafilm["categories"] = self.dataclient["categories"]
-        self.updateddatafilm["acteurs"] = self.dataclient["acteurs"]
+        self.updateddatafilm["categories"] = self.datafilm["categories"]
+        self.updateddatafilm["acteurs"] = self.datafilm["acteurs"]
         if self.popupfilm.lineEdit.text() == "" or self.popupfilm.lineEdit_2.text() == "" :
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
@@ -684,32 +704,40 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setWindowTitle("Erreur")
             msg.exec_()
         else:
-            """identifiant = QtGui.QStandardItem(str(self.updateddataclient["identifiant"]))
-            nom = QtGui.QStandardItem(self.updateddataclient["nom"])
-            prenom = QtGui.QStandardItem(self.updateddataclient["prenom"])
-            sexe = QtGui.QStandardItem(self.updateddataclient["sexe"])
-            date = QtGui.QStandardItem(self.updateddataclient["dateinscription"])
-            courriel = QtGui.QStandardItem(self.updateddataclient["courriel"])
-            password = QtGui.QStandardItem(self.updateddataclient["motdepasse"])
-            item = (identifiant, nom, prenom, sexe, date, courriel, password)
-            self.treeViewModel.appendRow(item)
-            for dict in self.updateddataclient["cartes"]:
+            nom = QtGui.QStandardItem(self.updateddatafilm["nom"])
+            duree = QtGui.QStandardItem(self.updateddatafilm["duree"])
+            description = QtGui.QStandardItem(self.updateddatafilm["description"])
+            item = (nom, duree, description)
+            self.treeViewModel2.appendRow(item)
+            for dict in self.updateddatafilm["categories"]:
                 vide1 = QtGui.QStandardItem("*****")
                 vide2 = QtGui.QStandardItem("*****")
                 vide3 = QtGui.QStandardItem("*****")
-                vide4 = QtGui.QStandardItem("*****")
-                vide5 = QtGui.QStandardItem("*****")
-                vide6 = QtGui.QStandardItem("*****")
-                vide7 = QtGui.QStandardItem("*****")
-                numero = QtGui.QStandardItem(dict["noCarte"])
-                expiration = QtGui.QStandardItem(dict["expiration"])
-                codecarte = QtGui.QStandardItem(dict["codecarte"])
-                childitem = (vide1, vide2, vide3, vide4, vide5, vide6, vide7, numero, expiration, codecarte)
-                identifiant.appendRow(childitem)
-            self.mainw.treeView.setCurrentIndex(self.treeViewModel.index(0, 0))
-            self.dictclient.append(self.updateddataclient)
-            self.saveclient()
-            self.popupcustomer.close()"""
+                nomfilm = QtGui.QStandardItem(dict["nom"])
+                descrifilm = QtGui.QStandardItem(dict["description"])
+                childitem = (vide1, vide2, vide3, nomfilm, descrifilm)
+                nom.appendRow(childitem)
+            for dictact in self.updateddatafilm["acteurs"]:
+                text1 = QtGui.QStandardItem("*****")
+                text2 = QtGui.QStandardItem("*****")
+                text3 = QtGui.QStandardItem("*****")
+                text4 = QtGui.QStandardItem("*****")
+                text5 = QtGui.QStandardItem("*****")
+                nomacteur = QtGui.QStandardItem(dictact["nom"])
+                prenomacteur = QtGui.QStandardItem(dictact["prenom"])
+                sexeacteur = QtGui.QStandardItem(dictact["sexe"])
+                personnage = QtGui.QStandardItem(dictact["nompersonnage"])
+                debutemploi = QtGui.QStandardItem(dictact["debutemploi"])
+                finemploi = QtGui.QStandardItem(dictact["finemploi"])
+                cachet = QtGui.QStandardItem(dictact["cachet"])
+                childfilm = (text1, text2, text3, text4, text5, nomacteur, prenomacteur, sexeacteur,
+                             personnage, debutemploi, finemploi, cachet)
+                vide1.appendRow(childfilm)
+
+            self.mainw.treeView_2.setCurrentIndex(self.treeViewModel2.index(0, 0))
+            self.dictmovie.append(self.updateddatafilm)
+            self.savemovie()
+            self.popupfilm.close()
 
     def modiffilm(self):
         self.donneesfilm = self.mainw.treeView_2.selectedIndexes()[0]

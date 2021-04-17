@@ -674,7 +674,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
         self.popupfilm = Popfilm()
         self.popupfilm.show()
-        #self.popupfilm.pushButton.clicked.connect(self.savemodifmovie)
+        self.popupfilm.pushButton.clicked.connect(self.savemodifmovie)
         self.popupfilm.pushButton_2.clicked.connect(self.popupfilm.close)
         self.popupfilm.pushButton_3.clicked.connect(self.popupcategorie)
         self.popupfilm.pushButton_4.clicked.connect(self.suppcategorie)
@@ -839,6 +839,20 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.model5.removeRow(index.row())  # Enlève l'item
             self.datafilm["acteurs"] = [element for element in self.datafilm["acteurs"] if
                                            element.get('nompersonnage', '') != donnees[3]]
+
+    def savemodifmovie(self):
+            changefilm = next(  # va chercher le même client et le change par les informations ci bas
+                item for item in self.dictmovie if item["nom"] == self.datafilm["nom"])
+            changefilm["nom"] = self.popupfilm.lineEdit.text()
+            changefilm["duree"] = self.popupfilm.timeEdit.text()
+            changefilm["description"] = self.popupfilm.lineEdit_2.text()
+            if self.statutlogin == "admin":
+                self.mainwindow()
+            else:
+                self.mainwindow()
+                self.mainw.actionGestion.setVisible(False)
+            self.popupfilm.close()
+            self.savefilm()
 
     def suppfilm(self):
         self.deletefilm = self.mainw.treeView_2.selectedIndexes()[0]

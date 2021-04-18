@@ -1,4 +1,6 @@
 from cryptography.fernet import Fernet, InvalidToken
+from ast import literal_eval
+
 file = open('key.key', 'rb')  # Open the file as wb to read bytes
 key = file.read()  # The key will be type bytes
 file.close()
@@ -11,12 +13,16 @@ with open(input_file, 'rb') as f:
 fernet = Fernet(key)
 #try:
 decrypted = fernet.decrypt(data)
-decrypted = decrypted.decode("utf-8")
+
+data = literal_eval(decrypted.decode('utf8'))
 
 print(decrypted)
 print(type(decrypted))
-print(decrypted[0])
+print(data)
+print(type(data))
 
+for dict in data:
+    print(dict["nom"])
     #with open(output_file, 'wb') as f:
         #f.write(decrypted)  # Write the decrypted bytes to the output file
 

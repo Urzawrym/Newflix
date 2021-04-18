@@ -1,6 +1,7 @@
 import json
 import sys
 from cryptography.fernet import Fernet
+from ast import literal_eval
 from mainwindow import *                #Importe l'affichage de la fenêtre principale
 from gestionusers import *              #Importe l'affichage de la fenêtre gestion usager
 from popupuser import *                 #Importe le formulaire de création/modification d'usager
@@ -69,64 +70,68 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         file = open('key.key', 'rb')
         self.key = file.read()
         file.close()
-
-    def encrypt(self):
-        file = "testusers.json"
-        encrypt(file.key)
-
+        self.fernet = Fernet(self.key)
 
     def loaduser(self):                     # Ouvre la liste de dictionnaires contenant les identifiants usagers
         try:
             with open("userscrypt.json", "rb") as file:
-                self.file_data = file.read()
-                self.dictuser = f.decrypt(self.file_data)
+                file_data = file.read()
+                usercrypt = self.fernet.decrypt(file_data)
+                self.dictuser = literal_eval(usercrypt.decode('utf8'))
+
         except Exception:
             pass
 
     def saveuser(self):                     # Sauvegarde le dictionnaire des usagers dans le fichier .json des usagers
         try:
             with open("userscrypt.json", "wb") as file:
-                encrypted_data = f.encrypt(self.file_data)
-                file.write(encrypted_data)
+                encrypted_user = self.fernet.encrypt(self.dictuser)
+                file.write(encrypted_user)
         except Exception:
             pass
 
     def loadclient(self):                   # Ouvre la liste de dictionnaires contenant les informations des clients
         try:
-            with open("clients.json","r") as f:
-                self.dictclient = json.load(f)
+            with open("clientscrypt.json","rb") as file:
+                file_data = file.read()
+                customercrypt = self.fernet.decrypt(file_data)
+                self.dictclient = literal_eval(customercrypt.decode('utf8'))
         except Exception:
             pass
 
     def saveclient(self):                   # Sauvegarde le dictionnaire des usagers dans le fichier .json des clients
         try:
-            with open("clients.json", "w") as f:
-                data2 = json.dump(self.dictclient,f)
+            with open("clientscrypt.json", "wb") as file:
+                encrypted_customer = self.fernet.encrypt(self.dictclient)
+                file.write(encrypted_customer)
         except Exception:
             pass
 
     def loadfilm(self):                     # Ouvre la liste de dictionnaires contenant les informations des films
         try:
-            with open("films.json", "r") as f:
-                self.dictmovie = json.load(f)
+            with open("filmscrypt.json", "rb") as file:
+                file_data = file.read()
+                moviescrypt = self.fernet.decrypt(file_data)
+                self.dictmovie = literal_eval(moviescrypt.decode('utf8'))
         except Exception:
             pass
 
     def savefilm(self):                      # Sauvegarde le dictionnaire des usagers dans le fichier .json des films
         try:
-            with open("films.json", "w") as f:
-                data3 = json.dump(self.dictmovie, f)
+            with open("filmscrypt.json", "wb") as file:
+                encrypted_movies = self.fernet.encrypt(self.dictmovie)
+                file.write(encrypted_movies)
         except Exception:
             pass
 
     def showlogin(self):
-        self.connex = Connexion() #Importe la classe  Connexion
+        self.connex = Connexion()   #Importe la classe  Connexion
         self.connex.pushButton.clicked.connect(self.testconnex) #Le bouton activera la fonction de tester la connex.
-        self.connex.show() #Affichage la fenêtre de connexion
+        self.connex.show()          #Affiche la fenêtre de connexion
 
     def testconnex(self):
-
-        """self.loaduser()     #Charge la liste des utilisateurs provenant du fichier json dans la variable self.dictuser
+        self.load_key()     #Charge la clé pour décrypter et encrypter les données dans les fichiers json
+        self.loaduser()     #Charge la liste des utilisateurs provenant du fichier json dans la variable self.dictuser
         self.loadfilm()     #Charge la liste des films provenant du fichier json dans la variable self.dictmovie
         self.loadclient()   #Charge la liste des client provenant du fichier json dans la variable self.dictclient
 
@@ -1023,7 +1028,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.treeViewModel2.removeRow(index.row())  # Enlève l'item
             self.dictmovie = [element for element in self.dictmovie if
                              element.get('nom', '') != donnees[0]]
-            self.savefilm()"""
+            self.savefilm()
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

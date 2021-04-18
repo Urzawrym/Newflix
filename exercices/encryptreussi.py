@@ -1,10 +1,15 @@
 import json
 from cryptography.fernet import Fernet
 
-users = [{"name": "Scott", "website": "stackabuse.com", "from": "Nebraska"}, {"name": "Larry", "website": "google.com", "from": "Michigan"}, {"name": "Tim", "website": "apple.com", "from": "Alabama"}]
+#users = [{"name": "Scott", "website": "stackabuse.com", "from": "Nebraska"}, {"name": "Larry", "website": "google.com", "from": "Michigan"}, {"name": "Tim", "website": "apple.com", "from": "Alabama"}]
 
 #with open('exemple.json', 'w') as json_file:
     #json.dump(users, json_file)
+
+#with open("exemple.json", "r") as f:
+    #users = json.load(f)
+
+
 
 #this generates a key and opens a file 'key.key' and writes the key there
 key = Fernet.generate_key()
@@ -21,6 +26,8 @@ file.close()
 with open('exemple.json','rb') as f:
     data = f.read()
 
+print(type(data))
+
 #this encrypts the data read from your json and stores it in 'encrypted'
 fernet = Fernet(key)
 encrypted=fernet.encrypt(data)
@@ -33,3 +40,4 @@ decrypted = fernet.decrypt(encrypted)
 print(decrypted)
 print(type(decrypted))
 print(decrypted.decode("utf-8"))
+print(type(decrypted.decode("utf-8")))

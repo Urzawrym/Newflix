@@ -21,6 +21,9 @@ file.close()
 file = open('key.key','rb')
 key = file.read()
 file.close()
+
+fernet = Fernet(key)
+
 ################## Aucune classe provenant de QT Designer n'est modifiée. Ici on créé les classes ##################
 ################## localement qui importent et initialisent les classes provenant de QT Designer. ##################
 
@@ -77,15 +80,18 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def loaduser(self):                     # Ouvre la liste de dictionnaires contenant les identifiants usagers
         try:
-            with open("users.json","rb") as f:
-                self.dictuser = json.load(f)
+            with open("userscrypt.json","rb") as f:
+                self.data = f.read()
+                decrypted = fernet.decrypt(self.data)
+                self.dictuser = (decrypted.decode("utf-8"))
         except Exception:
             pass
 
     def saveuser(self):                     # Sauvegarde le dictionnaire des usagers dans le fichier .json des usagers
         try:
-            with open("users.json", "wb") as f:
-                data = json.dump(self.dictuser,f)
+            with open("userscrypt.json", "wb") as f:
+                encryptedusers = fernet.encrypt(bytes(self.dictuser))
+                f.write(encryptedusers)
         except Exception:
             pass
 

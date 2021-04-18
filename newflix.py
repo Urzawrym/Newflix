@@ -12,18 +12,6 @@ from popupacteur import *               #demandé dans la mise en situation
 from popupcat import *
 from popupmovie import *
 
-
-key = Fernet.generate_key()
-file = open('key.key','wb')
-file.write(key)
-file.close()
-
-file = open('key.key','rb')
-key = file.read()
-file.close()
-
-fernet = Fernet(key)
-
 ################## Aucune classe provenant de QT Designer n'est modifiée. Ici on créé les classes ##################
 ################## localement qui importent et initialisent les classes provenant de QT Designer. ##################
 
@@ -77,21 +65,29 @@ class Popacteur(QtWidgets.QDialog, Ui_Acteur): #Init. popupacteur.py. Fenêtre p
 
 class Controller: #C'est dans cette classe que l'action se passe, toutes les modifications visuelles et les
                   #les interactions avec l'utilisateur vont se faire à partir d'ici.
+    def load_key(self):
+        file = open('key.key', 'rb')
+        self.key = file.read()
+        file.close()
+
+    def encrypt(self):
+        file = "testusers.json"
+        encrypt(file.key)
+
 
     def loaduser(self):                     # Ouvre la liste de dictionnaires contenant les identifiants usagers
         try:
-            with open("userscrypt.json","rb") as f:
-                self.data = f.read()
-                decrypted = fernet.decrypt(self.data)
-                self.dictuser = (decrypted.decode("utf-8"))
+            with open("userscrypt.json", "rb") as file:
+                self.file_data = file.read()
+                self.dictuser = f.decrypt(self.file_data)
         except Exception:
             pass
 
     def saveuser(self):                     # Sauvegarde le dictionnaire des usagers dans le fichier .json des usagers
         try:
-            with open("userscrypt.json", "wb") as f:
-                encryptedusers = fernet.encrypt(bytes(self.dictuser))
-                f.write(encryptedusers)
+            with open("userscrypt.json", "wb") as file:
+                encrypted_data = f.encrypt(self.file_data)
+                file.write(encrypted_data)
         except Exception:
             pass
 
@@ -129,9 +125,11 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.connex.show() #Affichage la fenêtre de connexion
 
     def testconnex(self):
-        self.loaduser()     #Charge la liste des utilisateurs provenant du fichier json dans la variable self.dictuser
+
+        """self.loaduser()     #Charge la liste des utilisateurs provenant du fichier json dans la variable self.dictuser
         self.loadfilm()     #Charge la liste des films provenant du fichier json dans la variable self.dictmovie
         self.loadclient()   #Charge la liste des client provenant du fichier json dans la variable self.dictclient
+
         logged_in = False                 #par défaut la connexion est fausse avant le démarrer la boucle
         self.mesgexcept = ""   #Va servir pour l'exception du try
         try:   #Défini un try avant de démarrer la boucle
@@ -1025,7 +1023,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.treeViewModel2.removeRow(index.row())  # Enlève l'item
             self.dictmovie = [element for element in self.dictmovie if
                              element.get('nom', '') != donnees[0]]
-            self.savefilm()
+            self.savefilm()"""
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

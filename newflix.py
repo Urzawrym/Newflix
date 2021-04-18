@@ -75,8 +75,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def loaduser(self):                     # Ouvre la liste de dictionnaires contenant les identifiants usagers
         try:
             with open("userscrypt.json", "rb") as file:
-                file_data = file.read()
-                usercrypt = self.fernet.decrypt(file_data)
+                file_user = file.read()
+                usercrypt = self.fernet.decrypt(file_user)
                 self.dictuser = literal_eval(usercrypt.decode('utf8'))
 
         except Exception:
@@ -85,7 +85,9 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def saveuser(self):                     # Sauvegarde le dictionnaire des usagers dans le fichier .json des usagers
         try:
             with open("userscrypt.json", "wb") as file:
-                encrypted_user = self.fernet.encrypt(self.dictuser)
+                newdictuser = str(self.dictuser)
+                usercrypt = newdictuser.encode('utf8')
+                encrypted_user = self.fernet.encrypt(usercrypt)
                 file.write(encrypted_user)
         except Exception:
             pass
@@ -93,8 +95,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def loadclient(self):                   # Ouvre la liste de dictionnaires contenant les informations des clients
         try:
             with open("clientscrypt.json","rb") as file:
-                file_data = file.read()
-                customercrypt = self.fernet.decrypt(file_data)
+                file_client = file.read()
+                customercrypt = self.fernet.decrypt(file_client)
                 self.dictclient = literal_eval(customercrypt.decode('utf8'))
         except Exception:
             pass
@@ -102,7 +104,9 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def saveclient(self):                   # Sauvegarde le dictionnaire des usagers dans le fichier .json des clients
         try:
             with open("clientscrypt.json", "wb") as file:
-                encrypted_customer = self.fernet.encrypt(self.dictclient)
+                newdictcustomer = str(self.dictclient)
+                customercrypt = newdictcustomer.encode('utf8')
+                encrypted_customer = self.fernet.encrypt(customercrypt)
                 file.write(encrypted_customer)
         except Exception:
             pass
@@ -110,8 +114,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def loadfilm(self):                     # Ouvre la liste de dictionnaires contenant les informations des films
         try:
             with open("filmscrypt.json", "rb") as file:
-                file_data = file.read()
-                moviescrypt = self.fernet.decrypt(file_data)
+                file_film = file.read()
+                moviescrypt = self.fernet.decrypt(file_film)
                 self.dictmovie = literal_eval(moviescrypt.decode('utf8'))
         except Exception:
             pass
@@ -119,7 +123,9 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
     def savefilm(self):                      # Sauvegarde le dictionnaire des usagers dans le fichier .json des films
         try:
             with open("filmscrypt.json", "wb") as file:
-                encrypted_movies = self.fernet.encrypt(self.dictmovie)
+                newdictmovie = str(self.dictmovie)
+                moviecrypt = newdictmovie.encode('utf8')
+                encrypted_movies = self.fernet.encrypt(moviecrypt)
                 file.write(encrypted_movies)
         except Exception:
             pass

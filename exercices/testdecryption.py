@@ -1,10 +1,10 @@
 from cryptography.fernet import Fernet, InvalidToken
 from ast import literal_eval
 
-file = open('key.key', 'rb')  # Open the file as wb to read bytes
+file = open('../key.key', 'rb')  # Open the file as wb to read bytes
 key = file.read()  # The key will be type bytes
 file.close()
-input_file = 'test.encrypted'
+input_file = '../test.encrypted'
 output_file = 'testfinal.txt'
 
 with open(input_file, 'rb') as f:

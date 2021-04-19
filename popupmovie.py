@@ -64,9 +64,9 @@ class Ui_Film(object):
         self.timeEdit.setGeometry(QtCore.QRect(140, 50, 118, 22))
         self.timeEdit.setCalendarPopup(False)
         self.timeEdit.setObjectName("timeEdit")
-
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
+
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate

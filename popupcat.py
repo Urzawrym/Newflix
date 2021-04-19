@@ -16,7 +16,7 @@ class Ui_Cat(object):
         Dialog.setObjectName("Dialog")
         Dialog.resize(443, 147)
         self.label = QtWidgets.QLabel(Dialog)
-        self.label.setGeometry(QtCore.QRect(10, 10, 121, 16))
+        self.label.setGeometry(QtCore.QRect(10, 10, 131, 16))
         self.label.setObjectName("label")
         self.label_2 = QtWidgets.QLabel(Dialog)
         self.label_2.setGeometry(QtCore.QRect(10, 70, 221, 16))

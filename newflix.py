@@ -9,7 +9,7 @@ from classes import *                   #Importe les classes Personnes, Employé
 from popcard import *                   #Categorie avec toute la gestion des héritages entre les classes, tel que
 from popupacteur import *               #demandé dans la mise en situation
 from popupcat import *
-from popupmovie import *
+from popupmovieform import *
 
 ################## Aucune classe provenant de QT Designer n'est modifiée. Ici on créé les classes ##################
 ################## localement qui importent et initialisent les classes provenant de QT Designer. ##################

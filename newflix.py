@@ -1,7 +1,7 @@
 from cryptography.fernet import Fernet
 from ast import literal_eval
 from mainwindowform import *              #Importe l'affichage de la fenêtre principale
-from gestionusers import *              #Importe l'affichage de la fenêtre gestion usager
+from gestionusersform import *              #Importe l'affichage de la fenêtre gestion usager
 from popupuser import *                 #Importe le formulaire de création/modification d'usager
 from popupcustomer import *             #Importe le formulaire de création/modification de client
 from logindialog import *               #Importe la fenêtre de connexion du démarrage du logiciel
@@ -19,9 +19,9 @@ class FenPrinci(QtWidgets.QMainWindow, Ui_MainWindow): #Initialise mainwindow.py
         QtWidgets.QMainWindow.__init__(self)
         self.setupUi(self)
 
-class GestUser(QtWidgets.QDialog, Ui_GestiUser): #Initialise gestionusers.py. Fenêtre de gestion des employés
+class GestUser(QtWidgets.QMainWindow, Ui_GestiUser): #Initialise gestionusers.py. Fenêtre de gestion des employés
     def __init__(self):
-        QtWidgets.QDialog.__init__(self)
+        QtWidgets.QMainWindow.__init__(self)
         self.setupUi(self)
 
 class FormUsager(QtWidgets.QDialog, Ui_FormUser): #Initialise popupuser.py. Formulaire pour créer/modifier un employé
@@ -195,7 +195,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.treeViewModel = QtGui.QStandardItemModel()
         self.mainw.treeView.setModel(self.treeViewModel)
         self.mainw.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.mainw.treeView.header().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        self.mainw.treeView.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
         self.header = ['ID', 'Nom', "Prénom", "Sexe", "Date Inscription", "Courriel Client", "Mot de passe",
                                      "Numero de Carte", "Expiration", "Code secret"]
         self.treeViewModel.setHorizontalHeaderLabels(self.header)
@@ -231,7 +231,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.treeViewModel2 = QtGui.QStandardItemModel()
         self.mainw.treeView_2.setModel(self.treeViewModel2)
         self.mainw.treeView_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.mainw.treeView_2.header().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        self.mainw.treeView_2.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
         self.header2 = ["Nom", "Durée", "Description", "Catégories", "Description Catégorie", "Nom de l'acteur",
                         "Prénom de l'acteur", "Sexe", "Nom du personnage", "Début de l'emploi", "Fin de l'emploi",
                         "Cachet"]
@@ -295,12 +295,15 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.showgest.pushButton.clicked.connect(self.showpopuser) #Ouvre le formulaire d'usager si on appuie
         self.showgest.pushButton_2.clicked.connect(self.modifpopup) #Ouvre le formulaire pour modifier l'usager
         self.showgest.pushButton_3.clicked.connect(self.deleteuser) #Envoie vers la fonction supprimer usager
+        #self.showgest.pushButton_4.clicked.connect(self.showgest.close())
         self.model3()
 
     def model3(self):
         self.model = QtGui.QStandardItemModel()
         self.model.setHorizontalHeaderLabels(['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager',
                                               'Mot de passe', 'Type Acces'])
+        self.showgest.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.showgest.treeView.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
         self.showgest.treeView.setModel(self.model)  # Active le modèle
         try:  # Défini un try avant de démarrer la boucle
             for c in (self.dictuser):  # Pour chaque dictionnaire dans la liste, on créé une ligne avec les informations ci bas

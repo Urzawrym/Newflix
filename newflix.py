@@ -44,9 +44,9 @@ class Popcarte(QtWidgets.QDialog, Ui_Carte):  #Init. popupcarte.py. Fenêtre pou
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
 
-class Popfilm(QtWidgets.QDialog, Ui_Film): #Init. popupmovie.py. Fenêtre pour créer/modifier un film
+class Popfilm(QtWidgets.QMainWindow, Ui_Film): #Init. popupmovie.py. Fenêtre pour créer/modifier un film
     def __init__(self):
-        QtWidgets.QDialog.__init__(self)
+        QtWidgets.QMainWindow.__init__(self)
         self.setupUi(self)
 
 class Popcategorie(QtWidgets.QDialog, Ui_Cat): #Init. popupcat.py. Fenêtre pour ajouter une catégorie
@@ -185,8 +185,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.mainw.pushButton.clicked.connect(self.popupclient)
         self.mainw.pushButton_2.clicked.connect(self.modifcustomer)
         self.mainw.pushButton_3.clicked.connect(self.suppclient)
-        self.mainw.pushButton_4.clicked.connect(self.popupfilm)
-        self.mainw.pushButton_5.clicked.connect(self.modiffilm)
+        self.mainw.pushButton_5.clicked.connect(self.popupfilm)
+        self.mainw.pushButton_4.clicked.connect(self.modiffilm)
         self.mainw.pushButton_6.clicked.connect(self.suppfilm)
         self.model1()
         self.model2()
@@ -483,7 +483,9 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.model3 = QtGui.QStandardItemModel()
         self.popupcustomer.treeView.setModel(self.model3)  # Active le modèle
         self.popupcustomer.treeView.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
+        self.popupcustomer.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.model3.setHorizontalHeaderLabels(['Numéro de carte', 'Date Expiration', 'Code Carte'])
+
         identifiant = 1
         for l in self.dictclient:  # Je fais une boucle pour aller chercher le prochain chiffre disponible pour l'ID
             while identifiant == l["identifiant"]:
@@ -576,6 +578,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.model3 = QtGui.QStandardItemModel()
         self.popupcustomer.treeView.setModel(self.model3)  # Active le modèle
         self.model3.setHorizontalHeaderLabels(['Numéro de carte', 'Date Expiration', 'Code Carte'])
+        self.popupcustomer.treeView.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
+        self.popupcustomer.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         for h in self.dataclient["cartes"]:
             numero = QtGui.QStandardItem(h["noCarte"])
             expiration = QtGui.QStandardItem(h["expiration"])
@@ -739,10 +743,14 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.model4 = QtGui.QStandardItemModel()
         self.popupfilm.treeView.setModel(self.model4)
         self.model4.setHorizontalHeaderLabels(["Nom de catégorie", "Description de la catégorie"])
+        self.popupfilm.treeView.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
+        self.popupfilm.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.model5 = QtGui.QStandardItemModel()
         self.popupfilm.treeView_2.setModel(self.model5)
         self.model5.setHorizontalHeaderLabels(["Nom", "Prénom", "Sexe", "Personnage", "Début de l'emploi",
                                                "Fin de l'emploi", "Cachet"])
+        self.popupfilm.treeView_2.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
+        self.popupfilm.treeView_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.movie = Film(self.popupfilm.lineEdit.text(), self.popupfilm.timeEdit.text(),
                           self.popupfilm.lineEdit_2.text(), [], [])
         self.datafilm = vars(self.movie)
@@ -827,6 +835,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.model4 = QtGui.QStandardItemModel()
         self.popupfilm.treeView.setModel(self.model4)
         self.model4.setHorizontalHeaderLabels(["Nom de catégorie", "Description de la catégorie"])
+        self.popupfilm.treeView.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
+        self.popupfilm.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         for m in self.datafilm["categories"]:
             nom = QtGui.QStandardItem(m["nom"])
             descriptioncat = QtGui.QStandardItem(m["description"])
@@ -843,6 +853,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupfilm.treeView_2.setModel(self.model5)
         self.model5.setHorizontalHeaderLabels(["Nom", "Prénom", "Sexe", "Personnage", "Début de l'emploi",
                                                "Fin de l'emploi", "Cachet"])
+        self.popupfilm.treeView_2.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
+        self.popupfilm.treeView_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
         for n in self.datafilm["acteurs"] :
             nomacteur = QtGui.QStandardItem(n["nom"])

@@ -3,7 +3,7 @@ from ast import literal_eval
 from mainwindowform import *              #Importe l'affichage de la fenêtre principale
 from gestionusersform import *              #Importe l'affichage de la fenêtre gestion usager
 from popupuser import *                 #Importe le formulaire de création/modification d'usager
-from popupcustomer import *             #Importe le formulaire de création/modification de client
+from popupcustomerform import *             #Importe le formulaire de création/modification de client
 from logindialog import *               #Importe la fenêtre de connexion du démarrage du logiciel
 from classes import *                   #Importe les classes Personnes, Employés, Clients, Cartes crédits, Films,
 from popcard import *                   #Categorie avec toute la gestion des héritages entre les classes, tel que
@@ -34,9 +34,9 @@ class Connexion(QtWidgets.QDialog, Ui_Connexion): #Initialise logindialog.py. Fe
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
 
-class FormClient(QtWidgets.QDialog, Ui_FormCustomer): #Init. popupcostumer.py. Fenêtre pour créer/modifier un client
+class FormClient(QtWidgets.QMainWindow, Ui_FormCustomer): #Init. popupcostumer.py. Fenêtre pour créer/modifier un client
     def __init__(self):
-        QtWidgets.QDialog.__init__(self)
+        QtWidgets.QMainWindow.__init__(self)
         self.setupUi(self)
 
 class Popcarte(QtWidgets.QDialog, Ui_Carte):  #Init. popupcarte.py. Fenêtre pour ajouter une carte de crédit
@@ -295,7 +295,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.showgest.pushButton.clicked.connect(self.showpopuser) #Ouvre le formulaire d'usager si on appuie
         self.showgest.pushButton_2.clicked.connect(self.modifpopup) #Ouvre le formulaire pour modifier l'usager
         self.showgest.pushButton_3.clicked.connect(self.deleteuser) #Envoie vers la fonction supprimer usager
-        #self.showgest.pushButton_4.clicked.connect(self.showgest.close())
+        self.showgest.pushButton_4.clicked.connect(self.showgest.close)
         self.model3()
 
     def model3(self):
@@ -476,13 +476,13 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupcustomer = FormClient()
         self.popupcustomer.setWindowModality(QtCore.Qt.ApplicationModal)
         self.popupcustomer.show()
-        self.popupcustomer.setWindowTitle("Ajout d'un nouveau client")
         self.popupcustomer.pushButton.clicked.connect(self.savecustomer)
         self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
         self.popupcustomer.pushButton_3.clicked.connect(self.ajoutercarte)
         self.popupcustomer.pushButton_4.clicked.connect(self.suppcarte)
         self.model3 = QtGui.QStandardItemModel()
         self.popupcustomer.treeView.setModel(self.model3)  # Active le modèle
+        self.popupcustomer.treeView.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
         self.model3.setHorizontalHeaderLabels(['Numéro de carte', 'Date Expiration', 'Code Carte'])
         identifiant = 1
         for l in self.dictclient:  # Je fais une boucle pour aller chercher le prochain chiffre disponible pour l'ID
@@ -493,6 +493,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                         self.popupcustomer.lineEdit_3.text(), self.popupcustomer.lineEdit_5.text(), [])
         self.dataclient = vars(self.client)
         self.popupcustomer.setWindowTitle(str(identifiant))
+        self.popupcustomer.lineEdit.setFocus()
 
     def savecustomer(self):
         identifiant = 1
@@ -571,6 +572,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
         self.popupcustomer.pushButton_3.clicked.connect(self.ajoutercarte)
         self.popupcustomer.pushButton_4.clicked.connect(self.suppcarte)
+        self.popupcustomer.lineEdit.setFocus()
         self.model3 = QtGui.QStandardItemModel()
         self.popupcustomer.treeView.setModel(self.model3)  # Active le modèle
         self.model3.setHorizontalHeaderLabels(['Numéro de carte', 'Date Expiration', 'Code Carte'])

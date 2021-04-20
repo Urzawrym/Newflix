@@ -75,21 +75,21 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def loaduser(self):                     # Ouvre la liste de dictionnaires contenant les identifiants usagers
         try:
-            with open("users.json","r") as f:
+            with open("../users.json", "r") as f:
                 self.dictuser = json.load(f)
         except Exception:
             pass
 
     def saveuser(self):                     # Sauvegarde le dictionnaire des usagers dans le fichier .json des usagers
         try:
-            with open("users.json", "w") as f:
+            with open("../users.json", "w") as f:
                 data = json.dump(self.dictuser,f)
         except Exception:
             pass
 
     def loadclient(self):                   # Ouvre la liste de dictionnaires contenant les informations des clients
         try:
-            with open("clients.json","r") as f:
+            with open("clients.json", "r") as f:
                 self.dictclient = json.load(f)
         except Exception:
             pass

@@ -1,6 +1,6 @@
-from gestionusers import *
+from exercices.gestionusers import *
 from popupuser import *
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtGui, QtWidgets
 from classes import *
 
 class GestUser(QtWidgets.QDialog, Ui_GestiUser): #Initialise gestionusers.py. Fenêtre de gestion des employés

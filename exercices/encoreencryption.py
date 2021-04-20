@@ -15,7 +15,7 @@ decrypted = decrypted.decode()
 print(decrypted)
 
 try:
-    with open("../clients.json", "r") as f:
+    with open("clients.json", "r") as f:
         dictclient = json.load(f)
 except Exception:
     pass

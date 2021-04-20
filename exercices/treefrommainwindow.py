@@ -1,7 +1,5 @@
-from mainwindow import *
-from popupcustomer import *
-from PyQt5 import QtCore, QtGui, QtWidgets
-from classes import *
+from exercices.mainwindow import *
+from PyQt5 import QtGui, QtWidgets
 import json
 
 class FenPrinci(QtWidgets.QMainWindow, Ui_MainWindow): #Initialise mainwindow.py. Fenêtre principale du logiciel.
@@ -14,14 +12,14 @@ class controller:
 
     def loadclient(self):                   # Ouvre la liste de dictionnaires contenant les informations des clients
         try:
-            with open("../clients.json", "r") as f:
+            with open("clients.json", "r") as f:
                 self.dictclient = json.load(f)
         except Exception:
             pass
 
     def saveclient(self):                   # Sauvegarde le dictionnaire des usagers dans le fichier .json des clients
         try:
-            with open("../clients.json", "w") as f:
+            with open("clients.json", "w") as f:
                 data2 = json.dump(self.dictclient, f)
         except Exception:
             pass

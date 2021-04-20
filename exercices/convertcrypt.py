@@ -21,7 +21,7 @@ with open(output_file, 'wb') as f:
 
 # Note: You can delete input_file here if you want"""
 
-with open("../films.json", "rb") as file:
+with open("films.json", "rb") as file:
     data = file.read()
 
 

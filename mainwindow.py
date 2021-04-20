@@ -39,7 +39,6 @@ class Ui_MainWindow(object):
         self.treeView_2.setGeometry(QtCore.QRect(20, 280, 551, 192))
         self.treeView_2.setAlternatingRowColors(True)
         self.treeView_2.setObjectName("ListeClient")
-        self.treeView_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.pushButton_6 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_6.setGeometry(QtCore.QRect(580, 340, 75, 23))
         self.pushButton_6.setObjectName("pushButton_6")

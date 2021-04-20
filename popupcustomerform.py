@@ -11,7 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Form(object):
+class Ui_FormCustomer(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(1105, 303)
@@ -107,3 +107,13 @@ class Ui_Form(object):
         self.pushButton_3.setText(_translate("Form", "Ajouter une carte"))
         self.pushButton.setText(_translate("Form", "Sauvegarder"))
         self.pushButton_2.setText(_translate("Form", "Annuler"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_FormCustomer()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

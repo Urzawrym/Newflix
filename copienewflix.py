@@ -1,10 +1,9 @@
 import json
-import sys
 from mainwindow import *                #Importe l'affichage de la fenêtre principale
 from gestionusers import *              #Importe l'affichage de la fenêtre gestion usager
 from popupuser import *                 #Importe le formulaire de création/modification d'usager
 from popupcustomer import *             #Importe le formulaire de création/modification de client
-from exercices.logindialog import *               #Importe la fenêtre de connexion du démarrage du logiciel
+from logindialog import *               #Importe la fenêtre de connexion du démarrage du logiciel
 from classes import *                   #Importe les classes Personnes, Employés, Clients, Cartes crédits, Films,
 from popcard import *                   #Categorie avec toute la gestion des héritages entre les classes, tel que
 from popupacteur import *               #demandé dans la mise en situation

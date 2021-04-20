@@ -9,7 +9,7 @@
 
 
 from mainwindow import *
-from exercices.logindialog import *
+from logindialog import *
 
 class AdminWindow(QtWidgets.QMainWindow): #Ouvre la fenêtre principale du logiciel
     def __init__(self):

@@ -1,12 +1,10 @@
-import json
-import sys
 from cryptography.fernet import Fernet
 from ast import literal_eval
-from mainwindow import *                #Importe l'affichage de la fenêtre principale
+from mainwindowform import *              #Importe l'affichage de la fenêtre principale
 from gestionusers import *              #Importe l'affichage de la fenêtre gestion usager
 from popupuser import *                 #Importe le formulaire de création/modification d'usager
 from popupcustomer import *             #Importe le formulaire de création/modification de client
-from exercices.logindialog import *               #Importe la fenêtre de connexion du démarrage du logiciel
+from logindialog import *               #Importe la fenêtre de connexion du démarrage du logiciel
 from classes import *                   #Importe les classes Personnes, Employés, Clients, Cartes crédits, Films,
 from popcard import *                   #Categorie avec toute la gestion des héritages entre les classes, tel que
 from popupacteur import *               #demandé dans la mise en situation
@@ -149,13 +147,11 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                     if a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Admin":
                         self.mainwindow()
-                        self.statutlogin = "admin"
                         #Si les 3 inputs de l'usager correspond à un dict. avec accès admin, active modifwindow
                         logged_in = True   #Le "true" met fin à la boucle.
                     elif a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Modification":
                         self.modifwindow()
-                        self.statutlogin = "modif"
                         #Si les 3 inputs de l'usager correspond à un dict. avec accès modif, active modifwindow
                         logged_in = True #Ferme la boucle
                     elif a['codeutilisateur'] == self.connex.lineEdit.text() and \
@@ -199,6 +195,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.treeViewModel = QtGui.QStandardItemModel()
         self.mainw.treeView.setModel(self.treeViewModel)
         self.mainw.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.mainw.treeView.header().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
         self.header = ['ID', 'Nom', "Prénom", "Sexe", "Date Inscription", "Courriel Client", "Mot de passe",
                                      "Numero de Carte", "Expiration", "Code secret"]
         self.treeViewModel.setHorizontalHeaderLabels(self.header)
@@ -234,6 +231,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.treeViewModel2 = QtGui.QStandardItemModel()
         self.mainw.treeView_2.setModel(self.treeViewModel2)
         self.mainw.treeView_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.mainw.treeView_2.header().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
         self.header2 = ["Nom", "Durée", "Description", "Catégories", "Description Catégorie", "Nom de l'acteur",
                         "Prénom de l'acteur", "Sexe", "Nom du personnage", "Début de l'emploi", "Fin de l'emploi",
                         "Cachet"]
@@ -1037,6 +1035,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.savefilm()
 
 if __name__ == "__main__":
+    import sys
     app = QtWidgets.QApplication(sys.argv)
     controller = Controller()
     controller.showlogin()

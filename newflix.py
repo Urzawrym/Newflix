@@ -559,6 +559,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
 
     def modifcustomer(self):
+        self.eventnewcarte = "False"
         self.donneesclient = self.mainw.treeView.selectedIndexes()[0]
         if self.donneesclient.data() == "*****":
             self.donneesclient = self.donneesclient.parent()
@@ -566,13 +567,14 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         for dict in self.dictclient :
             if str(dict["identifiant"]) == self.donneesclient.data():
                 self.dataclient = dict
+                self.showclient = dict
 
         self.popupcustomer = FormClient()
         self.popupcustomer.setWindowModality(QtCore.Qt.ApplicationModal)
         self.popupcustomer.show()
         self.popupcustomer.setWindowTitle("Modification d'un client")
         self.popupcustomer.pushButton.clicked.connect(self.savemodifcustomer)
-        self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
+        self.popupcustomer.pushButton_2.clicked.connect(self.cancelmodifcustomer)
         self.popupcustomer.pushButton_3.clicked.connect(self.ajoutercarte)
         self.popupcustomer.pushButton_4.clicked.connect(self.suppcarte)
         self.popupcustomer.lineEdit.setFocus()
@@ -581,7 +583,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.model3.setHorizontalHeaderLabels(['Numéro de carte', 'Date Expiration', 'Code Carte'])
         self.popupcustomer.treeView.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
         self.popupcustomer.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        for h in self.dataclient["cartes"]:
+        for h in self.showclient["cartes"]:
             numero = QtGui.QStandardItem(h["noCarte"])
             expiration = QtGui.QStandardItem(h["expiration"])
             codecarte = QtGui.QStandardItem(h["codecarte"])
@@ -598,6 +600,12 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupcustomer.lineEdit_3.setText(self.dataclient["courriel"])
         self.popupcustomer.lineEdit_5.setText(self.dataclient["motdepasse"])
 
+    def cancelmodifcustomer(self):
+        if self.eventnewcarte == "True" :
+            self.dataclient["cartes"].remove(self.dictcarte)
+            self.popupcustomer.close()
+        else:
+            self.popupcustomer.close()
 
     def ajoutercarte(self):
         self.showpopcarte = Popcarte()
@@ -625,6 +633,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             codesecret = QtGui.QStandardItem(self.dictcarte["codecarte"])
             item = (numero, expiration, codesecret)
             self.model3.appendRow(item)
+            self.eventnewcarte = "True"
+            self.dataclient["cartes"].append(self.dictcarte)
             self.showpopcarte.close()
 
 
@@ -682,7 +692,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setWindowTitle("Erreur")
             msg.exec_()
         else:
-            self.dataclient["cartes"].append(self.dictcarte)
             changeusager = next(  # va chercher le même client et le change par les informations ci bas
                 item for item in self.dictclient if item["identifiant"] == self.dataclient["identifiant"])
             changeusager['nom'] = self.popupcustomer.lineEdit.text()

@@ -559,7 +559,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
 
     def modifcustomer(self):
-        self.eventnewcarte = False
+        self.eventnewcarte = "False"
         self.donneesclient = self.mainw.treeView.selectedIndexes()[0]
         if self.donneesclient.data() == "*****":
             self.donneesclient = self.donneesclient.parent()
@@ -601,7 +601,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupcustomer.lineEdit_5.setText(self.dataclient["motdepasse"])
 
     def cancelmodifcustomer(self):
-        if self.eventnewcarte == True :
+        if self.eventnewcarte == "True" :
             self.dataclient["cartes"].remove(self.dictcarte)
             self.popupcustomer.close()
         else:
@@ -633,7 +633,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             codesecret = QtGui.QStandardItem(self.dictcarte["codecarte"])
             item = (numero, expiration, codesecret)
             self.model3.appendRow(item)
-            self.eventnewcarte = True
+            self.eventnewcarte = "True"
             self.dataclient["cartes"].append(self.dictcarte)
             self.showpopcarte.close()
 
@@ -825,7 +825,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.popupfilm.close()
 
     def modiffilm(self):
-        self.eventnewcategorie = False
         self.eventnewacteur = False
         self.donneesfilm = self.mainw.treeView_2.selectedIndexes()[0]
         while self.donneesfilm.data() == "*****":
@@ -905,7 +904,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             item = (nomcat, descriptioncat)
             self.model4.appendRow(item)
             self.datafilm["categories"].append(self.dictcat)
-            self.eventnewcategorie = True
             self.showpopcat.close()
 
     def suppcategorie(self):
@@ -978,7 +976,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             item = (nom, prenom, sexe, nomperso, debutemploi, finemploi, cachet)
             self.model5.appendRow(item)
             self.datafilm["acteurs"].append(self.dictacteur)
-            self.eventnewacteur = True
             self.showpopupacteur.close()
 
     def suppacteur(self):
@@ -1027,8 +1024,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.model2()
         self.popupfilm.close()
         self.savefilm()
-
-
 
 
     def suppfilm(self):

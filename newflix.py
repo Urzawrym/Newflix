@@ -45,7 +45,7 @@ class Popcarte(QtWidgets.QDialog, Ui_Carte):  #Init. popupcarte.py. Fenêtre pou
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
 
-class Popfilm(QtWidgets.QMainWindow, Ui_Film): #Init. popupmovie.py. Fenêtre pour créer/modifier un film
+class Formfilm(QtWidgets.QMainWindow, Ui_FormFilm): #Init. popupmovie.py. Fenêtre pour créer/modifier un film
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         self.setupUi(self)
@@ -133,6 +133,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.connex = Connexion()   #Importe la classe  Connexion
         self.connex.pushButton.clicked.connect(self.testconnex) #Le bouton activera la fonction de tester la connex.
         self.connex.show()          #Affiche la fenêtre de connexion
+        self.connex.setWindowTitle("Connexion")
 
     def testconnex(self):
         self.load_key()     #Charge la clé pour décrypter et encrypter les données dans les fichiers json
@@ -147,7 +148,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 for a in (self.dictuser): # Dans toute la liste, vérifie chaque dict. pour retrouver les 3 mêmes paramètres
                     if a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Admin":
-                        self.mainwindow()
+                        self.adminwindow()
                         #Si les 3 inputs de l'usager correspond à un dict. avec accès admin, active modifwindow
                         logged_in = True   #Le "true" met fin à la boucle.
                     elif a['codeutilisateur'] == self.connex.lineEdit.text() and \
@@ -157,7 +158,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                         logged_in = True #Ferme la boucle
                     elif a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Lecture":
-                        self.viewwindow()
+                        self.mainwindow()
                         #Si les 3 inputs de l'usager correspond à un dict. avec accès lecture, active modifwindow
                         logged_in = True #Ferme la boucle
                 if logged_in is not True: #Si la boucle n'est toujours pas fermée après les 3 premiers tests, fait
@@ -178,6 +179,13 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.connex.lineEdit.setFocus()  # Met le focus sur la ligne usager de la fenêtre de connexion
         self.connex.hide()  # Cache la fenêtre de connexion
         self.mainw = FenPrinci()
+        self.mainw.actionGestion.setVisible(False)
+        self.mainw.pushButton.hide()  # Cache les 6 boutons ajouter/modifier/supprimer de la
+        self.mainw.pushButton_2.hide()  # fenêtre principale pour permettre un accès en lecture
+        self.mainw.pushButton_3.hide()  # seulement des listes de clients et de films.
+        self.mainw.pushButton_4.hide()
+        self.mainw.pushButton_5.hide()
+        self.mainw.pushButton_6.hide()
         self.mainw.show()
         self.mainw.setWindowTitle("Newflix")
         self.mainw.actionGestion.triggered.connect(self.showgestuser)  # Dans la fen. principale, trigger la gestion users
@@ -274,19 +282,25 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 vide8.appendRow(childfilm)
 
 
-    def modifwindow(self):
-        self.mainwindow()                              #Affiche la fenêtre principale
-        self.mainw.actionGestion.setVisible(False)     #Cache le bouton Gestion Usager du menu principal
 
-    def viewwindow(self):
+    def adminwindow(self):
+        self.mainwindow()                              #Affiche la fenêtre principale
+        self.mainw.actionGestion.setVisible(True)
+        self.mainw.pushButton.show()
+        self.mainw.pushButton_2.show()
+        self.mainw.pushButton_3.show()
+        self.mainw.pushButton_4.show()
+        self.mainw.pushButton_5.show()
+        self.mainw.pushButton_6.show()
+
+    def modifwindow(self):
         self.mainwindow()                              # Fait la même chose que la fonction précédente
-        self.mainw.actionGestion.setVisible(False)
-        self.mainw.pushButton.hide()                   #Cache les 6 boutons ajouter/modifier/supprimer de la
-        self.mainw.pushButton_2.hide()                 #fenêtre principale pour permettre un accès en lecture
-        self.mainw.pushButton_3.hide()                 #seulement des listes de clients et de films.
-        self.mainw.pushButton_4.hide()
-        self.mainw.pushButton_5.hide()
-        self.mainw.pushButton_6.hide()
+        self.mainw.pushButton.show()
+        self.mainw.pushButton_2.show()
+        self.mainw.pushButton_3.show()
+        self.mainw.pushButton_4.show()
+        self.mainw.pushButton_5.show()
+        self.mainw.pushButton_6.show()
 
     def showgestuser(self):
         self.showgest = GestUser()  #Importe la fenêtre de gestion des usagers
@@ -300,15 +314,15 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.model6()
 
     def model6(self):
-        self.model = QtGui.QStandardItemModel()
-        self.model.setHorizontalHeaderLabels(['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager',
+        self.model6 = QtGui.QStandardItemModel()
+        self.model6.setHorizontalHeaderLabels(['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager',
                                               'Mot de passe', 'Type Acces'])
         self.showgest.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.showgest.treeView.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
-        self.showgest.treeView.setModel(self.model)  # Active le modèle
+        self.showgest.treeView.setModel(self.model6)  # Active le modèle
         try:  # Défini un try avant de démarrer la boucle
             for c in (self.dictuser):  # Pour chaque dictionnaire dans la liste, on créé une ligne avec les informations ci bas
-                self.model.appendRow([QtGui.QStandardItem(c['nom']),   #Ajoute chaque information dans les colonnes.
+                self.model6.appendRow([QtGui.QStandardItem(c['nom']),   #Ajoute chaque information dans les colonnes.
                                        QtGui.QStandardItem(c['prenom']),
                                        QtGui.QStandardItem(c['sexe']),
                                        QtGui.QStandardItem(c['dateembauche']),
@@ -319,7 +333,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             pass
 
     def logout(self):
-
         self.mainw.close()      #Ferme toutes les fenêtres et l'application
         self.connex.show()          #Démarre l'affichage de la fenêtre de connexion
 
@@ -469,7 +482,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         donnees = [f.data() for f in self.showgest.treeView.selectedIndexes()]
         if indexes:
             index = indexes[0]  # L'index correspond à la liste des items de la rangée
-            self.model.removeRow(index.row())  # Enlève l'item
+            self.model6.removeRow(index.row())  # Enlève l'item
             self.dictuser = [element for element in self.dictuser if element.get('codeutilisateur', '') != donnees[4]]
             self.saveuser()
 
@@ -561,7 +574,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
 
     def modifcustomer(self):
-        self.eventnewcarte = False
         self.donneesclient = self.mainw.treeView.selectedIndexes()[0]
         if self.donneesclient.data() == "*****":
             self.donneesclient = self.donneesclient.parent()
@@ -629,7 +641,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             codesecret = QtGui.QStandardItem(self.dictcarte["codecarte"])
             item = (numero, expiration, codesecret)
             self.model3.appendRow(item)
-            self.eventnewcarte = True
             self.dataclient["cartes"].append(self.dictcarte)
             self.showpopcarte.close()
 
@@ -738,7 +749,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.saveclient()
 
     def popupfilm(self):
-        self.popupfilm = Popfilm()
+        self.popupfilm = Formfilm()
         self.popupfilm.setWindowModality(QtCore.Qt.ApplicationModal)
         self.popupfilm.show()
         self.popupfilm.setWindowTitle("Ajout d'un nouveau film")
@@ -762,7 +773,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.movie = Film(self.popupfilm.lineEdit.text(), self.popupfilm.timeEdit.text(),
                           self.popupfilm.lineEdit_2.text(), [], [])
         self.datafilm = vars(self.movie)
-
+        self.popupfilm.lineEdit.setFocus()
 
     def savemovie(self):
         updatedfilm = Film(self.popupfilm.lineEdit.text(), self.popupfilm.timeEdit.text(),
@@ -770,7 +781,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.updateddatafilm = vars(updatedfilm)
         self.updateddatafilm["categories"] = self.datafilm["categories"]
         self.updateddatafilm["acteurs"] = self.datafilm["acteurs"]
-        print(self.updateddatafilm)
         if self.popupfilm.lineEdit.text() == "" or self.popupfilm.lineEdit_2.text() == "" :
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
@@ -822,16 +832,16 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.popupfilm.close()
 
     def modiffilm(self):
-        self.eventnewacteur = False
         self.donneesfilm = self.mainw.treeView_2.selectedIndexes()[0]
         while self.donneesfilm.data() == "*****":
             self.donneesfilm = self.donneesfilm.parent()
 
         for dict in self.dictmovie :
             if dict["nom"] == self.donneesfilm.data():
-                self.datafilm = dict
+                self.showfilm = dict
+                self.datafilm = copy.deepcopy(self.showfilm)
 
-        self.popupfilm = Popfilm()
+        self.popupfilm = Formfilm()
         self.popupfilm.setWindowModality(QtCore.Qt.ApplicationModal)
         self.popupfilm.show()
         self.popupfilm.setWindowTitle("Modification d'un film")
@@ -846,7 +856,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.model4.setHorizontalHeaderLabels(["Nom de catégorie", "Description de la catégorie"])
         self.popupfilm.treeView.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
         self.popupfilm.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        for m in self.datafilm["categories"]:
+        for m in self.showfilm["categories"]:
             nom = QtGui.QStandardItem(m["nom"])
             descriptioncat = QtGui.QStandardItem(m["description"])
             item = (nom, descriptioncat)
@@ -864,8 +874,9 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                                                "Fin de l'emploi", "Cachet"])
         self.popupfilm.treeView_2.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
         self.popupfilm.treeView_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.popupfilm.lineEdit_2.setFocus()
 
-        for n in self.datafilm["acteurs"] :
+        for n in self.showfilm["acteurs"] :
             nomacteur = QtGui.QStandardItem(n["nom"])
             prenomacteur = QtGui.QStandardItem(n["prenom"])
             sexe = QtGui.QStandardItem(n["sexe"])
@@ -1017,6 +1028,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         changefilm["nom"] = self.popupfilm.lineEdit.text()
         changefilm["duree"] = self.popupfilm.timeEdit.text()
         changefilm["descriptionfilm"] = self.popupfilm.lineEdit_2.text()
+        changefilm["categories"] = self.datafilm["categories"]
+        changefilm["acteurs"] = self.datafilm["acteurs"]
 
         self.model2()
         self.popupfilm.close()

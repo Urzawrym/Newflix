@@ -1,4 +1,5 @@
 from cryptography.fernet import Fernet
+import copy
 from ast import literal_eval
 from mainwindowform import *              #Importe l'affichage de la fenêtre principale
 from gestionusersform import *              #Importe l'affichage de la fenêtre gestion usager
@@ -497,6 +498,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupcustomer.setWindowTitle(str(identifiant))
         self.popupcustomer.lineEdit.setFocus()
 
+
     def savecustomer(self):
         identifiant = 1
         for l in self.dictclient:  # Je fais une boucle pour aller chercher le prochain chiffre disponible pour l'ID
@@ -559,22 +561,22 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
 
     def modifcustomer(self):
-        self.eventnewcarte = "False"
+        self.eventnewcarte = False
         self.donneesclient = self.mainw.treeView.selectedIndexes()[0]
         if self.donneesclient.data() == "*****":
             self.donneesclient = self.donneesclient.parent()
 
         for dict in self.dictclient :
             if str(dict["identifiant"]) == self.donneesclient.data():
-                self.dataclient = dict
                 self.showclient = dict
+                self.dataclient = copy.deepcopy(self.showclient)
 
         self.popupcustomer = FormClient()
         self.popupcustomer.setWindowModality(QtCore.Qt.ApplicationModal)
         self.popupcustomer.show()
         self.popupcustomer.setWindowTitle("Modification d'un client")
         self.popupcustomer.pushButton.clicked.connect(self.savemodifcustomer)
-        self.popupcustomer.pushButton_2.clicked.connect(self.cancelmodifcustomer)
+        self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
         self.popupcustomer.pushButton_3.clicked.connect(self.ajoutercarte)
         self.popupcustomer.pushButton_4.clicked.connect(self.suppcarte)
         self.popupcustomer.lineEdit.setFocus()
@@ -600,12 +602,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupcustomer.lineEdit_3.setText(self.dataclient["courriel"])
         self.popupcustomer.lineEdit_5.setText(self.dataclient["motdepasse"])
 
-    def cancelmodifcustomer(self):
-        if self.eventnewcarte == "True" :
-            self.dataclient["cartes"].remove(self.dictcarte)
-            self.popupcustomer.close()
-        else:
-            self.popupcustomer.close()
 
     def ajoutercarte(self):
         self.showpopcarte = Popcarte()
@@ -633,7 +629,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             codesecret = QtGui.QStandardItem(self.dictcarte["codecarte"])
             item = (numero, expiration, codesecret)
             self.model3.appendRow(item)
-            self.eventnewcarte = "True"
+            self.eventnewcarte = True
             self.dataclient["cartes"].append(self.dictcarte)
             self.showpopcarte.close()
 
@@ -694,12 +690,13 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         else:
             changeusager = next(  # va chercher le même client et le change par les informations ci bas
                 item for item in self.dictclient if item["identifiant"] == self.dataclient["identifiant"])
-            changeusager['nom'] = self.popupcustomer.lineEdit.text()
-            changeusager['prenom'] = self.popupcustomer.lineEdit_2.text()
-            changeusager['sexe'] = self.popupcustomer.comboBox.currentText()
-            changeusager['dateinscription'] = self.popupcustomer.dateEdit.text()
-            changeusager['courriel'] = self.popupcustomer.lineEdit_3.text()
-            changeusager['motdepasse'] = self.popupcustomer.lineEdit_5.text()
+            changeusager["nom"] = self.popupcustomer.lineEdit.text()
+            changeusager["prenom"] = self.popupcustomer.lineEdit_2.text()
+            changeusager["sexe"] = self.popupcustomer.comboBox.currentText()
+            changeusager["dateinscription"] = self.popupcustomer.dateEdit.text()
+            changeusager["courriel"] = self.popupcustomer.lineEdit_3.text()
+            changeusager["motdepasse"] = self.popupcustomer.lineEdit_5.text()
+            changeusager["cartes"] = self.dataclient["cartes"]
             self.model1()
             self.popupcustomer.close()
             self.saveclient()

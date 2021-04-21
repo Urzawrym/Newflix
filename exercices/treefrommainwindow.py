@@ -51,11 +51,12 @@ class controller:
                 vide4 = QtGui.QStandardItem("*****")
                 vide5 = QtGui.QStandardItem("*****")
                 vide6 = QtGui.QStandardItem("*****")
-                numero = QtGui.QStandardItem(dict["numero"])
+                numero = QtGui.QStandardItem(dict["noCarte"])
                 expiration = QtGui.QStandardItem(dict["expiration"])
                 codecarte = QtGui.QStandardItem(dict["codecarte"])
                 childitem = (vide1, vide2, vide3, vide4, vide5, vide6, numero, expiration, codecarte)
                 nom.appendRow(childitem)
+
 
 if __name__ == "__main__":
     import sys

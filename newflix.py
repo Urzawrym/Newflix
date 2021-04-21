@@ -296,9 +296,9 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.showgest.pushButton_2.clicked.connect(self.modifpopup) #Ouvre le formulaire pour modifier l'usager
         self.showgest.pushButton_3.clicked.connect(self.deleteuser) #Envoie vers la fonction supprimer usager
         self.showgest.pushButton_4.clicked.connect(self.showgest.close)
-        self.model3()
+        self.model6()
 
-    def model3(self):
+    def model6(self):
         self.model = QtGui.QStandardItemModel()
         self.model.setHorizontalHeaderLabels(['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager',
                                               'Mot de passe', 'Type Acces'])
@@ -430,7 +430,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             changeusager['dateembauche'] = self.showpopusager.dateEdit.text()
             changeusager['password'] = self.showpopusager.lineEdit_5.text()
             changeusager['acces'] = self.showpopusager.comboBox_2.currentText()
-            self.model3()
+            self.model6()
             self.showpopusager.close()
             self.saveuser()
 
@@ -557,6 +557,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.saveclient()
             self.popupcustomer.close()
 
+
     def modifcustomer(self):
         self.donneesclient = self.mainw.treeView.selectedIndexes()[0]
         if self.donneesclient.data() == "*****":
@@ -597,6 +598,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupcustomer.lineEdit_3.setText(self.dataclient["courriel"])
         self.popupcustomer.lineEdit_5.setText(self.dataclient["motdepasse"])
 
+
     def ajoutercarte(self):
         self.showpopcarte = Popcarte()
         self.showpopcarte.setWindowModality(QtCore.Qt.ApplicationModal)
@@ -623,7 +625,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             codesecret = QtGui.QStandardItem(self.dictcarte["codecarte"])
             item = (numero, expiration, codesecret)
             self.model3.appendRow(item)
-            self.dataclient["cartes"].append(self.dictcarte)
             self.showpopcarte.close()
 
 
@@ -681,6 +682,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setWindowTitle("Erreur")
             msg.exec_()
         else:
+            self.dataclient["cartes"].append(self.dictcarte)
             changeusager = next(  # va chercher le même client et le change par les informations ci bas
                 item for item in self.dictclient if item["identifiant"] == self.dataclient["identifiant"])
             changeusager['nom'] = self.popupcustomer.lineEdit.text()

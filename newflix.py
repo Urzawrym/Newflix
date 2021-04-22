@@ -1,3 +1,5 @@
+
+import os
 from cryptography.fernet import Fernet
 import copy
 from ast import literal_eval
@@ -322,18 +324,18 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.showgest.treeView.setModel(self.model6)  # Active le modèle
         try:  # Défini un try avant de démarrer la boucle
             for c in (self.dictuser):  # Pour chaque dictionnaire dans la liste, on créé une ligne avec les informations ci bas
-                self.model6.appendRow([QtGui.QStandardItem(c['nom']),   #Ajoute chaque information dans les colonnes.
-                                       QtGui.QStandardItem(c['prenom']),
-                                       QtGui.QStandardItem(c['sexe']),
-                                       QtGui.QStandardItem(c['dateembauche']),
-                                       QtGui.QStandardItem(c['codeutilisateur']),
-                                       QtGui.QStandardItem(c['password']),
-                                       QtGui.QStandardItem(c['acces'])])
+                self.model6.appendRow([QtGui.QStandardItem(c["nom"]),   #Ajoute chaque information dans les colonnes.
+                                       QtGui.QStandardItem(c["prenom"]),
+                                       QtGui.QStandardItem(c["sexe"]),
+                                       QtGui.QStandardItem(c["dateembauche"]),
+                                       QtGui.QStandardItem(c["codeutilisateur"]),
+                                       QtGui.QStandardItem(c["password"]),
+                                       QtGui.QStandardItem(c["acces"])])
         except Exception:  #Si la boucle n'a pas fonctionné, annule la boucle
             pass
 
     def logout(self):
-        self.mainw.close()      #Ferme toutes les fenêtres et l'application
+        os.execl(sys.executable, sys.executable, *sys.argv)     #Ferme toutes les fenêtres et l'application
         self.connex.show()          #Démarre l'affichage de la fenêtre de connexion
 
     def closeall(self):
@@ -379,14 +381,14 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setWindowTitle("Erreur")
             msg.exec_()
         else:
-            self.model.appendRow(
-                    [QtGui.QStandardItem(self.dictemployee['nom']),
-                     QtGui.QStandardItem(self.dictemployee['prenom']),
-                     QtGui.QStandardItem(self.dictemployee['sexe']),
-                     QtGui.QStandardItem(self.dictemployee['dateembauche']),
-                     QtGui.QStandardItem(self.dictemployee['codeutilisateur']),
-                     QtGui.QStandardItem(self.dictemployee['password']),
-                     QtGui.QStandardItem(self.dictemployee['acces'])])
+            self.model6.appendRow(
+                    [QtGui.QStandardItem(self.dictemployee["nom"]),
+                     QtGui.QStandardItem(self.dictemployee["prenom"]),
+                     QtGui.QStandardItem(self.dictemployee["sexe"]),
+                     QtGui.QStandardItem(self.dictemployee["dateembauche"]),
+                     QtGui.QStandardItem(self.dictemployee["codeutilisateur"]),
+                     QtGui.QStandardItem(self.dictemployee["password"]),
+                     QtGui.QStandardItem(self.dictemployee["acces"])])
             self.dictuser.append(self.dictemployee)
             self.saveuser()
             self.showpopusager.close()
@@ -436,7 +438,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setWindowTitle("Erreur")
             msg.exec_()
         else:
-            changeusager = next( #va chercher le même usager et le change par les informations ci bas
+            changeusager = next(  # va chercher le même usager et le change par les informations ci bas
                 item for item in self.dictuser if item['codeutilisateur'] == self.showpopusager.lineEdit_3.text())
             changeusager['nom'] = self.showpopusager.lineEdit.text()
             changeusager['prenom'] = self.showpopusager.lineEdit_2.text()

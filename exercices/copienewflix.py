@@ -8,7 +8,7 @@ from classes import *                   #Importe les classes Personnes, Employé
 from popcard import *                   #Categorie avec toute la gestion des héritages entre les classes, tel que
 from popupacteur import *               #demandé dans la mise en situation
 from popupcat import *
-from popupmovie import *
+from exercices.popupmovie import *
 
 
 """key = Fernet.generate_key()

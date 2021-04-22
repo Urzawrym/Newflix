@@ -98,7 +98,7 @@ class Ui_FormCustomer(object):
         self.dateEdit.setDisplayFormat(_translate("Form", "dd-MM-yyyy"))
         self.label_5.setText(_translate("Form", "Date inscription :"))
         self.label_4.setText(_translate("Form", "Sexe :"))
-        self.label_7.setText(_translate("Form", "Mot de passe :"))
+        self.label_7.setText(_translate("Form", "Mot de passe (8 carac. min.) :"))
         self.label_2.setText(_translate("Form", "Nom :"))
         self.comboBox.setItemText(0, _translate("Form", "Masculin"))
         self.comboBox.setItemText(1, _translate("Form", "Feminin"))

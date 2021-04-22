@@ -237,6 +237,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 codecarte = QtGui.QStandardItem(dict["codecarte"])
                 childitem = (vide1, vide2, vide3, vide4, vide5, vide6, vide7, numero, expiration, codecarte)
                 identifiant.appendRow(childitem)
+                self.mainw.treeView.expandAll()
 
     def model2(self):
         self.treeViewModel2 = QtGui.QStandardItemModel()
@@ -257,6 +258,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             item2 = (nom2, duree, descriptionfilm)
             self.treeViewModel2.appendRow(item2)
             self.mainw.treeView_2.setCurrentIndex(self.treeViewModel2.index(0, 0))
+
             for dict in g["categories"]:
                 vide8 = QtGui.QStandardItem("*****")
                 vide9 = QtGui.QStandardItem("*****")
@@ -282,7 +284,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                 childfilm = (text1, text2, text3, text4, text5, nomacteur, prenomacteur, sexeacteur,
                              personnage, debutemploi, finemploi, cachet)
                 vide8.appendRow(childfilm)
-
+                self.mainw.treeView_2.expandAll()
 
 
     def adminwindow(self):
@@ -451,7 +453,6 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             changeusager["dateembauche"] = self.showpopusager.dateEdit.text()
             if self.showpopusager.lineEdit_5.text() != "********":
                 changeusager["password"] = self.showpopusager.lineEdit_5.text()
-
             changeusager["acces"] = self.showpopusager.comboBox_2.currentText()
             self.showpopusager.close()
             self.modele6()
@@ -560,7 +561,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             sexe = QtGui.QStandardItem(self.updateddataclient["sexe"])
             date = QtGui.QStandardItem(self.updateddataclient["dateinscription"])
             courriel = QtGui.QStandardItem(self.updateddataclient["courriel"])
-            password = QtGui.QStandardItem(self.updateddataclient["motdepasse"])
+            password = QtGui.QStandardItem("********")
             item = (identifiant, nom, prenom, sexe, date, courriel, password)
             self.treeViewModel.appendRow(item)
             for dict in self.updateddataclient["cartes"]:
@@ -621,7 +622,8 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupcustomer.comboBox.setCurrentIndex(index)
         self.popupcustomer.dateEdit.setDate(date)
         self.popupcustomer.lineEdit_3.setText(self.dataclient["courriel"])
-        self.popupcustomer.lineEdit_5.setText(self.dataclient["motdepasse"])
+        self.popupcustomer.lineEdit_5.setText("********")
+
 
 
     def ajoutercarte(self):
@@ -692,14 +694,16 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
 
     def savemodifcustomer(self):
+        # Cherche si le courriel qui a changé est déjà dans le dictuser
         if self.popupcustomer.lineEdit_3.text() != self.dataclient["courriel"] and \
                 any(j["courriel"] == self.popupcustomer.lineEdit_3.text() for j in self.dictclient):
-            msg = QtWidgets.QMessageBox() #Cherche si le courriel qui a changé est déjà dans le dictuser
+            msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
             msg.setText("Ce courriel est déjà utilisé")
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
+        #Vérifie si le mot de passe fait au moins 8 caractères, sinon une alerte pop
         elif len(self.popupcustomer.lineEdit_5.text()) < 8:
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
@@ -708,15 +712,17 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.setWindowTitle("Erreur")
             msg.exec_()
         else:
-            changeusager = next(  # va chercher le même client et le change par les informations ci bas
+            # Va chercher le même client qui correspond à l'identifiant et le change par les informations ci bas
+            changeclient = next(
                 item for item in self.dictclient if item["identifiant"] == self.dataclient["identifiant"])
-            changeusager["nom"] = self.popupcustomer.lineEdit.text()
-            changeusager["prenom"] = self.popupcustomer.lineEdit_2.text()
-            changeusager["sexe"] = self.popupcustomer.comboBox.currentText()
-            changeusager["dateinscription"] = self.popupcustomer.dateEdit.text()
-            changeusager["courriel"] = self.popupcustomer.lineEdit_3.text()
-            changeusager["motdepasse"] = self.popupcustomer.lineEdit_5.text()
-            changeusager["cartes"] = self.dataclient["cartes"]
+            changeclient["nom"] = self.popupcustomer.lineEdit.text()
+            changeclient["prenom"] = self.popupcustomer.lineEdit_2.text()
+            changeclient["sexe"] = self.popupcustomer.comboBox.currentText()
+            changeclient["dateinscription"] = self.popupcustomer.dateEdit.text()
+            changeclient["courriel"] = self.popupcustomer.lineEdit_3.text()
+            if self.popupcustomer.lineEdit_5.text() != "********":
+                changeclient["password"] = self.popupcustomer.lineEdit_5.text()
+            changeclient["cartes"] = self.dataclient["cartes"]
             self.model1()
             self.popupcustomer.close()
             self.saveclient()

@@ -225,13 +225,13 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.treeViewModel.appendRow(item)
             self.mainw.treeView.setCurrentIndex(self.treeViewModel.index(0, 0))
             for dict in b["cartes"]:
-                vide1 = QtGui.QStandardItem("*****")
-                vide2 = QtGui.QStandardItem("*****")
-                vide3 = QtGui.QStandardItem("*****")
-                vide4 = QtGui.QStandardItem("*****")
-                vide5 = QtGui.QStandardItem("*****")
-                vide6 = QtGui.QStandardItem("*****")
-                vide7 = QtGui.QStandardItem("*****")
+                vide1 = QtGui.QStandardItem("-----")
+                vide2 = QtGui.QStandardItem("-----")
+                vide3 = QtGui.QStandardItem("-----")
+                vide4 = QtGui.QStandardItem("-----")
+                vide5 = QtGui.QStandardItem("-----")
+                vide6 = QtGui.QStandardItem("-----")
+                vide7 = QtGui.QStandardItem("-----")
                 numero = QtGui.QStandardItem(dict["noCarte"])
                 expiration = QtGui.QStandardItem(dict["expiration"])
                 codecarte = QtGui.QStandardItem(dict["codecarte"])
@@ -260,20 +260,20 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.mainw.treeView_2.setCurrentIndex(self.treeViewModel2.index(0, 0))
 
             for dict in g["categories"]:
-                vide8 = QtGui.QStandardItem("*****")
-                vide9 = QtGui.QStandardItem("*****")
-                vide10 = QtGui.QStandardItem("*****")
+                vide8 = QtGui.QStandardItem("-----")
+                vide9 = QtGui.QStandardItem("-----")
+                vide10 = QtGui.QStandardItem("-----")
                 nomcat = QtGui.QStandardItem(dict["nom"])
                 descriptioncat = QtGui.QStandardItem(dict["description"])
                 childitem2 = (vide8, vide9, vide10, nomcat, descriptioncat)
                 nom2.appendRow(childitem2)
 
             for dictact in g["acteurs"]:
-                text1 = QtGui.QStandardItem("*****")
-                text2 = QtGui.QStandardItem("*****")
-                text3 = QtGui.QStandardItem("*****")
-                text4 = QtGui.QStandardItem("*****")
-                text5 = QtGui.QStandardItem("*****")
+                text1 = QtGui.QStandardItem("-----")
+                text2 = QtGui.QStandardItem("-----")
+                text3 = QtGui.QStandardItem("-----")
+                text4 = QtGui.QStandardItem("-----")
+                text5 = QtGui.QStandardItem("-----")
                 nomacteur = QtGui.QStandardItem(dictact["nom"])
                 prenomacteur = QtGui.QStandardItem(dictact["prenom"])
                 sexeacteur = QtGui.QStandardItem(dictact["sexe"])
@@ -564,13 +564,13 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             item = (identifiant, nom, prenom, sexe, date, courriel, password)
             self.treeViewModel.appendRow(item)
             for dict in self.updateddataclient["cartes"]:
-                vide1 = QtGui.QStandardItem("*****")
-                vide2 = QtGui.QStandardItem("*****")
-                vide3 = QtGui.QStandardItem("*****")
-                vide4 = QtGui.QStandardItem("*****")
-                vide5 = QtGui.QStandardItem("*****")
-                vide6 = QtGui.QStandardItem("*****")
-                vide7 = QtGui.QStandardItem("*****")
+                vide1 = QtGui.QStandardItem("-----")
+                vide2 = QtGui.QStandardItem("-----")
+                vide3 = QtGui.QStandardItem("-----")
+                vide4 = QtGui.QStandardItem("-----")
+                vide5 = QtGui.QStandardItem("-----")
+                vide6 = QtGui.QStandardItem("-----")
+                vide7 = QtGui.QStandardItem("-----")
                 numero = QtGui.QStandardItem(dict["noCarte"])
                 expiration = QtGui.QStandardItem(dict["expiration"])
                 codecarte = QtGui.QStandardItem(dict["codecarte"])
@@ -584,7 +584,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def modifcustomer(self):
         self.donneesclient = self.mainw.treeView.selectedIndexes()[0]
-        if self.donneesclient.data() == "*****":
+        if self.donneesclient.data() == "-----":
             self.donneesclient = self.donneesclient.parent()
 
         for dict in self.dictclient :
@@ -727,7 +727,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def suppclient(self):
         self.deleteclient = self.mainw.treeView.selectedIndexes()[0]
-        if self.deleteclient.data() == "*****":
+        if self.deleteclient.data() == "-----":
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
             msg.setText("Veuillez sélectionner directement le client à supprimer")
@@ -815,19 +815,19 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             item3 = (nom, duree, descriptionfilm)
             self.treeViewModel2.appendRow(item3)
             for dict in self.updateddatafilm["categories"]:
-                vide1 = QtGui.QStandardItem("*****")
-                vide2 = QtGui.QStandardItem("*****")
-                vide3 = QtGui.QStandardItem("*****")
+                vide1 = QtGui.QStandardItem("-----")
+                vide2 = QtGui.QStandardItem("-----")
+                vide3 = QtGui.QStandardItem("-----")
                 nomfilm = QtGui.QStandardItem(dict["nom"])
                 descricat = QtGui.QStandardItem(dict["description"])
                 childitem3 = (vide1, vide2, vide3, nomfilm, descricat)
                 nom.appendRow(childitem3)
             for dictact in self.updateddatafilm["acteurs"]:
-                text1 = QtGui.QStandardItem("*****")
-                text2 = QtGui.QStandardItem("*****")
-                text3 = QtGui.QStandardItem("*****")
-                text4 = QtGui.QStandardItem("*****")
-                text5 = QtGui.QStandardItem("*****")
+                text1 = QtGui.QStandardItem("-----")
+                text2 = QtGui.QStandardItem("-----")
+                text3 = QtGui.QStandardItem("-----")
+                text4 = QtGui.QStandardItem("-----")
+                text5 = QtGui.QStandardItem("-----")
                 nomacteur = QtGui.QStandardItem(dictact["nom"])
                 prenomacteur = QtGui.QStandardItem(dictact["prenom"])
                 sexeacteur = QtGui.QStandardItem(dictact["sexe"])
@@ -846,7 +846,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def modiffilm(self):
         self.donneesfilm = self.mainw.treeView_2.selectedIndexes()[0]
-        while self.donneesfilm.data() == "*****":
+        while self.donneesfilm.data() == "-----":
             self.donneesfilm = self.donneesfilm.parent()
 
         for dict in self.dictmovie :
@@ -1051,7 +1051,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def suppfilm(self):
         self.deletefilm = self.mainw.treeView_2.selectedIndexes()[0]
-        if self.deletefilm.data() == "*****":
+        if self.deletefilm.data() == "-----":
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
             msg.setText("Veuillez sélectionner directement le film à supprimer")

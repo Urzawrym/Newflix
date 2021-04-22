@@ -220,7 +220,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             sexe = QtGui.QStandardItem(b["sexe"])
             date = QtGui.QStandardItem(b["dateinscription"])
             courriel = QtGui.QStandardItem(b["courriel"])
-            password = QtGui.QStandardItem(b["motdepasse"])
+            password = QtGui.QStandardItem("********")
             item = (identifiant, nom, prenom, sexe, date, courriel, password)
             self.treeViewModel.appendRow(item)
             self.mainw.treeView.setCurrentIndex(self.treeViewModel.index(0, 0))
@@ -317,20 +317,24 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def model6(self):
         self.model6 = QtGui.QStandardItemModel()
-        self.model6.setHorizontalHeaderLabels(['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager',
-                                              'Mot de passe', 'Type Acces'])
+        self.showgest.treeView.setModel(self.model6)  # Active le modèle
         self.showgest.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.showgest.treeView.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
-        self.showgest.treeView.setModel(self.model6)  # Active le modèle
+        self.model6.setHorizontalHeaderLabels(['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager',
+                                              'Mot de passe', 'Type Acces'])
+
+
         try:  # Défini un try avant de démarrer la boucle
-            for c in (self.dictuser):  # Pour chaque dictionnaire dans la liste, on créé une ligne avec les informations ci bas
-                self.model6.appendRow([QtGui.QStandardItem(c["nom"]),   #Ajoute chaque information dans les colonnes.
-                                       QtGui.QStandardItem(c["prenom"]),
-                                       QtGui.QStandardItem(c["sexe"]),
-                                       QtGui.QStandardItem(c["dateembauche"]),
-                                       QtGui.QStandardItem(c["codeutilisateur"]),
-                                       QtGui.QStandardItem(c["password"]),
-                                       QtGui.QStandardItem(c["acces"])])
+            for c in self.dictuser:  # Pour chaque dictionnaire dans la liste, on créé une ligne avec les informations ci bas
+                nom = QtGui.QStandardItem(c["nom"])
+                prenom = QtGui.QStandardItem(c["prenom"])
+                sexe = QtGui.QStandardItem(c["sexe"])
+                dateembauche = QtGui.QStandardItem(c["dateembauche"])
+                codeuser = QtGui.QStandardItem(c["codeutilisateur"])
+                password = QtGui.QStandardItem("********")
+                acces = QtGui.QStandardItem(c["acces"])
+                item = (nom, prenom, sexe, dateembauche, codeuser, password, acces)
+                self.model6.appendRow(item)
         except Exception:  #Si la boucle n'a pas fonctionné, annule la boucle
             pass
 
@@ -387,7 +391,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
                      QtGui.QStandardItem(self.dictemployee["sexe"]),
                      QtGui.QStandardItem(self.dictemployee["dateembauche"]),
                      QtGui.QStandardItem(self.dictemployee["codeutilisateur"]),
-                     QtGui.QStandardItem(self.dictemployee["password"]),
+                     QtGui.QStandardItem("********"),
                      QtGui.QStandardItem(self.dictemployee["acces"])])
             self.dictuser.append(self.dictemployee)
             self.saveuser()
@@ -395,14 +399,13 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
 
     def modifpopup(self):
         self.donnees = [d.data() for d in self.showgest.treeView.selectedIndexes()] #Créé une liste des données sélectionées
-        if self.donnees == [] :
-            msg = QtWidgets.QMessageBox()
-            msg.setIcon(QtWidgets.QMessageBox.Warning)
-            msg.setText("Veuillez choisir un usager à modifier")
-            msg.setInformativeText('')
-            msg.setWindowTitle("Erreur")
-            msg.exec_()
-        elif self.donnees[4] == "admin":
+
+        for dict in self.dictuser:
+            if dict(["codeutilisateur"]) == self.donnees[4]:
+                #self.showuser = dict
+                print(dict)
+
+        if self.donnees[4] == "admin":
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
             msg.setText("L'administrateur système ne peut être modifié")
@@ -439,13 +442,15 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             msg.exec_()
         else:
             changeusager = next(  # va chercher le même usager et le change par les informations ci bas
-                item for item in self.dictuser if item['codeutilisateur'] == self.showpopusager.lineEdit_3.text())
-            changeusager['nom'] = self.showpopusager.lineEdit.text()
-            changeusager['prenom'] = self.showpopusager.lineEdit_2.text()
-            changeusager['sexe'] = self.showpopusager.comboBox.currentText()
-            changeusager['dateembauche'] = self.showpopusager.dateEdit.text()
-            changeusager['password'] = self.showpopusager.lineEdit_5.text()
-            changeusager['acces'] = self.showpopusager.comboBox_2.currentText()
+                item for item in self.dictuser if item["codeutilisateur"] == self.showuser["codeutilisateur"])
+            changeusager["nom"] = self.showpopusager.lineEdit.text()
+            changeusager["prenom"] = self.showpopusager.lineEdit_2.text()
+            changeusager["sexe"] = self.showpopusager.comboBox.currentText()
+            changeusager["dateembauche"] = self.showpopusager.dateEdit.text()
+            if self.showpopusager.lineEdit_5.text() != "********":
+                changeusager["password"] = self.showpopusager.lineEdit_5.text()
+
+            changeusager["acces"] = self.showpopusager.comboBox_2.currentText()
             self.model6()
             self.showpopusager.close()
             self.saveuser()

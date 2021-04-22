@@ -433,7 +433,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             self.showpopusager.comboBox.setCurrentIndex(index),       #Affiche l'index correspondant au int
             self.showpopusager.dateEdit.setDate(date),                #Affiche la date sélectionnée
             self.showpopusager.lineEdit_3.setText(self.showuser["codeutilisateur"]),        #Affiche le nom d'utilisateur provenant de la colonne4
-            self.showpopusager.lineEdit_5.setText("********"),        #Affiche le mot de passe provenant de la colonne5
+            self.showpopusager.lineEdit_5.setText(self.showuser["password"]),        #Affiche le mot de passe provenant de la colonne5
             self.showpopusager.comboBox_2.setCurrentIndex(index2))  #Affiche l'index correspondant au int
 
     def modifuser(self):
@@ -451,8 +451,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             changeusager["prenom"] = self.showpopusager.lineEdit_2.text()
             changeusager["sexe"] = self.showpopusager.comboBox.currentText()
             changeusager["dateembauche"] = self.showpopusager.dateEdit.text()
-            if self.showpopusager.lineEdit_5.text() != "********":
-                changeusager["password"] = self.showpopusager.lineEdit_5.text()
+            changeusager["password"] = self.showpopusager.lineEdit_5.text()
             changeusager["acces"] = self.showpopusager.comboBox_2.currentText()
             self.showpopusager.close()
             self.modele6()
@@ -622,7 +621,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         self.popupcustomer.comboBox.setCurrentIndex(index)
         self.popupcustomer.dateEdit.setDate(date)
         self.popupcustomer.lineEdit_3.setText(self.dataclient["courriel"])
-        self.popupcustomer.lineEdit_5.setText("********")
+        self.popupcustomer.lineEdit_5.setText(self.dataclient["motdepasse"])
 
 
 
@@ -720,8 +719,7 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
             changeclient["sexe"] = self.popupcustomer.comboBox.currentText()
             changeclient["dateinscription"] = self.popupcustomer.dateEdit.text()
             changeclient["courriel"] = self.popupcustomer.lineEdit_3.text()
-            if self.popupcustomer.lineEdit_5.text() != "********":
-                changeclient["password"] = self.popupcustomer.lineEdit_5.text()
+            changeclient["motdepasse"] = self.popupcustomer.lineEdit_5.text()
             changeclient["cartes"] = self.dataclient["cartes"]
             self.model1()
             self.popupcustomer.close()

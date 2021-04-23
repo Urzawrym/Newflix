@@ -14,12 +14,12 @@ from popupmovieform import *
 ################## Aucune classe provenant de QT Designer n'est modifiée. Ici on créé les classes ##################
 ################## localement qui importent et initialisent les classes provenant de QT Designer. ##################
 
-class FenPrinci(QtWidgets.QMainWindow, Ui_MainWindow): #Initialise mainwindow.py. Fenêtre principale du logiciel.
+class FenPrinci(QtWidgets.QMainWindow, Ui_MainWindow): #Initialise mainwindowform.py. Fenêtre principale du logiciel.
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         self.setupUi(self)
 
-class GestUser(QtWidgets.QMainWindow, Ui_GestiUser): #Initialise gestionusers.py. Fenêtre de gestion des employés
+class GestUser(QtWidgets.QMainWindow, Ui_GestiUser): #Initialise gestionusersform.py. Fenêtre de gestion des employés
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         self.setupUi(self)
@@ -34,17 +34,17 @@ class Connexion(QtWidgets.QDialog, Ui_Connexion): #Initialise logindialog.py. Fe
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
 
-class FormClient(QtWidgets.QMainWindow, Ui_FormCustomer): #Init. popupcostumer.py. Fenêtre pour créer/modifier un client
+class FormClient(QtWidgets.QMainWindow, Ui_FormCustomer): #Init. popupcostumerform.py. Fenêtre ajout/modif. client
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         self.setupUi(self)
 
-class Popcarte(QtWidgets.QDialog, Ui_Carte):  #Init. popupcarte.py. Fenêtre pour ajouter une carte de crédit
+class Popcarte(QtWidgets.QDialog, Ui_Carte):  #Init. popupcard.py. Fenêtre pour ajouter une carte de crédit
     def __init__(self):
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
 
-class Popfilm(QtWidgets.QDialog, Ui_FormFilm): #Init. popupmovie.py. Fenêtre pour créer/modifier un film
+class Popfilm(QtWidgets.QDialog, Ui_FormFilm): #Init. popupmovieform.py. Fenêtre pour créer/modifier un film
     def __init__(self):
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
@@ -62,17 +62,19 @@ class Popacteur(QtWidgets.QDialog, Ui_Acteur): #Init. popupacteur.py. Fenêtre p
 ################## C'est dans cette classe que l'action se passe, toutes les modifications visuelles ##################
 ################## et les interactions avec l'utilisateur vont se faire à partir d'ici.              ##################
 
-class Controller: #C'est dans cette classe que l'action se passe, toutes les modifications visuelles et les
-                  #les interactions avec l'utilisateur vont se faire à partir d'ici.
+class Controller:
+
+    #Charge la clé pour encrypter/décrypter dans la variable self.key.
     def load_key(self):
-        file = open('key.key', 'rb')
+        file = open('../key.key', 'rb')
         self.key = file.read()
         file.close()
         self.fernet = Fernet(self.key)
 
-    def loaduser(self):                     # Ouvre la liste de dictionnaires contenant les identifiants usagers
+    # Ouvre le fichier des usagers, décrypte les données et charge le dict. d'usager dans la variable self.dictuser
+    def loaduser(self):
         try:
-            with open("userscrypt.json", "rb") as file:
+            with open("../userscrypt.json", "rb") as file:
                 file_user = file.read()
                 usercrypt = self.fernet.decrypt(file_user)
                 self.dictuser = literal_eval(usercrypt.decode('utf8'))
@@ -80,9 +82,10 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         except Exception:
             pass
 
-    def saveuser(self):                     # Sauvegarde le dictionnaire des usagers dans le fichier .json des usagers
+    # Sauvegarde le dictionnaire des usagers dans le fichier .json des usagers après l'avoir encrypté
+    def saveuser(self):
         try:
-            with open("userscrypt.json", "wb") as file:
+            with open("../userscrypt.json", "wb") as file:
                 newdictuser = str(self.dictuser)
                 usercrypt = newdictuser.encode('utf8')
                 encrypted_user = self.fernet.encrypt(usercrypt)
@@ -90,18 +93,20 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         except Exception:
             pass
 
-    def loadclient(self):                   # Ouvre la liste de dictionnaires contenant les informations des clients
+    # Ouvre le fichier des clients, décrypte les données et charge le dict. de clients dans la variable self.dictclient
+    def loadclient(self):
         try:
-            with open("clientscrypt.json","rb") as file:
+            with open("../clientscrypt.json", "rb") as file:
                 file_client = file.read()
                 customercrypt = self.fernet.decrypt(file_client)
                 self.dictclient = literal_eval(customercrypt.decode('utf8'))
         except Exception:
             pass
 
-    def saveclient(self):                   # Sauvegarde le dictionnaire des usagers dans le fichier .json des clients
+    # Sauvegarde le dictionnaire des clients dans le fichier .json des clients après l'avoir encrypté
+    def saveclient(self):
         try:
-            with open("clientscrypt.json", "wb") as file:
+            with open("../clientscrypt.json", "wb") as file:
                 newdictcustomer = str(self.dictclient)
                 customercrypt = newdictcustomer.encode('utf8')
                 encrypted_customer = self.fernet.encrypt(customercrypt)
@@ -109,18 +114,20 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         except Exception:
             pass
 
-    def loadfilm(self):                     # Ouvre la liste de dictionnaires contenant les informations des films
+    # Ouvre le fichier des films, décrypte les données et charge le dict. de films dans la variable self.dictmovie
+    def loadfilm(self):
         try:
-            with open("filmscrypt.json", "rb") as file:
+            with open("../filmscrypt.json", "rb") as file:
                 file_film = file.read()
                 moviescrypt = self.fernet.decrypt(file_film)
                 self.dictmovie = literal_eval(moviescrypt.decode('utf8'))
         except Exception:
             pass
 
-    def savefilm(self):                      # Sauvegarde le dictionnaire des usagers dans le fichier .json des films
+    # Sauvegarde le dictionnaire des films dans le fichier .json des films après l'avoir encrypté
+    def savefilm(self):
         try:
-            with open("filmscrypt.json", "wb") as file:
+            with open("../filmscrypt.json", "wb") as file:
                 newdictmovie = str(self.dictmovie)
                 moviecrypt = newdictmovie.encode('utf8')
                 encrypted_movies = self.fernet.encrypt(moviecrypt)
@@ -128,22 +135,25 @@ class Controller: #C'est dans cette classe que l'action se passe, toutes les mod
         except Exception:
             pass
 
+    #Importe la classe Connexion, active le bouton de connexion et affiche la fenêtre de connexion
     def showlogin(self):
-        self.connex = Connexion()   #Importe la classe  Connexion
-        self.connex.pushButton.clicked.connect(self.testconnex) #Le bouton activera la fonction de tester la connex.
-        self.connex.show()          #Affiche la fenêtre de connexion
+        self.connex = Connexion()
+        self.connex.pushButton.clicked.connect(self.testconnex)
+        self.connex.show()
 
+    #Charge les différents dictionnaires utilisés dans le logiciel
     def testconnex(self):
-        self.load_key()     #Charge la clé pour décrypter et encrypter les données dans les fichiers json
-        self.loaduser()     #Charge la liste des utilisateurs provenant du fichier json dans la variable self.dictuser
-        self.loadfilm()     #Charge la liste des films provenant du fichier json dans la variable self.dictmovie
-        self.loadclient()   #Charge la liste des client provenant du fichier json dans la variable self.dictclient
+        self.load_key()
+        self.loaduser()
+        self.loadfilm()
+        self.loadclient()
 
-        logged_in = False                 #par défaut la connexion est fausse avant le démarrer la boucle
-        self.mesgexcept = ""   #Va servir pour l'exception du try
-        try:   #Défini un try avant de démarrer la boucle
-            while not logged_in:                  #Démarre la boucle.
-                for a in (self.dictuser): # Dans toute la liste, vérifie chaque dict. pour retrouver les 3 mêmes paramètres
+        #Avant de démarrer la boucle, je met un statut login faux et je met un try avant de démarrer la boucle
+        logged_in = False
+        try:
+            while not logged_in:
+                # Dans toute la liste d'usagers, vérifie chaque dict. pour retrouver les 3 mêmes paramètres
+                for a in (self.dictuser):
                     if a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Admin":
                         self.mainwindow()

@@ -1,3 +1,6 @@
+### Auteur: Claude Bélanger        ###
+### Date : Mars et Avril 2021      ###
+### Courriel: urzawrym@hotmail.com ###
 
 import os
 from cryptography.fernet import Fernet
@@ -17,47 +20,47 @@ from popupmovieform import *
 ################## Aucune classe provenant de QT Designer n'est modifiée. Ici on créé les classes ##################
 ################## localement qui importent et initialisent les classes provenant de QT Designer. ##################
 
-class FenPrinci(QtWidgets.QMainWindow, Ui_MainWindow): #Initialise mainwindow.py. Fenêtre principale du logiciel.
+class FenPrinci(QtWidgets.QMainWindow, Ui_MainWindow): # Initialise mainwindow.py. Fenêtre principale du logiciel.
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         self.setupUi(self)
 
-class GestUser(QtWidgets.QMainWindow, Ui_GestiUser): #Initialise gestionusers.py. Fenêtre de gestion des employés
+class GestUser(QtWidgets.QMainWindow, Ui_GestiUser): # Initialise gestionusersform.py. Fenêtre de gestion des employés
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         self.setupUi(self)
 
-class FormUsager(QtWidgets.QDialog, Ui_FormUser): #Initialise popupuser.py. Formulaire pour créer/modifier un employé
+class FormUsager(QtWidgets.QDialog, Ui_FormUser): # Initialise popupuser.py. Formulaire pour créer/modifier un employé
     def __init__(self):
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
 
-class Connexion(QtWidgets.QDialog, Ui_Connexion): #Initialise logindialog.py. Fenêtre de connexion au démarrage
+class Connexion(QtWidgets.QDialog, Ui_Connexion): # Initialise logindialog.py. Fenêtre de connexion au démarrage
     def __init__(self):
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
 
-class FormClient(QtWidgets.QMainWindow, Ui_FormCustomer): #Init. popupcostumer.py. Fenêtre pour créer/modifier un client
+class FormClient(QtWidgets.QMainWindow, Ui_FormCustomer): # Init. popupcostumerform.py. Fen. pour créer/modif. un client
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         self.setupUi(self)
 
-class Popcarte(QtWidgets.QDialog, Ui_Carte):  #Init. popupcarte.py. Fenêtre pour ajouter une carte de crédit
+class Popcarte(QtWidgets.QDialog, Ui_Carte):  # Init. popupcarte.py. Fenêtre pour ajouter une carte de crédit
     def __init__(self):
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
 
-class Formfilm(QtWidgets.QMainWindow, Ui_FormFilm): #Init. popupmovie.py. Fenêtre pour créer/modifier un film
+class Formfilm(QtWidgets.QMainWindow, Ui_FormFilm): # Init. popupmovieform.py. Fenêtre pour créer/modifier un film
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         self.setupUi(self)
 
-class Popcategorie(QtWidgets.QDialog, Ui_Cat): #Init. popupcat.py. Fenêtre pour ajouter une catégorie
+class Popcategorie(QtWidgets.QDialog, Ui_Cat): # Init. popupcat.py. Fenêtre pour ajouter une catégorie
     def __init__(self):
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
 
-class Popacteur(QtWidgets.QDialog, Ui_Acteur): #Init. popupacteur.py. Fenêtre pour ajouter un acteur
+class Popacteur(QtWidgets.QDialog, Ui_Acteur): # Init. popupacteur.py. Fenêtre pour ajouter un acteur
     def __init__(self):
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
@@ -69,10 +72,13 @@ class Controller:
 
     # Charge la clé pour encrypter/décrypter dans la variable self.key.
     def load_key(self):
-        file = open('key.key', 'rb')
-        self.key = file.read()
-        file.close()
-        self.fernet = Fernet(self.key)
+        try:
+            file = open('key.key', 'rb')
+            self.key = file.read()
+            file.close()
+            self.fernet = Fernet(self.key)
+        except Exception:
+            pass
 
     # Ouvre le fichier des usagers, décrypte les données et charge le dict. d'usager dans la variable self.dictuser
     def loaduser(self):
@@ -161,17 +167,17 @@ class Controller:
                     if a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Admin":
                         self.adminwindow()
-                        #Si les 3 inputs de l'usager correspond à un dict. avec accès admin, active modifwindow
+                        # Si les 3 inputs de l'usager correspond à un dict. avec accès admin, active modifwindow
                         logged_in = True   #Le "true" met fin à la boucle.
                     elif a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Modification":
                         self.modifwindow()
-                        #Si les 3 inputs de l'usager correspond à un dict. avec accès modif, active modifwindow
+                        # Si les 3 inputs de l'usager correspond à un dict. avec accès modif, active modifwindow
                         logged_in = True
                     elif a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Lecture":
                         self.mainwindow()
-                        #Si les 3 inputs de l'usager correspond à un dict. avec accès lecture, active modifwindow
+                        # Si les 3 inputs de l'usager correspond à un dict. avec accès lecture, active modifwindow
                         logged_in = True
         # Si la boucle n'est toujours pas fermée après les 3 premiers tests, affiche la fenêtre identifiants erronés
                 if logged_in is not True:
@@ -181,20 +187,20 @@ class Controller:
                     msg.setInformativeText('')
                     msg.setWindowTitle("Erreur")
                     msg.exec_()
-                    self.connex.lineEdit.setFocus() #Remet le focus du clavier sur la ligne de l'usager
-                    break #Casse la boucle car aucun identifiant n'a fonctionné
-        except Exception: #Si la boucle n'a pas fonctionné
+                    self.connex.lineEdit.setFocus() # Remet le focus du clavier sur la ligne de l'usager
+                    break # Casse la boucle car aucun identifiant n'a fonctionné
+        except Exception: # Si la boucle n'a pas fonctionné
             pass
 
-    #Charge la fenêtre principale du logiciel, l'affiche mais avec les boutons gestion et modif. cachés par défaut
+    # Charge la fenêtre principale du logiciel, l'affiche mais avec les boutons gestion et modif. cachés par défaut
     def mainwindow(self):
         self.connex.lineEdit.clear()  # Vide la ligne usager de la fenêtre de connexion
         self.connex.lineEdit_2.clear()  # Vide la ligne mot de passe de la fenêtre de connexion
         self.connex.lineEdit.setFocus()  # Met le focus sur la ligne usager de la fenêtre de connexion
         self.connex.hide()  # Cache la fenêtre de connexion
         self.mainw = FenPrinci()
-    #Par sécurité, le bouton gestion et les 6 boutons de modifications de clients et films sont cachés. C'est par
-    #le test de connexion qu'ils seront affichés, selon le niveau d'accès de l'usager.
+    # Par sécurité, le bouton gestion et les 6 boutons de modifications de clients et films sont cachés. C'est par
+    # le test de connexion qu'ils seront affichés, selon le niveau d'accès de l'usager.
         self.mainw.actionGestion.setVisible(False)
         self.mainw.pushButton.hide()
         self.mainw.pushButton_2.hide()
@@ -204,42 +210,42 @@ class Controller:
         self.mainw.pushButton_6.hide()
         self.mainw.show()
         self.mainw.setWindowTitle("Newflix")
-        #Permet d'afficher la fenêtre de gestion des usagers si ce bouton est utilisé
+        # Permet d'afficher la fenêtre de gestion des usagers si ce bouton est utilisé
         self.mainw.actionGestion.triggered.connect(self.showgestuser)
-        #Active la méthode pour se déconnecter du logiciel via le bouton dans le menu
+        # Active la méthode pour se déconnecter du logiciel via le bouton dans le menu
         self.mainw.actionDeconnexion.triggered.connect(self.logout)
-        #Active la méthode pour quitter complètement le logiciel via le bouton dans le menu
+        # Active la méthode pour quitter complètement le logiciel via le bouton dans le menu
         self.mainw.actionQuitter.triggered.connect(self.closeall)
-        #Permet d'utiliser les 6 boutons pour gérer les clients et les films s'ils sont visibles
+        # Permet d'utiliser les 6 boutons pour gérer les clients et les films s'ils sont visibles
         self.mainw.pushButton.clicked.connect(self.popupclient)
         self.mainw.pushButton_2.clicked.connect(self.modifcustomer)
         self.mainw.pushButton_3.clicked.connect(self.suppclient)
         self.mainw.pushButton_5.clicked.connect(self.popupfilm)
         self.mainw.pushButton_4.clicked.connect(self.modiffilm)
         self.mainw.pushButton_6.clicked.connect(self.suppfilm)
-        #Démarre les 2 modèles d'arbre qui permettront de voir les clients et les films
+        # Démarre les 2 modèles d'arbre qui permettront de voir les clients et les films
         self.model1()
         self.model2()
 
-    #Créer le modèle pour les clients et va chercher les clients dans le dictionnaire correspondant
+    # Créer le modèle pour les clients et va chercher les clients dans le dictionnaire correspondant
     def model1(self):
         self.treeViewModel = QtGui.QStandardItemModel()
         self.mainw.treeView.setModel(self.treeViewModel)
-        #Bloque la modification des informations directement dans l'arbre. Une fenêtre de modification sera utilisée
+        # Bloque la modification des informations directement dans l'arbre. Une fenêtre de modification sera utilisée
         self.mainw.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        #Ajuste automatiquement les fenêtres au contenu du dictionnaire des clients
+        # Ajuste automatiquement les fenêtres au contenu du dictionnaire des clients
         self.mainw.treeView.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
-        #Créer les entêtes de l'arbre
+        # Créer les entêtes de l'arbre
         self.header = ['ID', 'Nom', "Prénom", "Sexe", "Date Inscription", "Courriel Client", "Mot de passe",
                                      "Numero de Carte", "Expiration", "Code secret"]
         self.treeViewModel.setHorizontalHeaderLabels(self.header)
-        #Permet d'afficher les clients selon l'ordre alphabétique de n'importe quelle colonne
+        # Permet d'afficher les clients selon l'ordre alphabétique de n'importe quelle colonne
         self.mainw.treeView.setSortingEnabled(True)
-        #Alterne les couleurs des rangées
+        # Alterne les couleurs des rangées
         self.mainw.treeView.setAlternatingRowColors(True)
 
-        #Pour chaque client dans le dictionnaire des clients, sépare les informations pour les ajouter dans l'arbre
-        #selon les colonnes correspondantes. Les mots de passes seront remplacées par des étoiles dans le modèle
+        # Pour chaque client dans le dictionnaire des clients, sépare les informations pour les ajouter dans l'arbre
+        # selon les colonnes correspondantes. Les mots de passes seront remplacées par des étoiles dans le modèle
         for b in self.dictclient:
             identifiant = QtGui.QStandardItem(str(b["identifiant"]))
             nom = QtGui.QStandardItem(b["nom"])
@@ -250,9 +256,9 @@ class Controller:
             password = QtGui.QStandardItem("********")
             item = (identifiant, nom, prenom, sexe, date, courriel, password)
             self.treeViewModel.appendRow(item)
-            #Met le focus sur le premier client automatiquement
+            # Met le focus sur le premier client automatiquement
             self.mainw.treeView.setCurrentIndex(self.treeViewModel.index(0, 0))
-            #Pour chaque client, ajoute les cartes de crédits dans une range "enfant" de ce client
+            # Pour chaque client, ajoute les cartes de crédits dans une range "enfant" de ce client
             for dict in b["cartes"]:
                 vide1 = QtGui.QStandardItem("-----")
                 vide2 = QtGui.QStandardItem("-----")
@@ -266,7 +272,7 @@ class Controller:
                 codecarte = QtGui.QStandardItem(dict["codecarte"])
                 childitem = (vide1, vide2, vide3, vide4, vide5, vide6, vide7, numero, expiration, codecarte)
                 identifiant.appendRow(childitem)
-                #Ouvre par défaut tout l'arbre des données
+                # Ouvre par défaut tout l'arbre des données
                 self.mainw.treeView.expandAll()
 
     # Créer le modèle pour les films et va chercher les films dans le dictionnaire correspondant
@@ -298,7 +304,7 @@ class Controller:
             # Met le focus sur le premier film automatiquement
             self.mainw.treeView_2.setCurrentIndex(self.treeViewModel2.index(0, 0))
 
-            #Pour chaque film, ajoute les catérogies dans une range "enfant" de ce film
+            # Pour chaque film, ajoute les catérogies dans une range "enfant" de ce film
             for dict in g["categories"]:
                 vide8 = QtGui.QStandardItem("-----")
                 vide9 = QtGui.QStandardItem("-----")
@@ -328,7 +334,7 @@ class Controller:
                 # Ouvre par défaut tout l'arbre des données
                 self.mainw.treeView_2.expandAll()
 
-    #Est activé par un usager admin. Affiche la fenêtre, le bouton Gestion et les 6 boutons pour gérer les clients/films
+    # Est activé par un usager admin. Affiche la fenêtre, le bouton Gestion et les 6 boutons pour gérer les clients/films
     def adminwindow(self):
         self.mainwindow()
         self.mainw.actionGestion.setVisible(True)
@@ -339,7 +345,7 @@ class Controller:
         self.mainw.pushButton_5.show()
         self.mainw.pushButton_6.show()
 
-    #Est activé par un usager avec accès modif. Affiche la fenêtre et les 6 boutons pour gérer les clients/films
+    # Est activé par un usager avec accès modif. Affiche la fenêtre et les 6 boutons pour gérer les clients/films
     def modifwindow(self):
         self.mainwindow()
         self.mainw.pushButton.show()
@@ -349,23 +355,23 @@ class Controller:
         self.mainw.pushButton_5.show()
         self.mainw.pushButton_6.show()
 
-    #Active et affiche la fenêtre de gestion des usagers. Active les boutons de la fenêtre ainsi que le modèle d'arbre
+    # Active et affiche la fenêtre de gestion des usagers. Active les boutons de la fenêtre ainsi que le modèle d'arbre
     def showgestuser(self):
         self.showgest = GestUser()
-        self.showgest.setWindowModality(QtCore.Qt.ApplicationModal) #Bloque l'accès aux fenêtres sous celle-ci
+        self.showgest.setWindowModality(QtCore.Qt.ApplicationModal) # Bloque l'accès aux fenêtres sous celle-ci
         self.showgest.show()
         self.showgest.setWindowTitle("Gestion des utilisateurs")
-        self.showgest.pushButton.clicked.connect(self.showpopuser) #Ouvre le formulaire d'usager si on appuie
-        self.showgest.pushButton_2.clicked.connect(self.modifpopup) #Ouvre le formulaire pour modifier l'usager
-        self.showgest.pushButton_3.clicked.connect(self.deleteuser) #Envoie vers la fonction supprimer usager
-        self.showgest.pushButton_4.clicked.connect(self.showgest.close) #Ferme la fenêtre
-        self.modele6() #Affiche l'arbre des usagers
+        self.showgest.pushButton.clicked.connect(self.showpopuser) # Ouvre le formulaire d'usager si on appuie
+        self.showgest.pushButton_2.clicked.connect(self.modifpopup) # Ouvre le formulaire pour modifier l'usager
+        self.showgest.pushButton_3.clicked.connect(self.deleteuser) # Envoie vers la fonction supprimer usager
+        self.showgest.pushButton_4.clicked.connect(self.showgest.close) # Ferme la fenêtre
+        self.modele6() # Affiche l'arbre des usagers
 
 
     def modele6(self):
         self.model6 = QtGui.QStandardItemModel()
         self.showgest.treeView.setModel(self.model6)  # Active le modèle
-        self.showgest.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers) #Bloque l'édition
+        self.showgest.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers) # Bloque l'édition
         self.showgest.treeView.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
         self.model6.setHorizontalHeaderLabels(['Nom', 'Prenom', 'Sexe', 'Date Embauche', 'Code Usager',
                                               'Mot de passe', 'Type Acces'])
@@ -387,23 +393,23 @@ class Controller:
             pass
 
     def logout(self):
-        os.execl(sys.executable, sys.executable, *sys.argv)     #Ferme toutes les fenêtres et l'application
-        self.connex.show()          #Démarre l'affichage de la fenêtre de connexion
+        os.execl(sys.executable, sys.executable, *sys.argv)     # Ferme toutes les fenêtres et l'application
+        self.connex.show()          # Démarre l'affichage de la fenêtre de connexion
 
     def closeall(self):
-        app.closeAllWindows()       #Ferme toutes les fenêtres et l'application
+        app.closeAllWindows()       # Ferme toutes les fenêtres et l'application
 
-    #Ouvre la fenêtre pour créer un nouvel employé
+    # Ouvre la fenêtre pour créer un nouvel employé
     def showpopuser(self):
         self.showpopusager = FormUsager()
-        self.showpopusager.setWindowModality(QtCore.Qt.ApplicationModal) #Bloque l'accès aux autres fenêtres
+        self.showpopusager.setWindowModality(QtCore.Qt.ApplicationModal) # Bloque l'accès aux autres fenêtres
         self.showpopusager.show()
         self.showpopusager.setWindowTitle("Ajout d'un nouvel utilisateur")
-        self.showpopusager.pushButton.clicked.connect(self.savinguser) #Active le test de sauvegarde si bouton utilisé
-        self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close) #Ferme la fenêtre sans sauvegarder
+        self.showpopusager.pushButton.clicked.connect(self.savinguser) # Active le test de sauvegarde si bouton utilisé
+        self.showpopusager.pushButton_2.clicked.connect(self.showpopusager.close) # Ferme la fenêtre sans sauvegarder
 
-    #Ici j'utilise la classe Employe héritée de la classe Personne pour inscrire les données du formulaire dans
-    #une liste de dictionnaire. Chaque dict = 1 usager. La liste est ensuite enregistrée dans un fichier json crypté
+    # Ici j'utilise la classe Employe héritée de la classe Personne pour inscrire les données du formulaire dans
+    # une liste de dictionnaire. Chaque dict = 1 usager. La liste est ensuite enregistrée dans un fichier json crypté
     def savinguser(self):
         employee=Employe(self.showpopusager.lineEdit.text(), self.showpopusager.lineEdit_2.text(),
                          self.showpopusager.comboBox.currentText(), self.showpopusager.dateEdit.text(),
@@ -411,8 +417,8 @@ class Controller:
                          self.showpopusager.comboBox_2.currentText())
         self.dictemployee=vars(employee)
 
-        #S'il manque des informations, si l'usager existe déjà ou si le mot de passe n'a pas 8 caractères, affiche
-        #des fenêtres d'erreur indiquant ce qui doit être corrigé
+        # S'il manque des informations, si l'usager existe déjà ou si le mot de passe n'a pas 8 caractères, affiche
+        # des fenêtres d'erreur indiquant ce qui doit être corrigé
         if self.showpopusager.lineEdit.text() == "" or self.showpopusager.lineEdit_2.text() == "" or \
                     self.showpopusager.lineEdit_3.text() == "" or self.showpopusager.lineEdit_5.text() == "":
             msg = QtWidgets.QMessageBox()
@@ -422,7 +428,7 @@ class Controller:
             msg.setWindowTitle("Erreur")
             msg.exec_()
         elif any(d["codeutilisateur"] == self.showpopusager.lineEdit_3.text() for d in self.dictuser):
-            msg = QtWidgets.QMessageBox() #Cherche si le code est déjà dans le dictuser
+            msg = QtWidgets.QMessageBox() # Cherche si le code est déjà dans le dictuser
             msg.setIcon(QtWidgets.QMessageBox.Warning)
             msg.setText("Code utilisateur déjà utilisé")
             msg.setInformativeText('')
@@ -435,8 +441,8 @@ class Controller:
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
-        #Si tout est ok, ajoute une rangée dans le modèle avec les informations, ajoute l'usager dans le dictionnaire
-        #des usagers, sauvegarde le fichier crypté et ferme la fenêtre de création d'usager
+        # Si tout est ok, ajoute une rangée dans le modèle avec les informations, ajoute l'usager dans le dictionnaire
+        # des usagers, sauvegarde le fichier crypté et ferme la fenêtre de création d'usager
         else:
             self.model6.appendRow(
                     [QtGui.QStandardItem(self.dictemployee["nom"]),
@@ -450,13 +456,13 @@ class Controller:
             self.saveuser()
             self.showpopusager.close()
 
-    #Si l'usager est l'admin, affiche une fenêtre expliquant qu'il ne peut être modifé,sinon ouvre la fenêtre des
-    #nouveaux usagers mais avec les informations pré-remplies de l'usager sélectionné
+    # Si l'usager est l'admin, affiche une fenêtre expliquant qu'il ne peut être modifé,sinon ouvre la fenêtre des
+    # nouveaux usagers mais avec les informations pré-remplies de l'usager sélectionné
     def modifpopup(self):
-        self.donnees = self.showgest.treeView.selectedIndexes()[4] #Va chercher le nom de l'usager sélectionné
+        self.donnees = self.showgest.treeView.selectedIndexes()[4] # Va chercher le nom de l'usager sélectionné
         self.dictdonnees = [d.data() for d in self.showgest.treeView.selectedIndexes()]
 
-        #Créer un dictionnaire temporaire (self.showuser) de l'usager sélectionné afin d'effectuer les modifications
+        # Créer un dictionnaire temporaire (self.showuser) de l'usager sélectionné afin d'effectuer les modifications
         for dict in self.dictuser:
             if dict["codeutilisateur"] == self.donnees.data():
                 self.showuser = dict
@@ -468,8 +474,8 @@ class Controller:
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
-        #On ouvre la fenêtre de nouveau usager et on pré-charge les lineedit etc avec les informations de l'usager
-        #sélectionné. Un peu de conversion en int doit être fait pour les combobox et les dateedit.
+        # On ouvre la fenêtre de nouveau usager et on pré-charge les lineedit etc avec les informations de l'usager
+        # sélectionné. Un peu de conversion en int doit être fait pour les combobox et les dateedit.
         else:
             self.showpopusager = FormUsager()
             self.showpopusager.setWindowModality(QtCore.Qt.ApplicationModal)
@@ -480,7 +486,7 @@ class Controller:
             index = self.showpopusager.comboBox.findText(self.showuser["sexe"],QtCore.Qt.MatchFlag.MatchFixedString)
             date = QtCore.QDate.fromString(self.showuser["dateembauche"], "dd-MM-yyyy")
             index2 = self.showpopusager.comboBox_2.findText(self.showuser["acces"],QtCore.Qt.MatchFlag.MatchFixedString)
-            #Comme l'identifiant est unique, on bloque la ligneedit pour qu'il ne puisse être modifié
+            # Comme l'identifiant est unique, on bloque la ligneedit pour qu'il ne puisse être modifié
             self.showpopusager.lineEdit_3.setEnabled(False)
             self.showpopusager.lineEdit.setText(self.showuser["nom"])
             self.showpopusager.lineEdit_2.setText(self.showuser["prenom"])
@@ -490,7 +496,7 @@ class Controller:
             self.showpopusager.lineEdit_5.setText(self.showuser["password"])
             self.showpopusager.comboBox_2.setCurrentIndex(index2)
 
-    #Si le mot de passe n'a pas 8 caractères, ouvre la fenêtre d'erreur
+    # Si le mot de passe n'a pas 8 caractères, ouvre la fenêtre d'erreur
     def modifuser(self):
         if len(self.showpopusager.lineEdit_5.text()) < 8:
             msg = QtWidgets.QMessageBox()
@@ -499,8 +505,8 @@ class Controller:
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
-        #Avec la commande next, va chercher l'usager ayant le même codeutilisateur et le rempalce par les informations
-        #des différents lineedit etc de la fenêtre d'usager. Rafraîchit le modèle et sauvegarde le fichier json
+        # Avec la commande next, va chercher l'usager ayant le même codeutilisateur et le rempalce par les informations
+        # des différents lineedit etc de la fenêtre d'usager. Rafraîchit le modèle et sauvegarde le fichier json
         else:
             changeusager = next(  # va chercher le même usager et le change par les informations ci bas
                 item for item in self.dictuser if item["codeutilisateur"] == self.showuser["codeutilisateur"])
@@ -514,9 +520,9 @@ class Controller:
             self.modele6()
             self.saveuser()
 
-    #Si l'usager à supprimer et l'admin, ouvre la fenêtre d'erreur
+    # Si l'usager à supprimer et l'admin, ouvre la fenêtre d'erreur
     def deleteuser(self):
-        donnees = [e.data() for e in self.showgest.treeView.selectedIndexes()]  # Créé une liste des données sélectionées
+        donnees = [e.data() for e in self.showgest.treeView.selectedIndexes()] # Créé une liste des données sélectionées
         if donnees[4] == "admin":
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
@@ -526,7 +532,7 @@ class Controller:
             msg.exec_()
         else: self.testdelete()
 
-    #Ouvre une fenêtre de confirmation pour demander si l'usager sélectionné doit vraiment être supprimé
+    # Ouvre une fenêtre de confirmation pour demander si l'usager sélectionné doit vraiment être supprimé
     def testdelete(self):
         box = QtWidgets.QMessageBox()
         box.setIcon(QtWidgets.QMessageBox.Question)
@@ -544,8 +550,8 @@ class Controller:
         elif box.clickedButton() == buttonN:
             pass
 
-    #Avec l'usager sélectionné, on remonte à l'index0 et on supprime l'usager du modèle et du dictionnaire des usagers.
-    #On sauvegarde le fichier json crypté des usagers
+    # Avec l'usager sélectionné, on remonte à l'index0 et on supprime l'usager du modèle et du dictionnaire des usagers.
+    # On sauvegarde le fichier json crypté des usagers
     def yesdelete(self):
         indexes = self.showgest.treeView.selectedIndexes()
         donnees = [f.data() for f in self.showgest.treeView.selectedIndexes()]
@@ -555,9 +561,9 @@ class Controller:
             self.dictuser = [element for element in self.dictuser if element.get('codeutilisateur', '') != donnees[4]]
             self.saveuser()
 
-    #Charge et affiche la fenêtre du nouveau client et prépare les boutons pour les méthodes correspondantes.
-    #Un dictionnaire temporaire de client sera créé afin d'y ajouter des cartes de crédits mais que celles-ci ne
-    #soient pas enregistrées si le bouton Annuler est utilisé par l'utilisateur du logiciel
+    # Charge et affiche la fenêtre du nouveau client et prépare les boutons pour les méthodes correspondantes.
+    # Un dictionnaire temporaire de client sera créé afin d'y ajouter des cartes de crédits mais que celles-ci ne
+    # soient pas enregistrées si le bouton Annuler est utilisé par l'utilisateur du logiciel
     def popupclient(self):
         self.popupcustomer = FormClient()
         self.popupcustomer.setWindowModality(QtCore.Qt.ApplicationModal)
@@ -566,25 +572,28 @@ class Controller:
         self.popupcustomer.pushButton_2.clicked.connect(self.popupcustomer.close)
         self.popupcustomer.pushButton_3.clicked.connect(self.ajoutercarte)
         self.popupcustomer.pushButton_4.clicked.connect(self.suppcarte)
-        #Créer le modèle pour la liste des cartes de crédit du nouveau client
+        # Créer le modèle pour la liste des cartes de crédit du nouveau client
         self.model3 = QtGui.QStandardItemModel()
         self.popupcustomer.treeView.setModel(self.model3)  # Active le modèle
         self.popupcustomer.treeView.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
         self.popupcustomer.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.model3.setHorizontalHeaderLabels(['Numéro de carte', 'Date Expiration', 'Code Carte'])
 
-        #Contrairement aux usagers qui ont un nom d'utilisateur unique, les clients ont le droit de modifier leurs
-        #courriels. Je vais donc ajouter un identifiant unique à la classe Client et l'utiliser pour faire la
-        #distinction entre chaque client.
+        # Contrairement aux usagers qui ont un nom d'utilisateur unique, les clients ont le droit de modifier leurs
+        # courriels. Je vais donc ajouter un identifiant unique à la classe Client et l'utiliser pour faire la
+        # distinction entre chaque client.
 
-        #Je fais une boucle pour aller chercher le prochain chiffre disponible pour l'identifiant unique du prochain
-        #client que je vais créer et je l'inclus dans une variable self.identifiant
+        # Je fais une boucle pour aller chercher le prochain chiffre disponible pour l'identifiant unique du prochain
+        # client que je vais créer et je l'inclus dans une variable identifiant
         identifiant = 1
-        for l in self.dictclient:
-            while identifiant == l["identifiant"]:
-                identifiant = identifiant + 1
+        try:
+            for l in self.dictclient:
+                while identifiant == l["identifiant"]:
+                    identifiant = identifiant + 1
+        except Exception:
+            pass
 
-        #Je créé un dictionnaire temporaire en utilisant la classe Client héritée de la classe Personne
+        # Je créé un dictionnaire temporaire en utilisant la classe Client héritée de la classe Personne
         self.client = Client(identifiant, self.popupcustomer.lineEdit.text(), self.popupcustomer.lineEdit_2.text(),
                         self.popupcustomer.comboBox.currentText(), self.popupcustomer.dateEdit.text(),
                         self.popupcustomer.lineEdit_3.text(), self.popupcustomer.lineEdit_5.text(), [])
@@ -592,20 +601,23 @@ class Controller:
         self.popupcustomer.setWindowTitle(str(identifiant))
         self.popupcustomer.lineEdit.setFocus()
 
-    #Ici je recréé un dictionnaire du client de la classe Client, il servira pour mettre à jour la liste des clients.
-    #Il va aller chercher la liste des cartes de crédits temporairement enregistrées dans le dict. self.dataclient
+    # Ici je recréé un dictionnaire du client de la classe Client, il servira pour mettre à jour la liste des clients.
+    # Il va aller chercher la liste des cartes de crédits temporairement enregistrées dans le dict. self.dataclient
     def savecustomer(self):
         identifiant = 1
-        for l in self.dictclient:
-            while identifiant == l["identifiant"]:
-                identifiant = identifiant + 1
+        try:
+            for l in self.dictclient:
+                while identifiant == l["identifiant"]:
+                    identifiant = identifiant + 1
+        except Exception:
+            pass
         updatedclient = Client(identifiant, self.popupcustomer.lineEdit.text(), self.popupcustomer.lineEdit_2.text(),
                         self.popupcustomer.comboBox.currentText(), self.popupcustomer.dateEdit.text(),
                         self.popupcustomer.lineEdit_3.text(), self.popupcustomer.lineEdit_5.text(), [])
         self.updateddataclient = vars(updatedclient)
-        #C'est ici que le client mis à jour va prendre les cartes temporairement stockées dans self.dataclient
+        # C'est ici que le client mis à jour va prendre les cartes temporairement stockées dans self.dataclient
         self.updateddataclient["cartes"] = self.dataclient["cartes"]
-        #Vérifie s'il manque des informations, si le courriel a déjà été utilisé et si le mot de passe a min. 8 carac.
+        # Vérifie s'il manque des informations, si le courriel a déjà été utilisé et si le mot de passe a min. 8 carac.
         if self.popupcustomer.lineEdit.text() == "" or self.popupcustomer.lineEdit_2.text() == "" or \
                 self.popupcustomer.lineEdit_3.text() == "" or self.popupcustomer.lineEdit_5.text() == "":
             msg = QtWidgets.QMessageBox()
@@ -629,7 +641,7 @@ class Controller:
             msg.setWindowTitle("Erreur")
             msg.exec_()
         else:
-            #Ajoute le nouveau client dans le modèle des clients
+            # Ajoute le nouveau client dans le modèle des clients
             identifiant = QtGui.QStandardItem(str(self.updateddataclient["identifiant"]))
             nom = QtGui.QStandardItem(self.updateddataclient["nom"])
             prenom = QtGui.QStandardItem(self.updateddataclient["prenom"])
@@ -639,7 +651,7 @@ class Controller:
             password = QtGui.QStandardItem("********")
             item = (identifiant, nom, prenom, sexe, date, courriel, password)
             self.treeViewModel.appendRow(item)
-            #Ajoute les nouvelles cartes dans la rangée enfant du client nouvellement créé
+            # Ajoute les nouvelles cartes dans la rangée enfant du client nouvellement créé
             for dict in self.updateddataclient["cartes"]:
                 vide1 = QtGui.QStandardItem("-----")
                 vide2 = QtGui.QStandardItem("-----")
@@ -653,31 +665,31 @@ class Controller:
                 codecarte = QtGui.QStandardItem(dict["codecarte"])
                 childitem = (vide1, vide2, vide3, vide4, vide5, vide6, vide7, numero, expiration, codecarte)
                 identifiant.appendRow(childitem)
-            #Remet le focus sur le premier client
+            # Remet le focus sur le premier client
             self.mainw.treeView.setCurrentIndex(self.treeViewModel.index(0, 0))
-            #Ajoute le novueau client au dictionnaire des clients
+            # Ajoute le novueau client au dictionnaire des clients
             self.dictclient.append(self.updateddataclient)
-            #Sauvegarde le dictionnaire dans le json crypté
+            # Sauvegarde le dictionnaire dans le json crypté
             self.saveclient()
-            #Ferme le formulaire de nouveau client
+            # Ferme le formulaire de nouveau client
             self.popupcustomer.close()
 
-    #Prépare la modification du client sélectionné
+    # Prépare la modification du client sélectionné
     def modifcustomer(self):
-        #Si la rangée sélectionnée est une rangée enfant du client, remonte jusqu'à la rangée du client pour prendre
-        #les informations du client sélectionné
+        # Si la rangée sélectionnée est une rangée enfant du client, remonte jusqu'à la rangée du client pour prendre
+        # les informations du client sélectionné
         self.donneesclient = self.mainw.treeView.selectedIndexes()[0]
         if self.donneesclient.data() == "-----":
             self.donneesclient = self.donneesclient.parent()
 
-        #Prépare 2 dictionnaires, donc une copie qui sera utilisée comme dictionnaire temporaire si le bouton Annuler
-        #est utilisé
+        # Prépare 2 dictionnaires, donc une copie qui sera utilisée comme dictionnaire temporaire si le bouton Annuler
+        # est utilisé
         for dict in self.dictclient :
             if str(dict["identifiant"]) == self.donneesclient.data():
                 self.showclient = dict
                 self.dataclient = copy.deepcopy(self.showclient)
 
-        #Ouvre la fenêtre du nouveau client, prépare les boutons correspondants
+        # Ouvre la fenêtre du nouveau client, prépare les boutons correspondants
         self.popupcustomer = FormClient()
         self.popupcustomer.setWindowModality(QtCore.Qt.ApplicationModal)
         self.popupcustomer.show()
@@ -687,20 +699,20 @@ class Controller:
         self.popupcustomer.pushButton_3.clicked.connect(self.ajoutercarte)
         self.popupcustomer.pushButton_4.clicked.connect(self.suppcarte)
         self.popupcustomer.lineEdit.setFocus()
-        #Créer un modèle pour afficher la liste des cartes de crédits du client
+        # Créer un modèle pour afficher la liste des cartes de crédits du client
         self.model3 = QtGui.QStandardItemModel()
         self.popupcustomer.treeView.setModel(self.model3)  # Active le modèle
         self.model3.setHorizontalHeaderLabels(['Numéro de carte', 'Date Expiration', 'Code Carte'])
         self.popupcustomer.treeView.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
         self.popupcustomer.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        #Inclus dans le modèle les cartes de crédit provenant du client sélectionné
+        # Inclus dans le modèle les cartes de crédit provenant du client sélectionné
         for h in self.showclient["cartes"]:
             numero = QtGui.QStandardItem(h["noCarte"])
             expiration = QtGui.QStandardItem(h["expiration"])
             codecarte = QtGui.QStandardItem(h["codecarte"])
             item = (numero, expiration, codecarte)
             self.model3.appendRow(item)
-        #Prépare et pré-inscrit les informations dans les lineedit etc. du formulaire de nouveau client
+        # Prépare et pré-inscrit les informations dans les lineedit etc. du formulaire de nouveau client
         index = self.popupcustomer.comboBox.findText(self.dataclient["sexe"], QtCore.Qt.MatchFlag.MatchFixedString)
         date = QtCore.QDate.fromString(self.dataclient["dateinscription"], "dd-MM-yyyy")
         self.popupcustomer.setWindowTitle(str(self.dataclient["identifiant"]))
@@ -712,7 +724,7 @@ class Controller:
         self.popupcustomer.lineEdit_5.setText(self.dataclient["motdepasse"])
 
 
-    #Charge et affiche le petit formulaire pour ajouter une nouvelle carte de crédit avec les boutons correspondants
+    # Charge et affiche le petit formulaire pour ajouter une nouvelle carte de crédit avec les boutons correspondants
     def ajoutercarte(self):
         self.showpopcarte = Popcarte()
         self.showpopcarte.setWindowModality(QtCore.Qt.ApplicationModal)
@@ -722,7 +734,7 @@ class Controller:
         self.showpopcarte.pushButton.clicked.connect(self.savecarte)
         self.showpopcarte.pushButton_2.clicked.connect(self.showpopcarte.close)
 
-    #Valide s'il manque des informations
+    # Valide s'il manque des informations
     def savecarte(self):
         if self.showpopcarte.lineEdit.text() == "" or self.showpopcarte.lineEdit_2.text() == "":
             msg = QtWidgets.QMessageBox()
@@ -731,8 +743,8 @@ class Controller:
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
-        #AJoute la carte dans le modèle de la fenêtre des clients et charge la nouvelle carte dans le dictionnaire
-        #temporaire du client (au cas où l'usager appuierait sur Annuler les modifications du client)
+        # AJoute la carte dans le modèle de la fenêtre des clients et charge la nouvelle carte dans le dictionnaire
+        # temporaire du client (au cas où l'usager appuierait sur Annuler les modifications du client)
         else:
             carte = CarteCredit(self.showpopcarte.lineEdit.text(),
                                 self.showpopcarte.dateEdit.text(), self.showpopcarte.lineEdit_2.text())
@@ -745,7 +757,7 @@ class Controller:
             self.dataclient["cartes"].append(self.dictcarte)
             self.showpopcarte.close()
 
-    #Valide si une carte est sélectionnée, si oui, affiche la fenêtre de confirmation de suppression de la carte
+    # Valide si une carte est sélectionnée, si oui, affiche la fenêtre de confirmation de suppression de la carte
     def suppcarte(self):
         self.datacarte = [f.data() for f in self.popupcustomer.treeView.selectedIndexes()]
         if self.datacarte == [] :
@@ -771,8 +783,8 @@ class Controller:
                 self.deletecarte()
             elif box.clickedButton() == buttonN:
                 pass
-    #Si la confirmation est effectuée, remonte à l'index0 de la carte sélectionnée et la retire du moèle, la retire
-    #aussi du dictionnaire temporaire du client à modifier/créer
+    # Si la confirmation est effectuée, remonte à l'index0 de la carte sélectionnée et la retire du moèle, la retire
+    # aussi du dictionnaire temporaire du client à modifier/créer
     def deletecarte(self):
         indexes = self.popupcustomer.treeView.selectedIndexes()
         donnees = [f.data() for f in self.popupcustomer.treeView.selectedIndexes()]
@@ -783,8 +795,8 @@ class Controller:
                                  element.get('noCarte', '') != donnees[0]]
 
 
-    #Valide si le courriel a été modifié, si oui, valide si le nouveau existe dans la liste des clients. Si oui,
-    #fait apparaître la fenêtre de courriel déjà utilisé. Valide si le mot de passe a 8 caractères minimum.
+    # Valide si le courriel a été modifié, si oui, valide si le nouveau existe dans la liste des clients. Si oui,
+    # fait apparaître la fenêtre de courriel déjà utilisé. Valide si le mot de passe a 8 caractères minimum.
     def savemodifcustomer(self):
         # Cherche si le courriel qui a changé est déjà dans le dictuser
         if self.popupcustomer.lineEdit_3.text() != self.dataclient["courriel"] and \
@@ -795,7 +807,7 @@ class Controller:
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
-        #Vérifie si le mot de passe fait au moins 8 caractères, sinon une alerte pop
+        # Vérifie si le mot de passe fait au moins 8 caractères, sinon une alerte pop
         elif len(self.popupcustomer.lineEdit_5.text()) < 8:
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
@@ -814,13 +826,13 @@ class Controller:
             changeclient["courriel"] = self.popupcustomer.lineEdit_3.text()
             changeclient["motdepasse"] = self.popupcustomer.lineEdit_5.text()
             changeclient["cartes"] = self.dataclient["cartes"]
-            #Rafraîchit le modèle
+            # Rafraîchit le modèle
             self.model1()
             self.popupcustomer.close()
-            #Sauvegarde le dictionnaire dans le json crypté
+            # Sauvegarde le dictionnaire dans le json crypté
             self.saveclient()
 
-    #Pour éviter les erreurs, on valide que le client à supprimer est réellement sélectionné (et non une rangée enfant)
+    # Pour éviter les erreurs, on valide que le client à supprimer est réellement sélectionné (et non une rangée enfant)
     def suppclient(self):
         self.deleteclient = self.mainw.treeView.selectedIndexes()[0]
         if self.deleteclient.data() == "-----":
@@ -830,7 +842,7 @@ class Controller:
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
-        #Affiche la fenêtre pour confirmer la suppression du client
+        # Affiche la fenêtre pour confirmer la suppression du client
         else:
             box = QtWidgets.QMessageBox()
             box.setIcon(QtWidgets.QMessageBox.Question)
@@ -848,8 +860,8 @@ class Controller:
             elif box.clickedButton() == buttonN:
                 pass
 
-    #Remonte à l'index0 du client sélectionné et le retire du modèle. Le retire aussi du dicitonnaire des clients et
-    #sauvegarde le fichier json crypté
+    # Remonte à l'index0 du client sélectionné et le retire du modèle. Le retire aussi du dicitonnaire des clients et
+    # sauvegarde le fichier json crypté
     def yesdeletecustomer(self):
         indexes = self.mainw.treeView.selectedIndexes()
         donnees = [f.data() for f in self.mainw.treeView.selectedIndexes()]
@@ -860,7 +872,7 @@ class Controller:
                              element.get('identifiant', '') != int(donnees[0])]
             self.saveclient()
 
-    #Charge la fenêtre de nouveau film et l'affiche avec ses boutons correspondants
+    # Charge la fenêtre de nouveau film et l'affiche avec ses boutons correspondants
     def popupfilm(self):
         self.popupfilm = Formfilm()
         self.popupfilm.setWindowModality(QtCore.Qt.ApplicationModal)
@@ -872,34 +884,34 @@ class Controller:
         self.popupfilm.pushButton_4.clicked.connect(self.suppcategorie)
         self.popupfilm.pushButton_5.clicked.connect(self.popacteur)
         self.popupfilm.pushButton_6.clicked.connect(self.suppacteur)
-        #Créer le modèle pour afficher les futures catégories
+        # Créé le modèle pour afficher les futures catégories
         self.model4 = QtGui.QStandardItemModel()
         self.popupfilm.treeView.setModel(self.model4)
         self.model4.setHorizontalHeaderLabels(["Nom de catégorie", "Description de la catégorie"])
         self.popupfilm.treeView.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
         self.popupfilm.treeView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        #Créer le modèle pour afficher les futurs acteurs
+        # Créé le modèle pour afficher les futurs acteurs
         self.model5 = QtGui.QStandardItemModel()
         self.popupfilm.treeView_2.setModel(self.model5)
         self.model5.setHorizontalHeaderLabels(["Nom", "Prénom", "Sexe", "Personnage", "Début de l'emploi",
                                                "Fin de l'emploi", "Cachet"])
         self.popupfilm.treeView_2.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
         self.popupfilm.treeView_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        #Créer un dictionnaire temporaire du nouveau film en se basent sur la Classe FIlm
+        # Créé un dictionnaire temporaire du nouveau film en se basant sur la Classe FIlm
         self.movie = Film(self.popupfilm.lineEdit.text(), self.popupfilm.timeEdit.text(),
                           self.popupfilm.lineEdit_2.text(), [], [])
         self.datafilm = vars(self.movie)
         self.popupfilm.lineEdit.setFocus()
 
-    #Créer un dictionnaire qui servira à mettre à jour le dictionnaire des films, ce dictionnaire va aller prendre
-    #les dictionnaires temporaires de catérogies et d'acteurs de la variable self.datafilm
+    # Créer un dictionnaire qui servira à mettre à jour le dictionnaire des films, ce dictionnaire va aller prendre
+    # les dictionnaires temporaires de catérogies et d'acteurs de la variable self.datafilm
     def savemovie(self):
         updatedfilm = Film(self.popupfilm.lineEdit.text(), self.popupfilm.timeEdit.text(),
                                self.popupfilm.lineEdit_2.text(), [], [])
         self.updateddatafilm = vars(updatedfilm)
         self.updateddatafilm["categories"] = self.datafilm["categories"]
         self.updateddatafilm["acteurs"] = self.datafilm["acteurs"]
-        #Valider s'il manque des informations ou si le nom du film a déjà été utilisé
+        # Valide s'il manque des informations ou si le nom du film a déjà été utilisé
         if self.popupfilm.lineEdit.text() == "" or self.popupfilm.lineEdit_2.text() == "" :
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
@@ -914,14 +926,14 @@ class Controller:
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
-        #Ajoute le nouveau film dans le modèle2 de la page principale
+        # Ajoute le nouveau film dans le modèle2 de la page principale
         else:
             nom = QtGui.QStandardItem(self.updateddatafilm["nom"])
             duree = QtGui.QStandardItem(self.updateddatafilm["duree"])
             descriptionfilm = QtGui.QStandardItem(self.updateddatafilm["descriptionfilm"])
             item3 = (nom, duree, descriptionfilm)
             self.treeViewModel2.appendRow(item3)
-            #Ajoute les catérogies dans la rangée enfant des films
+            # Ajoute les catérogies dans la rangée enfant des films
             for dict in self.updateddatafilm["categories"]:
                 vide1 = QtGui.QStandardItem("-----")
                 vide2 = QtGui.QStandardItem("-----")
@@ -930,7 +942,7 @@ class Controller:
                 descricat = QtGui.QStandardItem(dict["description"])
                 childitem3 = (vide1, vide2, vide3, nomfilm, descricat)
                 nom.appendRow(childitem3)
-            #Ajoute les acteurs dans la rangée enfant des catégories
+            # Ajoute les acteurs dans la rangée enfant des catégories
             for dictact in self.updateddatafilm["acteurs"]:
                 text1 = QtGui.QStandardItem("-----")
                 text2 = QtGui.QStandardItem("-----")
@@ -948,18 +960,21 @@ class Controller:
                              personnage, debutemploi, finemploi, cachet)
                 vide1.appendRow(childfilm2)
 
-            #Remet le focus sur le premier film, ajoute le film dans le dictionnaire des films, sauvegarde le fichier
-            #json crypté et ferme le formulaire de nouveau film
+            # Remet le focus sur le premier film, ajoute le film dans le dictionnaire des films, sauvegarde le fichier
+            # json crypté et ferme le formulaire de nouveau film
             self.mainw.treeView_2.setCurrentIndex(self.treeViewModel2.index(0, 0))
             self.dictmovie.append(self.updateddatafilm)
             self.savefilm()
             self.popupfilm.close()
 
-    #Tant que c'est une rangée enfant qui est sélectionnée, remonte au parent jusqu'à avoir le nom du film
+    # Tant que c'est une rangée enfant qui est sélectionnée, remonte au parent jusqu'à avoir le nom du film
     def modiffilm(self):
         self.donneesfilm = self.mainw.treeView_2.selectedIndexes()[0]
-        while self.donneesfilm.data() == "-----":
-            self.donneesfilm = self.donneesfilm.parent()
+        try:
+            while self.donneesfilm.data() == "-----":
+                self.donneesfilm = self.donneesfilm.parent()
+        except Exception:
+            pass
 
         # Prépare 2 dictionnaires, donc une copie qui sera utilisée comme dictionnaire temporaire si le bouton Annuler
         # est utilisé
@@ -968,8 +983,8 @@ class Controller:
                 self.showfilm = dict
                 self.datafilm = copy.deepcopy(self.showfilm)
 
-        #Affiche le formulaire de nouveau film avec les boutons, et pré-remplies les informations selon le film
-        #sélectionné ainsi que les 2 modèles pour les catérogies et les acteurs
+        # Affiche le formulaire de nouveau film avec les boutons, et pré-remplies les informations selon le film
+        # sélectionné ainsi que les 2 modèles pour les catérogies et les acteurs
         self.popupfilm = Formfilm()
         self.popupfilm.setWindowModality(QtCore.Qt.ApplicationModal)
         self.popupfilm.show()
@@ -1016,7 +1031,7 @@ class Controller:
             item2 = (nomacteur, prenomacteur, sexe, nomperso, debutemploi, finemploi, cachet)
             self.model5.appendRow(item2)
 
-    #Charge et ouvre le formulaire de nouvelle catégorie ainsi que les boutons correspondants
+    # Charge et ouvre le formulaire de nouvelle catégorie ainsi que les boutons correspondants
     def popupcategorie(self):
         self.showpopcat = Popcategorie()
         self.showpopcat.setWindowModality(QtCore.Qt.ApplicationModal)
@@ -1026,7 +1041,7 @@ class Controller:
         self.showpopcat.pushButton.clicked.connect(self.savecat)
         self.showpopcat.pushButton_2.clicked.connect(self.showpopcat.close)
 
-    #Valide s'il manque des informations et charge la catérogie dans le modèle ainsi que dans la variable temporaire
+    # Valide s'il manque des informations et charge la catérogie dans le modèle ainsi que dans la variable temporaire
     def savecat(self):
         if self.showpopcat.lineEdit.text() == "" or self.showpopcat.lineEdit_2.text() == "":
             msg = QtWidgets.QMessageBox()
@@ -1045,7 +1060,7 @@ class Controller:
             self.datafilm["categories"].append(self.dictcat)
             self.showpopcat.close()
 
-    #Valide si une catégorie est sélectionnée et affiche la fenêtre de confirmation de suppression
+    # Valide si une catégorie est sélectionnée et affiche la fenêtre de confirmation de suppression
     def suppcategorie(self):
         self.datacat = [f.data() for f in self.popupfilm.treeView.selectedIndexes()]
         if self.datacat == []:
@@ -1071,7 +1086,7 @@ class Controller:
                 self.deletecat()
             elif box.clickedButton() == buttonN:
                 pass
-    #Pour la catégorie sélectionnée, la supprime du modèle ainsi que du dictionnaire temporaire
+    # Pour la catégorie sélectionnée, la supprime du modèle ainsi que du dictionnaire temporaire
     def deletecat(self):
         indexes = self.popupfilm.treeView.selectedIndexes()
         donnees = [f.data() for f in self.popupfilm.treeView.selectedIndexes()]
@@ -1081,7 +1096,7 @@ class Controller:
             self.datafilm["categories"] = [element for element in self.datafilm["categories"] if
                                             element.get('nom', '') != donnees[0]]
 
-    #Charge et ouvre le formulaire de nouvel acteur ainsi que les boutons correspondants
+    # Charge et ouvre le formulaire de nouvel acteur ainsi que les boutons correspondants
     def popacteur(self):
         self.showpopupacteur = Popacteur()
         self.showpopupacteur.setWindowModality(QtCore.Qt.ApplicationModal)
@@ -1093,6 +1108,7 @@ class Controller:
         self.showpopupacteur.pushButton_2.clicked.connect(self.showpopupacteur.close)
 
     # Valide s'il manque des informations et charge l'acteur dans le modèle ainsi que dans la variable temporaire
+    # en utilisant la classe Acteur héritée de Personne
     def saveacteur(self):
         if self.showpopupacteur.lineEdit.text() == "" or self.showpopupacteur.lineEdit_2.text() == "" or \
                 self.showpopupacteur.lineEdit_3.text() == "":
@@ -1120,6 +1136,7 @@ class Controller:
             self.datafilm["acteurs"].append(self.dictacteur)
             self.showpopupacteur.close()
 
+    # Valide si un acteur est sélectionné, si oui, affiche la fenêtre de confirmation de suppression de l'acteur
     def suppacteur(self):
         self.dataacteur = [f.data() for f in self.popupfilm.treeView_2.selectedIndexes()]
         if self.dataacteur == []:
@@ -1146,6 +1163,7 @@ class Controller:
             elif box.clickedButton() == buttonN:
                 pass
 
+    # Pour l'acteur sélectionné, le supprime du modèle ainsi que du dictionnaire temporaire
     def deleteacteur(self):
         indexes = self.popupfilm.treeView_2.selectedIndexes()
         donnees = [f.data() for f in self.popupfilm.treeView_2.selectedIndexes()]
@@ -1155,8 +1173,9 @@ class Controller:
             self.datafilm["acteurs"] = [element for element in self.datafilm["acteurs"] if
                                            element.get('nompersonnage', '') != donnees[3]]
 
+    # Va chercher le même film qui correspond dans le dictionnaire des films et le change par les informations ci bas
+    # et charge aussi les dictionnaires temporaires des catégories et des films. Sauvegarde le json crypté
     def savemodifmovie(self):
-
         changefilm = next(
             item for item in self.dictmovie if item["nom"] == self.datafilm["nom"])
         changefilm["nom"] = self.popupfilm.lineEdit.text()
@@ -1169,7 +1188,7 @@ class Controller:
         self.popupfilm.close()
         self.savefilm()
 
-
+    # Pour éviter les erreurs, on valide que le client à supprimer est réellement sélectionné (et non une rangée enfant)
     def suppfilm(self):
         self.deletefilm = self.mainw.treeView_2.selectedIndexes()[0]
         if self.deletefilm.data() == "-----":
@@ -1179,6 +1198,7 @@ class Controller:
             msg.setInformativeText('')
             msg.setWindowTitle("Erreur")
             msg.exec_()
+    # Ouvre la fenêtre de confirmation de suppresion
         else:
             box = QtWidgets.QMessageBox()
             box.setIcon(QtWidgets.QMessageBox.Question)
@@ -1196,6 +1216,8 @@ class Controller:
             elif box.clickedButton() == buttonN:
                 pass
 
+    # Remonte à l'index0 du film sélectionné et le retire du modèle. Le retire aussi du dicitonnaire des films et
+    # sauvegarde le fichier json crypté
     def yesdeletemovie(self):
         indexes = self.mainw.treeView_2.selectedIndexes()
         donnees = [f.data() for f in self.mainw.treeView_2.selectedIndexes()]
@@ -1207,6 +1229,7 @@ class Controller:
                              element.get('nom', '') != donnees[0]]
             self.savefilm()
 
+#Active le module système et démarre le logiciel en activant la méthode showlogin
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

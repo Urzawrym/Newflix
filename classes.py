@@ -6,27 +6,6 @@ class Personne:
         self.prenom = prenom
         self.sexe = sexe
 
-    """def getPrenom(self):
-        return self.prenom
-
-    def setPrenom(self, prenom):
-        if type(prenom) == str:
-            self.prenom = prenom
-
-    def getNom(self):
-        return self.nom
-
-    def setNom(self, nom):
-        if type(nom) == str:
-            self.nom = nom
-
-    def getSexe(self):
-        return self.sexe
-
-    def setSexe(self, sexe):
-        if type(sexe) == str:
-            self.sexe = sexe"""
-
 class Employe(Personne):
     def __init__(self, nom, prenom, sexe, dateembauche, codeutilisateur, password, acces):
         super().__init__(nom, prenom, sexe)
@@ -34,11 +13,6 @@ class Employe(Personne):
         self.codeutilisateur = codeutilisateur
         self.password = password
         self.acces = acces
-
-    """def __str__(self):
-        return "Nom {}, Prénom {}, Sexe {}, Date d'embauche {}, " \
-               "Code d'employé {}, Mot de passe {}, Accès {}".format(self.nom, self.prenom, self.sexe, self.dateembauche,
-                                                                  self.codeutilisateur, self.password, self.acces)"""
 
 class Client(Personne):
     def __init__(self, identifiant, nom, prenom, sexe, dateinscription, courriel, motdepasse, cartes):
@@ -48,7 +22,6 @@ class Client(Personne):
         self.courriel = courriel
         self.motdepasse = motdepasse
         self.cartes = []
-
 
 class CarteCredit:
     "Carte de crédit"

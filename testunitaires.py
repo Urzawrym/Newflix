@@ -20,12 +20,24 @@ class TestNewflix(unittest.TestCase):
         control.load_key()
         control.loaduser()
 
-        motdepasseadmin = "admin125"
+        motdepasseadmin = "admin123"
         for dict in control.dictuser:
             if dict["codeutilisateur"] == "admin":
                 self.admin = dict
 
         self.assertEqual(motdepasseadmin, self.admin["password"])
+
+    def test_loadfilm(self):
+        control = Controller()
+        control.load_key()
+        control.loadfilm()
+
+        film = "Avatar"
+        for dict in control.dictmovie:
+            if dict["nom"] == "Avatar":
+                self.film = dict
+
+        self.assertEqual(self.film["nom"], film)
 
     # Permet de s'assurer que la classe Employé héritée de la classe Personne est bien représentée
     def testEmploye(self):

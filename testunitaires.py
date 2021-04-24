@@ -1,3 +1,7 @@
+### Auteur: Claude Bélanger        ###
+### Date : Mars et Avril 2021      ###
+### Courriel: urzawrym@hotmail.com ###
+
 import unittest
 from newflix import *
 
@@ -16,7 +20,7 @@ class TestNewflix(unittest.TestCase):
         control.load_key()
         control.loaduser()
 
-        motdepasseadmin = "admin123"
+        motdepasseadmin = "admin125"
         for dict in control.dictuser:
             if dict["codeutilisateur"] == "admin":
                 self.admin = dict
@@ -24,7 +28,7 @@ class TestNewflix(unittest.TestCase):
         self.assertEqual(motdepasseadmin, self.admin["password"])
 
     # Permet de s'assurer que la classe Employé héritée de la classe Personne est bien représentée
-    def testClasse(self):
+    def testEmploye(self):
         personneTest = Employe("Belanger", "Claude", "Masculin", "23-04-2021", "claude", "12345678", "Lecture")
         dictpersonneTest = vars(personneTest)
         dictresult = {"nom" : "Belanger", "prenom" : "Claude", "sexe" : "Masculin", "dateembauche" : "23-04-2021",

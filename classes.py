@@ -1,4 +1,10 @@
+### Auteur: Claude Bélanger        ###
+### Date : Mars et Avril 2021      ###
+### Courriel: urzawrym@hotmail.com ###
 
+
+################## J'ai créé toutes les classes et héritages demandés dans la mise en situation      ##################
+################## dans un fichier python distinct afin de les retrouver plus facilement             ##################
 
 class Personne:
     def __init__(self, nom, prenom, sexe):
@@ -24,7 +30,6 @@ class Client(Personne):
         self.cartes = []
 
 class CarteCredit:
-    "Carte de crédit"
     def __init__(self, noCarte, expiration, codecarte):
             self.noCarte = noCarte
             self.expiration = expiration

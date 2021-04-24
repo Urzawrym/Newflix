@@ -159,28 +159,28 @@ class Controller:
         self.loadclient()
 
         # Avant de démarrer la boucle, je met un try et je met un statut login faux
-        logged_in = False
+        self.logged_in = False
         try:
-            while not logged_in:
+            while not self.logged_in:
                 # Dans toute la liste d'usagers, vérifie chaque dict. pour retrouver les 3 mêmes paramètres
                 for a in (self.dictuser):
                     if a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Admin":
                         self.adminwindow()
                         # Si les 3 inputs de l'usager correspond à un dict. avec accès admin, active modifwindow
-                        logged_in = True   #Le "true" met fin à la boucle.
+                        self.logged_in = True   #Le "true" met fin à la boucle.
                     elif a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Modification":
                         self.modifwindow()
                         # Si les 3 inputs de l'usager correspond à un dict. avec accès modif, active modifwindow
-                        logged_in = True
+                        self.logged_in = True
                     elif a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Lecture":
                         self.mainwindow()
                         # Si les 3 inputs de l'usager correspond à un dict. avec accès lecture, active modifwindow
-                        logged_in = True
+                        self.logged_in = True
         # Si la boucle n'est toujours pas fermée après les 3 premiers tests, affiche la fenêtre identifiants erronés
-                if logged_in is not True:
+                if self.logged_in is not True:
                     msg = QtWidgets.QMessageBox()
                     msg.setIcon(QtWidgets.QMessageBox.Warning)
                     msg.setText("Identifiants erronés")

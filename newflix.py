@@ -460,7 +460,6 @@ class Controller:
     # nouveaux usagers mais avec les informations pré-remplies de l'usager sélectionné
     def modifpopup(self):
         self.donnees = self.showgest.treeView.selectedIndexes()[4] # Va chercher le nom de l'usager sélectionné
-        self.dictdonnees = [d.data() for d in self.showgest.treeView.selectedIndexes()]
 
         # Créer un dictionnaire temporaire (self.showuser) de l'usager sélectionné afin d'effectuer les modifications
         for dict in self.dictuser:

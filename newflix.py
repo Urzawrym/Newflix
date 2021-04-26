@@ -2,19 +2,34 @@
 ### Date : Mars et Avril 2021      ###
 ### Courriel: urzawrym@hotmail.com ###
 
+# Importe le module pour gérer la fermeture de toutes les fenêtres du logiciel (pour la fenêtre déconnexion)
 import os
+# Importe le module pour encrypter et décrypter les données à l'aide d'une clé
 from cryptography.fernet import Fernet
+# Importe le module permettant de faire une copie indépendante d'une variable (utilisée pour les dict. temporaires)
 import copy
+# Importe le module permettant de convertir directement les bytes en dictionnaire après avoir décrypté les données
 from ast import literal_eval
-from mainwindowform import *              #Importe l'affichage de la fenêtre principale
-from gestionusersform import *              #Importe l'affichage de la fenêtre gestion usager
-from popupuser import *                 #Importe le formulaire de création/modification d'usager
-from popupcustomerform import *             #Importe le formulaire de création/modification de client
-from logindialog import *               #Importe la fenêtre de connexion du démarrage du logiciel
-from classes import *                   #Importe les classes Personnes, Employés, Clients, Cartes crédits, Films,
-from popcard import *                   #Categorie avec toute la gestion des héritages entre les classes, tel que
-from popupacteur import *               #demandé dans la mise en situation
+# Importe l'affichage de la fenêtre principale
+from mainwindowform import *
+# Importe l'affichage de la fenêtre gestion usager
+from gestionusersform import *
+# Importe le formulaire de création/modification d'usager
+from popupuser import *
+# Importe le formulaire de création/modification de client
+from popupcustomerform import *
+# Importe la fenêtre de connexion du démarrage du logiciel
+from logindialog import *
+# Importe les classes Personnes, Employés, Clients, Cartes crédits, Films,Categorie avec toute la gestion des héritages
+# entre les classes, tel que demandé dans la mise en situation
+from classes import *
+# Importe le formulaire de création de carte de crédit
+from popcard import *
+# Importe le formulaire de création d'acteur
+from popupacteur import *
+# Importe le formulaire de création de catégorie de film
 from popupcat import *
+# Importe la fenêtre pour créer ou modifier un film
 from popupmovieform import *
 
 ################## Aucune classe provenant de QT Designer n'est modifiée. Ici on créé les classes ##################
@@ -166,18 +181,18 @@ class Controller:
                 for a in (self.dictuser):
                     if a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Admin":
+                        # Si les 3 inputs de l'usager correspond à un dict. avec accès admin, active adminwindow
                         self.adminwindow()
-                        # Si les 3 inputs de l'usager correspond à un dict. avec accès admin, active modifwindow
                         self.logged_in = True   #Le "true" met fin à la boucle.
                     elif a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Modification":
-                        self.modifwindow()
                         # Si les 3 inputs de l'usager correspond à un dict. avec accès modif, active modifwindow
+                        self.modifwindow()
                         self.logged_in = True
                     elif a['codeutilisateur'] == self.connex.lineEdit.text() and \
                             a['password'] == self.connex.lineEdit_2.text() and a["acces"] == "Lecture":
+                        # Si les 3 inputs de l'usager correspond à un dict. avec accès lecture, active mainwindow
                         self.mainwindow()
-                        # Si les 3 inputs de l'usager correspond à un dict. avec accès lecture, active modifwindow
                         self.logged_in = True
         # Si la boucle n'est toujours pas fermée après les 3 premiers tests, affiche la fenêtre identifiants erronés
                 if self.logged_in is not True:
